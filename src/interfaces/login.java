@@ -13,11 +13,15 @@ public class login extends javax.swing.JFrame {
             initComponents();
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
-            PromptSupport.setPrompt("Usuario...", txtUser); //Añade el texto a los textBox
-            PromptSupport.setPrompt("Contraseña...", txtPass); //Añade el texto a los textBox
+            setPrompt();
         } catch (UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void setPrompt() {
+        PromptSupport.setPrompt("Usuario...", txtUser); //Añade el texto a los textBox
+        PromptSupport.setPrompt("Contraseña...", txtPass); //Añade el texto a los textBox
     }
 
     @SuppressWarnings("unchecked")
