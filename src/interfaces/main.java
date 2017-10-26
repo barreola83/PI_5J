@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -20,6 +15,7 @@ public class main extends javax.swing.JFrame {
     public main() {
         try {
             initComponents();
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
@@ -51,11 +47,6 @@ public class main extends javax.swing.JFrame {
         setTitle("Principal");
         setName("frmMain"); // NOI18N
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnDepartments.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/business_office.png"))); // NOI18N
@@ -75,6 +66,11 @@ public class main extends javax.swing.JFrame {
         btnLogBook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnLogBook.setBorderPainted(false);
         btnLogBook.setContentAreaFilled(false);
+        btnLogBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogBookActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnLogBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
 
         btnETickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/attendance_list.png"))); // NOI18N
@@ -115,6 +111,11 @@ public class main extends javax.swing.JFrame {
         btnVehicles.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnVehicles.setBorderPainted(false);
         btnVehicles.setContentAreaFilled(false);
+        btnVehicles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVehiclesActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, -1, -1));
 
         btnWorkers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/group.png"))); // NOI18N
@@ -142,15 +143,8 @@ public class main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        int dialogResult = JOptionPane.showConfirmDialog(null, "¿Salir del programa?", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_formWindowClosing
-
     private void btnDepartmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepartmentsActionPerformed
-        
+
     }//GEN-LAST:event_btnDepartmentsActionPerformed
 
     private void btnServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServicesActionPerformed
@@ -161,6 +155,16 @@ public class main extends javax.swing.JFrame {
         this.dispose();
         new login().setVisible(true);
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnLogBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogBookActionPerformed
+        this.dispose();
+        new logBook().setVisible(true);
+    }//GEN-LAST:event_btnLogBookActionPerformed
+
+    private void btnVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiclesActionPerformed
+        this.dispose();
+        new vehicles().setVisible(true);
+    }//GEN-LAST:event_btnVehiclesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,10 +194,8 @@ public class main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new main().setVisible(true);
         });
     }
 
