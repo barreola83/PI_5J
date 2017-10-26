@@ -2,9 +2,10 @@ package interfaces;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.jdesktop.swingx.prompt.PromptSupport;
+//import org.jdesktop.swingx.prompt.PromptSupport;
 
 public class login extends javax.swing.JFrame {
 
@@ -13,15 +14,9 @@ public class login extends javax.swing.JFrame {
             initComponents();
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
-            setPrompt();
         } catch (UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void setPrompt() {
-        PromptSupport.setPrompt("Usuario...", txtUser); //Añade el texto a los textBox
-        PromptSupport.setPrompt("Contraseña...", txtPass); //Añade el texto a los textBox
     }
 
     @SuppressWarnings("unchecked")
@@ -29,54 +24,99 @@ public class login extends javax.swing.JFrame {
     private void initComponents() {
 
         txtUser = new javax.swing.JTextField();
-        txtPass = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
+        txtPass = new javax.swing.JPasswordField();
+        btnShow = new javax.swing.JButton();
+        btnHide = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Inicio de sesión");
         setName("frmLogin"); // NOI18N
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtUser.setToolTipText("Ingresa el usuario");
+        getContentPane().add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 172, -1));
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/arrow_right.png"))); // NOI18N
+        btnLogin.setToolTipText("Iniciar sesión");
         btnLogin.setBorderPainted(false);
         btnLogin.setContentAreaFilled(false);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 52));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
+        lblHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
+        getContentPane().add(lblHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(btnLogin)))
-                .addGap(38, 38, 38))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        txtPass.setToolTipText("Contraseña");
+        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 170, -1));
+
+        btnShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye_open.png"))); // NOI18N
+        btnShow.setToolTipText("Ver");
+        btnShow.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnShow.setBorderPainted(false);
+        btnShow.setContentAreaFilled(false);
+        btnShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnShow, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
+
+        btnHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye_close.png"))); // NOI18N
+        btnHide.setToolTipText("Ocultar");
+        btnHide.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnHide.setBorderPainted(false);
+        btnHide.setContentAreaFilled(false);
+        btnHide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHideActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 240));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        this.dispose();
+        new main().setVisible(true);
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int dialogResult = JOptionPane.showConfirmDialog(null, "¿Salir del programa?", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void btnShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowActionPerformed
+        txtPass.setEchoChar((char) 0);
+        txtPass.requestFocus();
+        btnHide.setVisible(true);
+        btnShow.setVisible(false);
+    }//GEN-LAST:event_btnShowActionPerformed
+
+    private void btnHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHideActionPerformed
+        txtPass.setEchoChar('*');
+        txtPass.requestFocus();
+        btnShow.setVisible(true);
+        btnHide.setVisible(false);
+    }//GEN-LAST:event_btnHideActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -90,26 +130,24 @@ public class login extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
         java.awt.EventQueue.invokeLater(() -> {
             new login().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHide;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtPass;
+    private javax.swing.JButton btnShow;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblHome;
+    private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
