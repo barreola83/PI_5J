@@ -59,6 +59,8 @@ public class logBook extends javax.swing.JFrame {
         cmbGasOut = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -128,7 +130,7 @@ public class logBook extends javax.swing.JFrame {
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAdd.setBorderPainted(false);
         btnAdd.setContentAreaFilled(false);
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -139,14 +141,25 @@ public class logBook extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, -1, -1));
+
+        txtSearch.setName("txtRegistro"); // NOI18N
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 87, -1));
+
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
+        btnSearch.setToolTipText("Buscar");
+        btnSearch.setBorder(null);
+        btnSearch.setBorderPainted(false);
+        btnSearch.setContentAreaFilled(false);
+        btnSearch.setName("btnBuscar"); // NOI18N
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 30));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ObjectProperty.create(), lblBottom, org.jdesktop.beansbinding.BeanProperty.create("background"));
         bindingGroup.addBinding(binding);
 
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 370));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 350));
 
         bindingGroup.bind();
 
@@ -196,6 +209,7 @@ public class logBook extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> cmbGasIn;
     private javax.swing.JComboBox<String> cmbGasOut;
     private javax.swing.JComboBox<String> cmbHourIn;
@@ -213,6 +227,7 @@ public class logBook extends javax.swing.JFrame {
     private javax.swing.JLabel lblOut;
     private javax.swing.JTextField txtKmIn;
     private javax.swing.JTextField txtKmOut;
+    private javax.swing.JTextField txtSearch;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

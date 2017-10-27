@@ -78,6 +78,11 @@ public class main extends javax.swing.JFrame {
         btnETickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnETickets.setBorderPainted(false);
         btnETickets.setContentAreaFilled(false);
+        btnETickets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnETicketsActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnETickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
 
         btnBDC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/batch_process.png"))); // NOI18N
@@ -92,6 +97,11 @@ public class main extends javax.swing.JFrame {
         btnTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnTickets.setBorderPainted(false);
         btnTickets.setContentAreaFilled(false);
+        btnTickets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTicketsActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, -1));
 
         btnServices.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/services.png"))); // NOI18N
@@ -123,6 +133,11 @@ public class main extends javax.swing.JFrame {
         btnWorkers.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnWorkers.setBorderPainted(false);
         btnWorkers.setContentAreaFilled(false);
+        btnWorkers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWorkersActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/outbox.png"))); // NOI18N
@@ -165,6 +180,20 @@ public class main extends javax.swing.JFrame {
         this.dispose();
         new vehicles().setVisible(true);
     }//GEN-LAST:event_btnVehiclesActionPerformed
+
+    private void btnWorkersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkersActionPerformed
+        this.dispose();
+        new workers().setVisible(true);
+    }//GEN-LAST:event_btnWorkersActionPerformed
+
+    private void btnTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketsActionPerformed
+        
+    }//GEN-LAST:event_btnTicketsActionPerformed
+
+    private void btnETicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnETicketsActionPerformed
+        this.dispose();
+        new evalTicket().setVisible(true);
+    }//GEN-LAST:event_btnETicketsActionPerformed
 
     /**
      * @param args the command line arguments
