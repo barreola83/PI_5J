@@ -1,19 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
 
+import classes.Ticket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 public class ticket extends javax.swing.JFrame {
 
     private boolean status; //true = abierto, false = cerrado
+    private int no_ticket = 0; //pruebas mientras modificamos a auto_increment la tabla
+    java.util.Date datting = new java.util.Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    String date = formatter.format(datting);
+
     public ticket() {
         try {
             initComponents();
@@ -85,6 +89,11 @@ public class ticket extends javax.swing.JFrame {
         btnCreate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCreate.setBorderPainted(false);
         btnCreate.setContentAreaFilled(false);
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
@@ -131,10 +140,14 @@ public class ticket extends javax.swing.JFrame {
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         status = true;
+        btnOpen.setVisible(false);
+        btnClosed.setVisible(true);
     }//GEN-LAST:event_btnOpenActionPerformed
 
     private void btnClosedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClosedActionPerformed
         status = false;
+        btnClosed.setVisible(false);
+        btnOpen.setVisible(true);
     }//GEN-LAST:event_btnClosedActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -142,9 +155,47 @@ public class ticket extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        /*String statusS;
+        if (status) {
+            statusS = "abierto";
+        } else {
+            statusS = "cerrado";
+        }*/
+
+        if (txtDesc.getText().isEmpty() || txtEName.getText().isEmpty()
+                || txtLocation.getText().isEmpty() || txtMotive.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.");
+        } else {
+            try {
+                
+                // Se registra el Driver de MySQL
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+
+                // Se crea un Statement, para realizar la consulta
+                    // Se obtiene una conexión con la base de datos.
+                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J", "root", "root");
+                    // Se crea un Statement, para realizar la consulta
+                    Statement statement = connection.createStatement();
+                    
+                    // Se realiza la consulta. Los resultados se guardan en el ResultSet result
+                    ResultSet result = statement.executeQuery("insert into Ticket values(" + no_ticket + txtEName.getText()
+                            + txtDesc.getText() + txtMotive.getText() + date /*statusS*/ + txtLocation.getText() + ")");
+                    
+                    // Se recorre el ResultSet, mostrando por pantalla los resultados.
+                    while (result.next()) {
+                        new Ticket(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getDate(5),
+                                result.getString(6), result.getString(7));
+                    }
+                    
+                    // Se cierra la conexión con la base de datos.
+                    connection.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No se pudo agregar el ticket. Intente nuevamente.");
+            }
+        }
+    }//GEN-LAST:event_btnCreateActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -170,10 +221,8 @@ public class ticket extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ticket().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ticket().setVisible(true);
         });
     }
 

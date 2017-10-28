@@ -4,6 +4,15 @@ import java.util.Date;
 
 public class logBook { //bitacora
 
+    //La tabla LogBook en la BD tiene el siguiente formato:
+    //| no_registro         | int(5)   | NO   | PRI | NULL    |       |
+    //| hora_llegada        | datetime | NO   |     | NULL    |       |
+    //| hora_salida         | datetime | NO   |     | NULL    |       |
+    //| nivel_gas_llegada   | int(5)   | NO   |     | NULL    |       |
+    //| nivel_gas_salida    | int(5)   | NO   |     | NULL    |       |
+    //| kilometraje_salida  | int(6)   | NO   |     | NULL    |       |
+    //| kilometraje_llegada | int(6)   | NO   |     | NULL    |       |
+
     private int regNumber;
     private Date arrivalTime; //hora de llegada
     private Date releaseTime; //hora de salida

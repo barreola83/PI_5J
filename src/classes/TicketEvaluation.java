@@ -4,6 +4,11 @@ import java.util.Date;
 
 public class TicketEvaluation {
 
+    //La tabla Ticket_Evaluation en la BD tiene el siguiente formato:
+    //| no_evaluacion       | int(5)      | NO   | PRI | NULL    |       |
+    //| respuesta_preguntas | varchar(80) | NO   |     | NULL    |       |
+    //| fecha               | datetime    | NO   |     | NULL    |       |
+    
     private int evaluationNum;
     private String answer; //en el diagrama está como respuesta_preguntas
     private Date date;

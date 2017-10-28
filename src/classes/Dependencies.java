@@ -3,6 +3,13 @@ package classes;
 import java.util.Date;
 
 public class Dependencies {
+    
+    //La tabla Dependencies en la BD tiene el siguiente formato:
+    //| nombre    | varchar(15) | NO   | PRI | NULL    |       |
+    //| directivo | varchar(15) | NO   |     | NULL    |       |
+    //| telefono  | int(10)     | NO   |     | NULL    |       |
+    //| horario   | datetime    | NO   |     | NULL    |       |
+
     private String name;
     private String executive;
     private int phone;

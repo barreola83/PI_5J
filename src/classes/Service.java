@@ -2,6 +2,12 @@
 package classes;
 
 public class Service {
+    
+    //La tabla Services en la BD tiene el siguiente formato:
+    //| no_servicio        | int(5)      | NO   | PRI | NULL    |       |
+    //| nombre             | varchar(15) | NO   |     | NULL    |       |
+    //| categoria_servicio | varchar(12) | NO   |     | NULL    |       |
+
     private int serviceNumber;
     private String name;
     private String catService;

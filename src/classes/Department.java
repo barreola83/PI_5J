@@ -3,6 +3,13 @@ package classes;
 import java.util.Date;
 
 public class Department {
+    
+    //La tabla Departments en la DB tiene el siguiente formato:
+    //| nombre    | varchar(15) | NO   | PRI | NULL    |       |
+    //| extension | int(5)      | NO   |     | NULL    |       |
+    //| encargado | int(5)      | NO   |     | NULL    |       |
+    //| horario   | datetime    | NO   |     | NULL    |       |
+
     private Date timeTable;
     private String name;
     private int extension;

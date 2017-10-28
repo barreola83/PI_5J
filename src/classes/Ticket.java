@@ -4,22 +4,34 @@ import java.util.Date;
 
 public class Ticket {
 
+    //La tabla Ticket en la BD tiene el siguiente formato: 
+//| no_ticket           | int(5)      | NO   | PRI | NULL    |       |
+//| nombre_especialista | varchar(20) | NO   |     | NULL    |       |
+//| descripcion         | varchar(80) | NO   |     | NULL    |       |
+//| motivo              | varchar(40) | NO   |     | NULL    |       |
+//| fecha               | datetime    | NO   |     | NULL    |       |
+//| status              | varchar(9)  | NO   |     | NULL    |       |
+//| ubicacion           | varchar(40) | NO   |     | NULL    |       |
+    private int ticketNum;
     private String specialistName;
     private String description;
     private String motive;
     private Date date;
     private String status;
-    private int ticketNum;
     private String location; //ubicación
 
-    public Ticket(String specialistName, String description, String motive, Date date, String status, int ticketNum, String location) {
+    public Ticket(int ticketNum, String specialistName, String description, String motive, Date date, String status, String location) {
+        this.ticketNum = ticketNum;
         this.specialistName = specialistName;
         this.description = description;
         this.motive = motive;
         this.date = date;
         this.status = status;
-        this.ticketNum = ticketNum;
         this.location = location;
+    }
+
+    public int getTicketNum() {
+        return ticketNum;
     }
 
     public String getSpecialistName() {
@@ -42,12 +54,12 @@ public class Ticket {
         return status;
     }
 
-    public int getTicketNum() {
-        return ticketNum;
-    }
-
     public String getLocation() {
         return location;
+    }
+
+    public void setTicketNum(int ticketNum) {
+        this.ticketNum = ticketNum;
     }
 
     public void setSpecialistName(String specialistName) {
@@ -70,12 +82,7 @@ public class Ticket {
         this.status = status;
     }
 
-    public void setTicketNum(int ticketNum) {
-        this.ticketNum = ticketNum;
-    }
-
     public void setLocation(String location) {
         this.location = location;
     }
-
 }

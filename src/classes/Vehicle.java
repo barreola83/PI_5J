@@ -7,6 +7,11 @@ public class Vehicle {
     private int year;
     private String licensePlate; //placa del carro
 
+    //La tabla Vehicles en la BD tiene el siguiente formato:
+    //| placas | varchar(9)  | NO   | PRI | NULL    |       |
+    //| status | varchar(9)  | NO   |     | NULL    |       |
+    //| modelo | varchar(13) | NO   |     | NULL    |       |
+
     public Vehicle(String status, String model, String brand, int year, String licensePlate) {
         this.status = status;
         this.model = model;

@@ -3,6 +3,17 @@ package classes;
 import java.util.Date;
 
 public class Worker {
+
+    //La tabla Workers en la BD tiene el siguiente formato:
+    //| no_trabajador     | int(4)      | NO   | PRI | NULL    |       |
+    //| cargo             | varchar(20) | NO   |     | NULL    |       |
+    //| nombre            | varchar(30) | NO   |     | NULL    |       |
+    //| correo            | varchar(30) | NO   |     | NULL    |       |
+    //| tickets_asignados | int(3)      | NO   |     | NULL    |       |
+    //| status            | varchar(9)  | NO   |     | NULL    |       |
+    //| area              | varchar(25) | NO   |     | NULL    |       |
+    //| horario           | datetime    | NO   |     | NULL    |       |
+    //| contrasena        | varchar(16) | NO   |     | NULL    |       |
     private String position;
     private int workerNum;
     private String name;
