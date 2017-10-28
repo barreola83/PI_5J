@@ -113,6 +113,11 @@ public class dependency extends javax.swing.JFrame {
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnReturn.setBorderPainted(false);
         btnReturn.setContentAreaFilled(false);
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 299, -1, -1));
 
         cmbMinutes.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
@@ -131,6 +136,11 @@ public class dependency extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        new main().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments

@@ -49,6 +49,7 @@ public class services extends javax.swing.JFrame {
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Servicios");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblName.setText("Nombre del servicio:");

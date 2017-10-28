@@ -56,6 +56,7 @@ public class vehicles extends javax.swing.JFrame {
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Vehículos");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblBrand.setText("Marca:");
