@@ -182,8 +182,8 @@ public class workers extends javax.swing.JFrame {
         getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 90, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        lblBottom.setText("jLabel2");
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 360));
+        lblBottom.setToolTipText(null);
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

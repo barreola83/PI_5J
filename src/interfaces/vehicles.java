@@ -132,6 +132,7 @@ public class vehicles extends javax.swing.JFrame {
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        lblBottom.setToolTipText(null);
         getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 300));
 
         pack();

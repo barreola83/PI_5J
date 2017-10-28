@@ -42,13 +42,13 @@ public class knowledgeDB extends javax.swing.JFrame {
         txtSearch = new javax.swing.JTextField();
         txtProblem = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnModify = new javax.swing.JButton();
         lblNoProblem = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtSolution = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        btnReturn = new javax.swing.JButton();
+        lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de datos del conocimiento");
@@ -85,23 +85,23 @@ public class knowledgeDB extends javax.swing.JFrame {
         btnSearch.setName("btnBuscar"); // NOI18N
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(317, 12, -1, -1));
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
-        jButton2.setToolTipText("Añadir");
-        jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setName("btnAgregar"); // NOI18N
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
+        btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
+        btnAdd.setToolTipText("Añadir");
+        btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnAdd.setBorderPainted(false);
+        btnAdd.setContentAreaFilled(false);
+        btnAdd.setName("btnAgregar"); // NOI18N
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
-        jButton3.setToolTipText("Modificar");
-        jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.setName("btnModificar"); // NOI18N
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
+        btnModify.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
+        btnModify.setToolTipText("Modificar");
+        btnModify.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnModify.setBorderPainted(false);
+        btnModify.setContentAreaFilled(false);
+        btnModify.setName("btnModificar"); // NOI18N
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
 
         lblNoProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblNoProblem.setText("321");
@@ -114,27 +114,28 @@ public class knowledgeDB extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 126, -1, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
-        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
+        btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnReturn.setBorderPainted(false);
+        btnReturn.setContentAreaFilled(false);
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 300));
+        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        lblBottom.setToolTipText(null);
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         this.dispose();
         new main().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,14 +176,14 @@ public class knowledgeDB extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnModify;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
+    private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblNo;
     private javax.swing.JLabel lblNoProblem;
     private javax.swing.JTextField txtProblem;

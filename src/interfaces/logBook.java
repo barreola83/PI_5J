@@ -11,15 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author barreola
- */
 public class logBook extends javax.swing.JFrame {
 
-    /**
-     * Creates new form logBook
-     */
     public logBook() {
         try {
             initComponents();
@@ -27,7 +20,7 @@ public class logBook extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(logBook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -39,7 +32,6 @@ public class logBook extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblNo = new javax.swing.JLabel();
         lblNoReg = new javax.swing.JLabel();
@@ -61,7 +53,7 @@ public class logBook extends javax.swing.JFrame {
         btnReturn = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        lblBottom = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -154,21 +146,16 @@ public class logBook extends javax.swing.JFrame {
         btnSearch.setName("btnBuscar"); // NOI18N
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 30));
 
-        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ObjectProperty.create(), lblBottom, org.jdesktop.beansbinding.BeanProperty.create("background"));
-        bindingGroup.addBinding(binding);
-
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 350));
-
-        bindingGroup.bind();
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        jLabel1.setToolTipText(null);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        this.dispose();
         new main().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
@@ -197,6 +184,7 @@ public class logBook extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(logBook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -216,7 +204,7 @@ public class logBook extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbHourOut;
     private javax.swing.JComboBox<String> cmbMinutesIn;
     private javax.swing.JComboBox<String> cmbMinutesOut;
-    private javax.swing.JLabel lblBottom;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblGasIn;
     private javax.swing.JLabel lblGasOut;
     private javax.swing.JLabel lblIn;
@@ -228,6 +216,5 @@ public class logBook extends javax.swing.JFrame {
     private javax.swing.JTextField txtKmIn;
     private javax.swing.JTextField txtKmOut;
     private javax.swing.JTextField txtSearch;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

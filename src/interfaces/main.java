@@ -33,14 +33,14 @@ public class main extends javax.swing.JFrame {
     private void initComponents() {
 
         btnDepartments = new javax.swing.JButton();
-        btnLogBook = new javax.swing.JButton();
         btnETickets = new javax.swing.JButton();
         btnBDC = new javax.swing.JButton();
         btnTickets = new javax.swing.JButton();
         btnServices = new javax.swing.JButton();
         btnVehicles = new javax.swing.JButton();
         btnWorkers = new javax.swing.JButton();
-        btnReturn = new javax.swing.JButton();
+        btnLogOut = new javax.swing.JButton();
+        btnLogBook = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,19 +59,7 @@ public class main extends javax.swing.JFrame {
                 btnDepartmentsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, -1, -1));
-
-        btnLogBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/address_book.png"))); // NOI18N
-        btnLogBook.setToolTipText("Bitácora");
-        btnLogBook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnLogBook.setBorderPainted(false);
-        btnLogBook.setContentAreaFilled(false);
-        btnLogBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogBookActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnLogBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
+        getContentPane().add(btnDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, -1, -1));
 
         btnETickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/attendance_list.png"))); // NOI18N
         btnETickets.setToolTipText("Evaluar ticket");
@@ -83,16 +71,21 @@ public class main extends javax.swing.JFrame {
                 btnETicketsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnETickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
+        getContentPane().add(btnETickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
 
         btnBDC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/batch_process.png"))); // NOI18N
         btnBDC.setToolTipText("BD Conocimiento");
         btnBDC.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnBDC.setBorderPainted(false);
         btnBDC.setContentAreaFilled(false);
-        getContentPane().add(btnBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, -1, -1));
+        btnBDC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBDCActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
 
-        btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
+        btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit_1.png"))); // NOI18N
         btnTickets.setToolTipText("Tickets");
         btnTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnTickets.setBorderPainted(false);
@@ -102,7 +95,7 @@ public class main extends javax.swing.JFrame {
                 btnTicketsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, -1, -1));
+        getContentPane().add(btnTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
         btnServices.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/services.png"))); // NOI18N
         btnServices.setToolTipText("Servicios");
@@ -114,9 +107,9 @@ public class main extends javax.swing.JFrame {
                 btnServicesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
+        getContentPane().add(btnServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, -1, -1));
 
-        btnVehicles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cars.png"))); // NOI18N
+        btnVehicles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/plan_3_e.png"))); // NOI18N
         btnVehicles.setToolTipText("Vehículos");
         btnVehicles.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnVehicles.setBorderPainted(false);
@@ -126,7 +119,7 @@ public class main extends javax.swing.JFrame {
                 btnVehiclesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, -1, -1));
+        getContentPane().add(btnVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, -1, -1));
 
         btnWorkers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/group.png"))); // NOI18N
         btnWorkers.setToolTipText("Trabajadores");
@@ -138,62 +131,83 @@ public class main extends javax.swing.JFrame {
                 btnWorkersActionPerformed(evt);
             }
         });
-        getContentPane().add(btnWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, -1, -1));
+        getContentPane().add(btnWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, -1, -1));
 
-        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/outbox.png"))); // NOI18N
-        btnReturn.setToolTipText("Cerrar sesión");
-        btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnReturn.setBorderPainted(false);
-        btnReturn.setContentAreaFilled(false);
-        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+        btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/outbox.png"))); // NOI18N
+        btnLogOut.setToolTipText("Cerrar sesión");
+        btnLogOut.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnLogOut.setBorderPainted(false);
+        btnLogOut.setContentAreaFilled(false);
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReturnActionPerformed(evt);
+                btnLogOutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, -1));
+        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, -1));
+
+        btnLogBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/address_book 72.png"))); // NOI18N
+        btnLogBook.setToolTipText("Bitácora");
+        btnLogBook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnLogBook.setBorderPainted(false);
+        btnLogBook.setContentAreaFilled(false);
+        btnLogBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogBookActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLogBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 370));
+        lblBottom.setToolTipText(null);
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDepartmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepartmentsActionPerformed
-
+        new department().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnDepartmentsActionPerformed
 
     private void btnServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServicesActionPerformed
-        // TODO add your handling code here:
+        new services().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnServicesActionPerformed
 
-    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        this.dispose();
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         new login().setVisible(true);
-    }//GEN-LAST:event_btnReturnActionPerformed
-
-    private void btnLogBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogBookActionPerformed
         this.dispose();
-        new logBook().setVisible(true);
-    }//GEN-LAST:event_btnLogBookActionPerformed
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiclesActionPerformed
-        this.dispose();
         new vehicles().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnVehiclesActionPerformed
 
     private void btnWorkersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkersActionPerformed
-        this.dispose();
         new workers().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnWorkersActionPerformed
 
     private void btnTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketsActionPerformed
-        
+        new ticket().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnTicketsActionPerformed
 
     private void btnETicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnETicketsActionPerformed
-        this.dispose();
         new evalTicket().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnETicketsActionPerformed
+
+    private void btnBDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBDCActionPerformed
+        new knowledgeDB().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBDCActionPerformed
+
+    private void btnLogBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogBookActionPerformed
+        new logBook().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogBookActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,7 +247,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton btnDepartments;
     private javax.swing.JButton btnETickets;
     private javax.swing.JButton btnLogBook;
-    private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnServices;
     private javax.swing.JButton btnTickets;
     private javax.swing.JButton btnVehicles;

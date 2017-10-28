@@ -45,6 +45,7 @@ public class services extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         lblService = new javax.swing.JLabel();
         lblNoService = new javax.swing.JLabel();
+        btnReturn = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -101,7 +102,19 @@ public class services extends javax.swing.JFrame {
         lblNoService.setText("000");
         getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(107, 17, -1, -1));
 
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
+        btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnReturn.setBorderPainted(false);
+        btnReturn.setContentAreaFilled(false);
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        lblBottom.setToolTipText(null);
         getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 340, 220));
 
         pack();
@@ -116,6 +129,11 @@ public class services extends javax.swing.JFrame {
             this.setEnabled(true);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        new main().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,16 +163,15 @@ public class services extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new services().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new services().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntAdd;
     private javax.swing.JButton btnModify;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> cmbCat;
     private javax.swing.JLabel lblBottom;

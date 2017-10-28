@@ -29,7 +29,7 @@ public class login extends javax.swing.JFrame {
         txtPass = new javax.swing.JPasswordField();
         btnShow = new javax.swing.JButton();
         btnHide = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Inicio de sesión");
@@ -86,8 +86,9 @@ public class login extends javax.swing.JFrame {
         });
         getContentPane().add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 240));
+        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        lblBottom.setToolTipText(null);
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 240));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -145,7 +146,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton btnHide;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnShow;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblHome;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;

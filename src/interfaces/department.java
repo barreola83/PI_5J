@@ -1,9 +1,22 @@
 package interfaces;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class department extends javax.swing.JFrame {
 
     public department() {
-        initComponents();
+        try {
+            initComponents();
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
+            setLocationRelativeTo(null); //Centra el jFrame
+            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -111,7 +124,7 @@ public class department extends javax.swing.JFrame {
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        lblBottom.setToolTipText("");
+        lblBottom.setToolTipText(null);
         getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
 
         pack();
