@@ -1,22 +1,22 @@
 package interfaces;
 
-import classes.Ticket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 public class ticket extends javax.swing.JFrame {
 
     private boolean status; //true = abierto, false = cerrado
     private int no_ticket = 0; //pruebas mientras modificamos a auto_increment la tabla
-    java.util.Date datting = new java.util.Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    String date = formatter.format(datting);
+    /*java.util.Date datting = new java.util.Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    String date = formatter.format(datting);*/
+    Calendar calendar = Calendar.getInstance();
+    java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
 
     public ticket() {
         try {
@@ -25,7 +25,7 @@ public class ticket extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
+            ex.getMessage();
         }
     }
 
@@ -133,7 +133,7 @@ public class ticket extends javax.swing.JFrame {
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 340, 360));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -156,42 +156,44 @@ public class ticket extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        /*String statusS;
+        String statusS;
         if (status) {
             statusS = "abierto";
         } else {
             statusS = "cerrado";
-        }*/
+        }
 
         if (txtDesc.getText().isEmpty() || txtEName.getText().isEmpty()
                 || txtLocation.getText().isEmpty() || txtMotive.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe completar todos los campos.");
         } else {
             try {
-                
-                // Se registra el Driver de MySQL
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
-                // Se crea un Statement, para realizar la consulta
-                    // Se obtiene una conexión con la base de datos.
-                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J", "root", "root");
-                    // Se crea un Statement, para realizar la consulta
-                    Statement statement = connection.createStatement();
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8080/PI_5J?useServerPrepStmts=true", "root", "root");
+
+                PreparedStatement insert = null;
+                
+                if (insert == null) {
+                    //insert = connection.prepareStatement("insert into Ticket values(" + no_ticket + "," + txtEName.getText()
+                    //        + "," + txtDesc.getText() + "," + txtMotive.getText() + "," + date + "," + statusS + "," + txtLocation.getText() + ")");
+                    //insert.executeUpdate();
                     
-                    // Se realiza la consulta. Los resultados se guardan en el ResultSet result
-                    ResultSet result = statement.executeQuery("insert into Ticket values(" + no_ticket + txtEName.getText()
-                            + txtDesc.getText() + txtMotive.getText() + date /*statusS*/ + txtLocation.getText() + ")");
+                    //Otra opción sería
+                    insert = connection.prepareStatement("insert into Ticket values(?,?,?,?,?,?,?)");
+                    insert.setInt(1, no_ticket);
+                    insert.setString(2, txtEName.getText());
+                    insert.setString(3, txtDesc.getText());
+                    insert.setString(4, txtMotive.getText());
+                    insert.setDate(5, date);
+                    insert.setString(6, statusS);
+                    insert.setString(7, txtLocation.getText());
+                    insert.executeUpdate();
+                    insert.close();
                     
-                    // Se recorre el ResultSet, mostrando por pantalla los resultados.
-                    while (result.next()) {
-                        new Ticket(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getDate(5),
-                                result.getString(6), result.getString(7));
-                    }
-                    
-                    // Se cierra la conexión con la base de datos.
-                    connection.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "No se pudo agregar el ticket. Intente nuevamente.");
+                }
+            } catch (SQLException ex) {
+                ex.getMessage();
             }
         }
     }//GEN-LAST:event_btnCreateActionPerformed
