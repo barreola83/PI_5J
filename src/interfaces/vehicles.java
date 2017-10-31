@@ -5,15 +5,23 @@
  */
 package interfaces;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class vehicles extends javax.swing.JFrame {
 
-    private boolean available = false;
+    private boolean status = false;
+
     /**
      * Creates new form vehicles
      */
@@ -54,6 +62,7 @@ public class vehicles extends javax.swing.JFrame {
         btnModify = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
+        lblTest = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vehículos");
@@ -104,6 +113,11 @@ public class vehicles extends javax.swing.JFrame {
         btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSearch.setBorderPainted(false);
         btnSearch.setContentAreaFilled(false);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, -1, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -111,6 +125,11 @@ public class vehicles extends javax.swing.JFrame {
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAdd.setBorderPainted(false);
         btnAdd.setContentAreaFilled(false);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
@@ -118,6 +137,11 @@ public class vehicles extends javax.swing.JFrame {
         btnModify.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnModify.setBorderPainted(false);
         btnModify.setContentAreaFilled(false);
+        btnModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
@@ -136,20 +160,23 @@ public class vehicles extends javax.swing.JFrame {
         lblBottom.setToolTipText(null);
         getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 300));
 
+        lblTest.setText("jLabel1");
+        getContentPane().add(lblTest, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnActionPerformed
         btnOn.setVisible(false);
         btnOff.setVisible(true);
-        available = false;
+        status = false;
         //txtSearch.setText("no available");
     }//GEN-LAST:event_btnOnActionPerformed
 
     private void btnOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOffActionPerformed
         btnOn.setVisible(true);
         btnOff.setVisible(false);
-        available = true;
+        status = true;
         //txtSearch.setText("available");
     }//GEN-LAST:event_btnOffActionPerformed
 
@@ -157,6 +184,67 @@ public class vehicles extends javax.swing.JFrame {
         this.dispose();
         new main().setVisible(true);
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        String statusS;
+        if (status) {
+            statusS = "abierto";
+        } else {
+            statusS = "cerrado";
+        }
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ? WHERE plates = ?");
+
+            update.setString(1, statusS);
+            update.setString(2, txtBrand.getText());
+            update.setInt(3, Integer.valueOf(txtYear.getText()));
+            update.setString(4, txtPlate.getText());
+            
+            update.executeUpdate();
+            update.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la acción. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String statusS = null;
+        txtPlate.setEnabled(false);
+        
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement update = connection.createStatement();
+            ResultSet result;
+
+            result = update.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
+            while (result.next()) {
+                txtPlate.setText(result.getString("plates"));
+                txtBrand.setText(result.getString("model"));
+                txtYear.setText(String.valueOf(result.getInt("year")));
+                statusS = result.getString("status");
+            }
+
+            if ("abierto".equals(statusS)) {
+                btnOn.setVisible(true);
+                btnOff.setVisible(false);
+            } else {
+                btnOff.setVisible(true);
+                btnOn.setVisible(false);
+            }
+
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se encontró el vehículo");
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,6 +290,7 @@ public class vehicles extends javax.swing.JFrame {
     private javax.swing.JLabel lblBrand;
     private javax.swing.JLabel lblPlate;
     private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTest;
     private javax.swing.JLabel lblYear;
     private javax.swing.JTextField txtBrand;
     private javax.swing.JTextField txtPlate;

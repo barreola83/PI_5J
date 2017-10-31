@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 public class ticket extends javax.swing.JFrame {
 
     private boolean status; //true = abierto, false = cerrado
-    private int no_ticket = 0; //pruebas mientras modificamos a auto_increment la tabla
+    private int no_ticket = 2; //pruebas mientras modificamos a auto_increment la tabla
     /*java.util.Date datting = new java.util.Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     String date = formatter.format(datting);*/
@@ -25,7 +25,7 @@ public class ticket extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            ex.getMessage();
+
         }
     }
 
@@ -170,28 +170,18 @@ public class ticket extends javax.swing.JFrame {
             try {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8080/PI_5J?useServerPrepStmts=true", "root", "root");
-
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 PreparedStatement insert = null;
-                
-                if (insert == null) {
-                    //insert = connection.prepareStatement("insert into Ticket values(" + no_ticket + "," + txtEName.getText()
-                    //        + "," + txtDesc.getText() + "," + txtMotive.getText() + "," + date + "," + statusS + "," + txtLocation.getText() + ")");
-                    //insert.executeUpdate();
-                    
-                    //Otra opción sería
-                    insert = connection.prepareStatement("insert into Ticket values(?,?,?,?,?,?,?)");
-                    insert.setInt(1, no_ticket);
-                    insert.setString(2, txtEName.getText());
-                    insert.setString(3, txtDesc.getText());
-                    insert.setString(4, txtMotive.getText());
-                    insert.setDate(5, date);
-                    insert.setString(6, statusS);
-                    insert.setString(7, txtLocation.getText());
-                    insert.executeUpdate();
-                    insert.close();
-                    
-                }
+
+                insert = connection.prepareStatement("INSERT INTO Ticket" + " VALUES(null,?,?,?,?,?,?)");
+                insert.setString(1, txtEName.getText());
+                insert.setString(2, txtDesc.getText());
+                insert.setString(3, txtMotive.getText());
+                insert.setDate(4, date);
+                insert.setString(5, statusS);
+                insert.setString(6, txtLocation.getText());
+                insert.executeUpdate();
+                insert.close();
             } catch (SQLException ex) {
                 ex.getMessage();
             }
@@ -211,15 +201,11 @@ public class ticket extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ticket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ticket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ticket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ticket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */
