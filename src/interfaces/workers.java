@@ -1,14 +1,29 @@
 package interfaces;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class workers extends javax.swing.JFrame {
 
-    private boolean available;
+    private String status;
+
+    //Documentation for JCalendar and components can be found here:
+    //https://www.ssec.wisc.edu/mcidas/software/v/javadoc/1.4/edu/wisc/ssec/mcidasv/data/dateChooser/
     public workers() {
         try {
             initComponents();
@@ -16,8 +31,69 @@ public class workers extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public java.sql.Date getDate() {
+        if (jdcDate.getDate() != null) {
+            Date date = jdcDate.getDate();
+            java.sql.Date sDate = new java.sql.Date(date.getTime());
+            return sDate;
+        }
+
+        return null;
+    }
+
+    public java.sql.Date getTimeIn() {
+        try {
+            String timeIn = "1900-01-01" + " " + cmbHourIn.getSelectedItem() + ":" + cmbMinutesIn.getSelectedItem();
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date date = formatter.parse(timeIn);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            return sqlDate;
+        } catch (ParseException ex) {
+            ex.getMessage();
+            return null;
+        }
+    }
+
+    public java.sql.Date getTimeOut() {
+        //"1900-01-01" + " " + is added in order to accomplish the Date standard format
+        //String timeOut = "1900-01-01" + " " + cmbHourOut.getSelectedItem() + ":" + cmbMinutesOut.getSelectedItem() + ":00";
+        /*String timeOut = "1900-01-01 12:25:00";
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = formatter.parse(timeOut);
+            System.out.println(formatter.format(timeOut));
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());*/
+        //String dateTime = "11/15/2013 08:00:00";
+        String dateTime = "2017-01-01 " + cmbHourOut.getSelectedItem() + ":" + cmbMinutesOut.getSelectedItem() + ":00";
+        DateTime date = new DateTime(dateTime);
+        DateTime.parse(dateTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+        java.sql.Date sqlDate = new java.sql.Date(date.getMillis());
+        
+        return sqlDate;
+    }
+
+    public boolean confirmPassword() {
+        if (txtPass.getPassword().length == 0 || txtConfirm.getPassword().length == 0) {
+            return false;
+        } else {
+            return Arrays.equals(txtPass.getPassword(), txtConfirm.getPassword());
+        }
+    }
+
+    public String getParsedName() {
+        return txtName.getText() + " " + txtFLastName.getText() + " " + txtSLastName.getText();
+    }
+
+    public boolean isEmpty() {
+        return !(txtName.getText().isEmpty() || txtArea.getText().isEmpty() || txtCharge.getText().isEmpty()
+                || txtMail.getText().isEmpty() || txtPass.getPassword().length == 0 || txtConfirm.getPassword().length == 0);
+    }
+
+    public boolean valueDates() {
+        return !(cmbHourIn.getSelectedIndex() > -1 || cmbHourOut.getSelectedIndex() > -1
+                || cmbMinutesIn.getSelectedIndex() > -1 || cmbMinutesOut.getSelectedIndex() > -1);
     }
 
     /**
@@ -59,9 +135,7 @@ public class workers extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtConfirm = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jdcDate = new com.toedter.calendar.JDateChooser();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -96,26 +170,44 @@ public class workers extends javax.swing.JFrame {
         getContentPane().add(lbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
 
         lbl9.setText("Status:");
-        getContentPane().add(lbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        getContentPane().add(lbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 120, -1, -1));
 
         lbl10.setText("Constraseña:");
-        getContentPane().add(lbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, -1, -1));
+        getContentPane().add(lbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 190, -1, -1));
 
         lbl8.setText("Correo:");
-        getContentPane().add(lbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, -1, -1));
+        getContentPane().add(lbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, -1, -1));
+
+        txtName.setText("Bryan");
         getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 62, 200, -1));
+
+        txtSLastName.setText("Mur");
         getContentPane().add(txtSLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(147, 130, 138, -1));
+
+        txtFLastName.setText("Arr");
         getContentPane().add(txtFLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 96, 142, -1));
+
+        txtArea.setText("area");
         getContentPane().add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 164, 208, -1));
+
+        txtCharge.setText("cargo");
+        txtCharge.setToolTipText("");
         getContentPane().add(txtCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 198, 198, -1));
-        getContentPane().add(txtMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 191, -1));
-        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 170, -1));
+
+        txtMail.setText("baam");
+        getContentPane().add(txtMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 191, -1));
+        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 170, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAdd.setBorderPainted(false);
         btnAdd.setContentAreaFilled(false);
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 290, -1, -1));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -126,7 +218,7 @@ public class workers extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, -1, -1));
 
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, -1, -1));
@@ -149,7 +241,7 @@ public class workers extends javax.swing.JFrame {
                 btnOffActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, -1, -1));
+        getContentPane().add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, -1, -1));
 
         btnOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_on32.png"))); // NOI18N
         btnOn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -160,30 +252,24 @@ public class workers extends javax.swing.JFrame {
                 btnOnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, -1, -1));
+        getContentPane().add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, -1, -1));
 
         jLabel1.setText("Confirmar:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, -1, -1));
-        getContentPane().add(txtConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 240, 170, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, -1, -1));
+        getContentPane().add(txtConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 170, -1));
 
         jLabel2.setText("Fecha nacimiento:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        jComboBox1.setToolTipText("Día");
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
-        jComboBox2.setToolTipText("Mes");
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, -1, -1));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959", "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969", "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999" }));
-        jComboBox3.setToolTipText("Año");
-        getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 90, -1, -1));
+        jdcDate.setToolTipText("Seleccione una fecha");
+        jdcDate.setDateFormatString("dd/MM/yyyy");
+        jdcDate.setMaximumSize(new java.awt.Dimension(122, 28));
+        jdcDate.setMinimumSize(new java.awt.Dimension(122, 28));
+        getContentPane().add(jdcDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 70, 140, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 340));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -191,21 +277,52 @@ public class workers extends javax.swing.JFrame {
     private void btnOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOffActionPerformed
         btnOn.setVisible(true);
         btnOff.setVisible(false);
-        available = true;
-        //txtSearch.setText("available");
+        status = "abierto";
     }//GEN-LAST:event_btnOffActionPerformed
 
     private void btnOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnActionPerformed
         btnOn.setVisible(false);
         btnOff.setVisible(true);
-        available = false;
-        //txtSearch.setText("available");
+        status = "cerrado";
     }//GEN-LAST:event_btnOnActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         this.dispose();
         new main().setVisible(true);
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (isEmpty() || valueDates() || confirmPassword()) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement insert = null;
+
+                insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,?,?,?)");
+
+                //no_trabajador
+                insert.setString(1, txtCharge.getText()); //cargo
+                insert.setString(2, getParsedName());//nombre
+                insert.setString(3, txtMail.getText());//correo
+                insert.setInt(4, 5);//tickets_asignados
+                insert.setString(5, status);//status
+                insert.setString(6, txtArea.getText());//area
+                insert.setDate(7, getTimeIn());//horarioIn
+                insert.setString(8, String.valueOf(txtPass.getPassword()));//contrasena
+                insert.setDate(9, getTimeOut());//horarioOut
+                insert.setDate(10, getDate());//birthday
+
+                insert.executeUpdate();
+
+                connection.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Complete todos los elementos del formulario.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,10 +352,8 @@ public class workers extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new workers().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new workers().setVisible(true);
         });
     }
 
@@ -251,11 +366,9 @@ public class workers extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbHourOut;
     private javax.swing.JComboBox<String> cmbMinutesIn;
     private javax.swing.JComboBox<String> cmbMinutesOut;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private com.toedter.calendar.JDateChooser jdcDate;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl10;
     private javax.swing.JLabel lbl11;
@@ -278,4 +391,8 @@ public class workers extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtSLastName;
     // End of variables declaration//GEN-END:variables
+
+    private void assertEquals(long l, long time) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

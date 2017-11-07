@@ -6,10 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author barreola
- */
 public class services extends javax.swing.JFrame {
 
     private boolean found;
@@ -127,7 +123,7 @@ public class services extends javax.swing.JFrame {
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         if(found){
-            this.setEnabled(true);
+            btnModify.setEnabled(true);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
 

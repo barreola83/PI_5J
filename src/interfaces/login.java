@@ -1,11 +1,8 @@
 package interfaces;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-//import org.jdesktop.swingx.prompt.PromptSupport;
 
 public class login extends javax.swing.JFrame {
 

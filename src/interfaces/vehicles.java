@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
 
 import java.sql.Connection;
@@ -11,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -20,11 +13,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class vehicles extends javax.swing.JFrame {
 
-    private boolean status = false;
+    private String status;
 
-    /**
-     * Creates new form vehicles
-     */
     public vehicles() {
         try {
             initComponents();
@@ -32,9 +22,7 @@ public class vehicles extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
             btnModify.setEnabled(false);
-            //btnOn.setVisible(false);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(vehicles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -62,7 +50,6 @@ public class vehicles extends javax.swing.JFrame {
         btnModify = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
-        lblTest = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vehículos");
@@ -160,24 +147,19 @@ public class vehicles extends javax.swing.JFrame {
         lblBottom.setToolTipText(null);
         getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 300));
 
-        lblTest.setText("jLabel1");
-        getContentPane().add(lblTest, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, -1, -1));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnActionPerformed
         btnOn.setVisible(false);
         btnOff.setVisible(true);
-        status = false;
-        //txtSearch.setText("no available");
+        status = "cerrado";
     }//GEN-LAST:event_btnOnActionPerformed
 
     private void btnOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOffActionPerformed
         btnOn.setVisible(true);
         btnOff.setVisible(false);
-        status = true;
-        //txtSearch.setText("available");
+        status = "abierto";
     }//GEN-LAST:event_btnOffActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -190,18 +172,11 @@ public class vehicles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        String statusS;
-        if (status) {
-            statusS = "abierto";
-        } else {
-            statusS = "cerrado";
-        }
-
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ? WHERE plates = ?");
 
-            update.setString(1, statusS);
+            update.setString(1, status);
             update.setString(2, txtBrand.getText());
             update.setInt(3, Integer.valueOf(txtYear.getText()));
             update.setString(4, txtPlate.getText());
@@ -214,7 +189,6 @@ public class vehicles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String statusS = null;
         txtPlate.setEnabled(false);
         
         try {
@@ -229,10 +203,10 @@ public class vehicles extends javax.swing.JFrame {
                 txtPlate.setText(result.getString("plates"));
                 txtBrand.setText(result.getString("model"));
                 txtYear.setText(String.valueOf(result.getInt("year")));
-                statusS = result.getString("status");
+                status = result.getString("status");
             }
 
-            if ("abierto".equals(statusS)) {
+            if ("abierto".equals(status)) {
                 btnOn.setVisible(true);
                 btnOff.setVisible(false);
             } else {
@@ -262,15 +236,10 @@ public class vehicles extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(vehicles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(vehicles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(vehicles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(vehicles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -290,7 +259,6 @@ public class vehicles extends javax.swing.JFrame {
     private javax.swing.JLabel lblBrand;
     private javax.swing.JLabel lblPlate;
     private javax.swing.JLabel lblStatus;
-    private javax.swing.JLabel lblTest;
     private javax.swing.JLabel lblYear;
     private javax.swing.JTextField txtBrand;
     private javax.swing.JTextField txtPlate;

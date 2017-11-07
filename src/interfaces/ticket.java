@@ -4,19 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.sql.*;
-//import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 public class ticket extends javax.swing.JFrame {
 
-    private boolean status; //true = abierto, false = cerrado
-    private int no_ticket = 2; //pruebas mientras modificamos a auto_increment la tabla
-    /*java.util.Date datting = new java.util.Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    String date = formatter.format(datting);*/
-    Calendar calendar = Calendar.getInstance();
-    java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
+    private String status;
 
     public ticket() {
         try {
@@ -27,6 +20,17 @@ public class ticket extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 
         }
+    }
+
+    public Date getDate() {
+        Calendar calendar = Calendar.getInstance();
+        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
+        return date;
+    }
+
+    public boolean isEmpty() {
+        return !(txtDesc.getText().isEmpty() || txtEName.getText().isEmpty()
+                || txtLocation.getText().isEmpty() || txtMotive.getText().isEmpty());
     }
 
     /**
@@ -139,13 +143,13 @@ public class ticket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
-        status = true;
+        status = "abierto";
         btnOpen.setVisible(false);
         btnClosed.setVisible(true);
     }//GEN-LAST:event_btnOpenActionPerformed
 
     private void btnClosedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClosedActionPerformed
-        status = false;
+        status = "cerrado";
         btnClosed.setVisible(false);
         btnOpen.setVisible(true);
     }//GEN-LAST:event_btnClosedActionPerformed
@@ -156,17 +160,7 @@ public class ticket extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        String statusS;
-        if (status) {
-            statusS = "abierto";
-        } else {
-            statusS = "cerrado";
-        }
-
-        if (txtDesc.getText().isEmpty() || txtEName.getText().isEmpty()
-                || txtLocation.getText().isEmpty() || txtMotive.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.");
-        } else {
+        if (isEmpty()) {
             try {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
@@ -177,14 +171,16 @@ public class ticket extends javax.swing.JFrame {
                 insert.setString(1, txtEName.getText());
                 insert.setString(2, txtDesc.getText());
                 insert.setString(3, txtMotive.getText());
-                insert.setDate(4, date);
-                insert.setString(5, statusS);
+                insert.setDate(4, getDate());
+                insert.setString(5, status);
                 insert.setString(6, txtLocation.getText());
                 insert.executeUpdate();
                 insert.close();
             } catch (SQLException ex) {
                 ex.getMessage();
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.");
         }
     }//GEN-LAST:event_btnCreateActionPerformed
 

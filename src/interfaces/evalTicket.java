@@ -1,25 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author barreola
- */
 public class evalTicket extends javax.swing.JFrame {
 
-    /**
-     * Creates new form evalTicket
-     */
     public evalTicket() {
         try {
             initComponents();
@@ -298,19 +284,19 @@ public class evalTicket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnQ1SosoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ1SosoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnQ1SosoActionPerformed
 
     private void btnQ2SosoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ2SosoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnQ2SosoActionPerformed
 
     private void btnQ1Soso2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ1Soso2ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnQ1Soso2ActionPerformed
 
     private void btnQ4SosoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ4SosoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnQ4SosoActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
