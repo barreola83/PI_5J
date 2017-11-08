@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,13 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 public class workers extends javax.swing.JFrame {
 
     private String status;
+    Calendar calendar = Calendar.getInstance();
 
     //Documentation for JCalendar and components can be found here:
     //https://www.ssec.wisc.edu/mcidas/software/v/javadoc/1.4/edu/wisc/ssec/mcidasv/data/dateChooser/
@@ -44,34 +39,20 @@ public class workers extends javax.swing.JFrame {
         return null;
     }
 
-    public java.sql.Date getTimeIn() {
-        try {
-            String timeIn = "1900-01-01" + " " + cmbHourIn.getSelectedItem() + ":" + cmbMinutesIn.getSelectedItem();
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date date = formatter.parse(timeIn);
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            return sqlDate;
-        } catch (ParseException ex) {
-            ex.getMessage();
-            return null;
-        }
+    public java.sql.Time getTimeIn() {
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourIn.getSelectedItem().toString()));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesIn.getSelectedItem().toString()));
+        calendar.set(Calendar.SECOND, 00);
+        java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
+        return time;
     }
 
-    public java.sql.Date getTimeOut() {
-        //"1900-01-01" + " " + is added in order to accomplish the Date standard format
-        //String timeOut = "1900-01-01" + " " + cmbHourOut.getSelectedItem() + ":" + cmbMinutesOut.getSelectedItem() + ":00";
-        /*String timeOut = "1900-01-01 12:25:00";
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = formatter.parse(timeOut);
-            System.out.println(formatter.format(timeOut));
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());*/
-        //String dateTime = "11/15/2013 08:00:00";
-        String dateTime = "2017-01-01 " + cmbHourOut.getSelectedItem() + ":" + cmbMinutesOut.getSelectedItem() + ":00";
-        DateTime date = new DateTime(dateTime);
-        DateTime.parse(dateTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
-        java.sql.Date sqlDate = new java.sql.Date(date.getMillis());
-        
-        return sqlDate;
+    public java.sql.Time getTimeOut() {
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourOut.getSelectedItem().toString()));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesOut.getSelectedItem().toString()));
+        calendar.set(Calendar.SECOND, 22);
+        java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
+        return time;
     }
 
     public boolean confirmPassword() {
@@ -308,9 +289,9 @@ public class workers extends javax.swing.JFrame {
                 insert.setInt(4, 5);//tickets_asignados
                 insert.setString(5, status);//status
                 insert.setString(6, txtArea.getText());//area
-                insert.setDate(7, getTimeIn());//horarioIn
+                insert.setTime(7, getTimeIn());//horarioIn
                 insert.setString(8, String.valueOf(txtPass.getPassword()));//contrasena
-                insert.setDate(9, getTimeOut());//horarioOut
+                insert.setTime(9, getTimeOut());//horarioOut
                 insert.setDate(10, getDate());//birthday
 
                 insert.executeUpdate();
@@ -322,6 +303,9 @@ public class workers extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Complete todos los elementos del formulario.", "Advertencia", JOptionPane.ERROR_MESSAGE);
         }
+
+        //Sólo para pruebas
+        //txtCharge.setText(String.valueOf(getTimeOut()));
     }//GEN-LAST:event_btnAddActionPerformed
 
     /**
@@ -391,8 +375,4 @@ public class workers extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtSLastName;
     // End of variables declaration//GEN-END:variables
-
-    private void assertEquals(long l, long time) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

@@ -3,7 +3,10 @@ package interfaces;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 
@@ -22,7 +25,7 @@ public class ticket extends javax.swing.JFrame {
         }
     }
 
-    public Date getDate() {
+    public java.sql.Date getDate() {
         Calendar calendar = Calendar.getInstance();
         java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
         return date;

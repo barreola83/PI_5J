@@ -1,15 +1,20 @@
 package interfaces;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class services extends javax.swing.JFrame {
 
-    private boolean found;
-    
+    private boolean found = false;
+
     public services() {
         try {
             initComponents();
@@ -18,7 +23,7 @@ public class services extends javax.swing.JFrame {
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
             btnModify.setEnabled(false);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(services.class.getName()).log(Level.SEVERE, null, ex);
+            ex.getMessage();
         }
     }
 
@@ -37,7 +42,7 @@ public class services extends javax.swing.JFrame {
         cmbCat = new javax.swing.JComboBox<>();
         bntAdd = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
-        txtNameSearch = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         lblService = new javax.swing.JLabel();
         lblNoService = new javax.swing.JLabel();
@@ -64,6 +69,11 @@ public class services extends javax.swing.JFrame {
         bntAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bntAdd.setBorderPainted(false);
         bntAdd.setContentAreaFilled(false);
+        bntAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntAddActionPerformed(evt);
+            }
+        });
         getContentPane().add(bntAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
@@ -78,8 +88,8 @@ public class services extends javax.swing.JFrame {
         });
         getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
 
-        txtNameSearch.setToolTipText("Nombre de servicio");
-        getContentPane().add(txtNameSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 12, 67, -1));
+        txtSearch.setToolTipText("Número de servicio");
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 12, 67, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar");
@@ -97,7 +107,7 @@ public class services extends javax.swing.JFrame {
         getContentPane().add(lblService, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 17, -1, -1));
 
         lblNoService.setText("000");
-        getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(107, 17, -1, -1));
+        getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -118,12 +128,40 @@ public class services extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        found = true;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_servicio, nombre, categoria_servicio from Services where no_servicio ="
+                    + Integer.parseInt(txtSearch.getText()));
+
+            while (result.next()) {
+                txtName.setText(result.getString("nombre"));
+                cmbCat.setSelectedItem(result.getString("categoria_servicio"));
+                lblNoService.setText(String.valueOf(result.getInt("no_servicio")));
+            }
+
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        if(found){
-            btnModify.setEnabled(true);
+        if (found) {
+            try {
+                btnModify.setEnabled(true);
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement update = connection.prepareStatement("UPDATE Services SET nombre = ?, categoria_servicio = ? where no_servicio = ?");
+                update.setString(1, txtName.getText());
+                update.setString(2, cmbCat.getSelectedItem().toString());
+                update.setInt(3, Integer.parseInt(txtSearch.getText()));
+
+                update.executeUpdate();
+
+                connection.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
+            }
         }
     }//GEN-LAST:event_btnModifyActionPerformed
 
@@ -131,6 +169,19 @@ public class services extends javax.swing.JFrame {
         new main().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void bntAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAddActionPerformed
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement update = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
+
+            update.setString(1, txtName.getText());
+            update.setString(2, cmbCat.getSelectedItem().toString());
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+
+    }//GEN-LAST:event_bntAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,6 +228,6 @@ public class services extends javax.swing.JFrame {
     private javax.swing.JLabel lblNoService;
     private javax.swing.JLabel lblService;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtNameSearch;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
