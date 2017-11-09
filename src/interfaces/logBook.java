@@ -1,11 +1,27 @@
 package interfaces;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class logBook extends javax.swing.JFrame {
 
+    //La tabla LogBook en la BD tiene el siguiente formato:
+    //| no_registro         | int(5)   | NO   | PRI | NULL    |       |
+    //| hora_llegada        | datetime | NO   |     | NULL    |       |
+    //| hora_salida         | datetime | NO   |     | NULL    |       |
+    //| nivel_gas_llegada   | int(5)   | NO   |     | NULL    |       |
+    //| nivel_gas_salida    | int(5)   | NO   |     | NULL    |       |
+    //| kilometraje_salida  | int(6)   | NO   |     | NULL    |       |
+    //| kilometraje_llegada | int(6)   | NO   |     | NULL    |       |
     public logBook() {
         try {
             initComponents();
@@ -115,6 +131,11 @@ public class logBook extends javax.swing.JFrame {
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAdd.setBorderPainted(false);
         btnAdd.setContentAreaFilled(false);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
@@ -128,6 +149,7 @@ public class logBook extends javax.swing.JFrame {
         });
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, -1, -1));
 
+        txtSearch.setToolTipText("Número de registro");
         txtSearch.setName("txtRegistro"); // NOI18N
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 87, -1));
 
@@ -137,7 +159,12 @@ public class logBook extends javax.swing.JFrame {
         btnSearch.setBorderPainted(false);
         btnSearch.setContentAreaFilled(false);
         btnSearch.setName("btnBuscar"); // NOI18N
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 30));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 40, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         jLabel1.setToolTipText(null);
@@ -150,6 +177,46 @@ public class logBook extends javax.swing.JFrame {
         new main().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String service = null;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_registro, hora llegada, hora_salida"
+                    + "nivel_gas_llegada, nivel_gas_salida, kilometraje_salida, kilometraje_llegada"
+                    + " from LogBook where no_registro ="
+                    + Integer.parseInt(txtSearch.getText()));
+
+            while (result.next()) {
+                service = "No. reg: " + result.getInt("no_registro");
+                service += "Hora llegada: " + result.getDate("hora_llegada");
+                service += "Hora salida: " + result.getDate("hora_salida");
+                service += "Gas llegada: " + result.getInt("nivel_gas_llegada");
+                service += "Gas salida: " + result.getInt("nivel_gas_salida");
+                service += "Kilometraje llegada: " + result.getInt("kilometraje_llegada");
+                service += "Kilometraje salida: " + result.getInt("kilometraje_salida");
+            }
+
+
+//        service = "No. reg: 0761";
+//        service += "\n\nHora llegada: 23:00";
+//        service += "\nHora salida: 12:00";
+//        service += "\nGas llegada: 1/3";
+//        service += "\nGas salida: 1/3";
+//        service += "\nKilometraje llegada: 1234";
+//        service += "\nKilometraje salida: 12345";
+
+        JOptionPane.showMessageDialog(null, service, "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments

@@ -437,6 +437,9 @@
         <Property name="borderPainted" type="boolean" value="false"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="300" y="290" width="-1" height="-1"/>
@@ -467,6 +470,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtSearch">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="N&#xfa;mero de registro"/>
         <Property name="name" type="java.lang.String" value="txtRegistro" noResource="true"/>
       </Properties>
       <Constraints>
@@ -488,9 +492,12 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnBuscar" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="280" y="10" width="30" height="30"/>
+          <AbsoluteConstraints x="270" y="0" width="40" height="40"/>
         </Constraint>
       </Constraints>
     </Component>

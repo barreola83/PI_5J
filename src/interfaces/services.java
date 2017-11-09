@@ -101,7 +101,7 @@ public class services extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 13, -1, -1));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 40, 40));
 
         lblService.setText("No. servicio:");
         getContentPane().add(lblService, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 17, -1, -1));
