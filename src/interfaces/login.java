@@ -10,7 +10,7 @@ public class login extends javax.swing.JFrame {
         try {
             initComponents();
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
         }
     }
