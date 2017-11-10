@@ -302,7 +302,7 @@ public class evalTicket extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnEvaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluateActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnEvaluateActionPerformed
 
     /**
