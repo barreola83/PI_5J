@@ -1,13 +1,23 @@
 package interfaces;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class dependency extends javax.swing.JFrame {
 
+    Calendar calendar = Calendar.getInstance();
     public dependency() {
         try {
             initComponents();
@@ -15,8 +25,31 @@ public class dependency extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public java.sql.Time getTimeIn() {
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourIn.getSelectedItem().toString()));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesIn.getSelectedItem().toString()));
+        calendar.set(Calendar.SECOND, 00);
+        java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
+        return time;
+    }
+
+    public java.sql.Time getTimeOut() {
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourOut.getSelectedItem().toString()));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesOut.getSelectedItem().toString()));
+        calendar.set(Calendar.SECOND, 22);
+        java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
+        return time;
+    }
+    
+    public String parseHours(java.sql.Time time){
+        return new SimpleDateFormat("HH").format(time.getTime());
+    }
+    
+    public String parseMinutes(java.sql.Time time){
+        return new SimpleDateFormat("mm").format(time.getTime());
     }
 
     /**
@@ -34,14 +67,17 @@ public class dependency extends javax.swing.JFrame {
         lbl3 = new javax.swing.JLabel();
         lbl4 = new javax.swing.JLabel();
         lbl5 = new javax.swing.JLabel();
-        txtDep = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         txtDir = new javax.swing.JTextField();
         txtPhoneNo = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
-        cmbMinutes = new javax.swing.JComboBox<>();
-        cmbHour = new javax.swing.JComboBox<>();
+        cmbMinutesIn = new javax.swing.JComboBox<>();
+        cmbHourIn = new javax.swing.JComboBox<>();
+        cmbHourOut = new javax.swing.JComboBox<>();
+        cmbMinutesOut = new javax.swing.JComboBox<>();
+        lblTo = new javax.swing.JLabel();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,6 +93,11 @@ public class dependency extends javax.swing.JFrame {
         btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSearch.setBorderPainted(false);
         btnSearch.setContentAreaFilled(false);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 14, -1, -1));
 
         lbl2.setText("Nombre de la dependencia:");
@@ -71,8 +112,8 @@ public class dependency extends javax.swing.JFrame {
         lbl5.setText("Horario:");
         getContentPane().add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
-        txtDep.setName("txtNombreDependencia"); // NOI18N
-        getContentPane().add(txtDep, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 235, -1));
+        txtName.setName("txtNombreDependencia"); // NOI18N
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 235, -1));
 
         txtDir.setName("txtDirectivo"); // NOI18N
         getContentPane().add(txtDir, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 235, -1));
@@ -86,6 +127,11 @@ public class dependency extends javax.swing.JFrame {
         btnAdd.setBorderPainted(false);
         btnAdd.setContentAreaFilled(false);
         btnAdd.setName("btnAgregar"); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 299, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
@@ -94,6 +140,11 @@ public class dependency extends javax.swing.JFrame {
         btnModify.setBorderPainted(false);
         btnModify.setContentAreaFilled(false);
         btnModify.setName("btnModificar"); // NOI18N
+        btnModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 299, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
@@ -108,15 +159,28 @@ public class dependency extends javax.swing.JFrame {
         });
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 299, -1, -1));
 
-        cmbMinutes.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
-        cmbMinutes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        cmbMinutes.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutes, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 70, 20));
+        cmbMinutesIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        cmbMinutesIn.setToolTipText("Minutos");
+        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 70, 20));
 
-        cmbHour.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
-        cmbHour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        cmbHour.setToolTipText("Hora");
-        getContentPane().add(cmbHour, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 70, 20));
+        cmbHourIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        cmbHourIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        cmbHourIn.setToolTipText("Hora");
+        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 70, 20));
+
+        cmbHourOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        cmbHourOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        cmbHourOut.setToolTipText("Hora");
+        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, 70, 20));
+
+        cmbMinutesOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        cmbMinutesOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        cmbMinutesOut.setToolTipText("Minutos");
+        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 70, 20));
+
+        lblTo.setText("a");
+        getContentPane().add(lblTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 30, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
@@ -129,6 +193,69 @@ public class dependency extends javax.swing.JFrame {
         new main().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT nombre, directivo, telefono, horario_entrada, horario_salida from "
+                    + "Dependencies where nombre='" + txtSearch.getText() + "'");
+
+            while (result.next()) {
+                txtName.setText(result.getString("nombre"));
+                txtDir.setText(result.getString("directivo"));
+                txtPhoneNo.setText(String.valueOf(result.getInt("telefono")));
+                cmbHourIn.setSelectedItem(parseHours(result.getTime("horario_entrada")));
+                cmbMinutesIn.setSelectedItem(parseMinutes(result.getTime("horario_entrada")));
+                cmbHourOut.setSelectedItem(parseHours(result.getTime("horario_salida")));
+                cmbMinutesOut.setSelectedItem(parseMinutes(result.getTime("horario_salida")));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+            Logger.getLogger(dependency.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO Dependencies VALUES(?,?,?,?,?)");
+            
+            insert.setString(1, txtName.getText());
+            insert.setString(2, txtDir.getText());
+            insert.setInt(3, Integer.parseInt(txtPhoneNo.getText()));
+            insert.setTime(4, getTimeIn());
+            insert.setTime(5, getTimeOut());
+
+            insert.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement update = connection.prepareStatement("UPDATE Dependencies SET nombre = ?, directivo = ?, telefono = ?,"
+                    + "horario_entrada = ?, horario_salida = ? where nombre = '" + txtSearch.getText() + "'");
+
+            update.setString(1, txtName.getText());
+            update.setString(2, txtDir.getText());
+            update.setString(3, txtPhoneNo.getText());
+            update.setTime(4, getTimeIn());
+            update.setTime(5, getTimeOut());
+
+            update.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnModifyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,10 +286,8 @@ public class dependency extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new dependency().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new dependency().setVisible(true);
         });
     }
 
@@ -171,15 +296,18 @@ public class dependency extends javax.swing.JFrame {
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JComboBox<String> cmbHour;
-    private javax.swing.JComboBox<String> cmbMinutes;
+    private javax.swing.JComboBox<String> cmbHourIn;
+    private javax.swing.JComboBox<String> cmbHourOut;
+    private javax.swing.JComboBox<String> cmbMinutesIn;
+    private javax.swing.JComboBox<String> cmbMinutesOut;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lbl4;
     private javax.swing.JLabel lbl5;
     private javax.swing.JLabel lblBottom;
-    private javax.swing.JTextField txtDep;
+    private javax.swing.JLabel lblTo;
     private javax.swing.JTextField txtDir;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPhoneNo;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

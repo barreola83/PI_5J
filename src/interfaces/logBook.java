@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -37,7 +39,7 @@ public class logBook extends javax.swing.JFrame {
     public java.sql.Time getTimeOut() {
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourOut.getSelectedItem().toString()));
         calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesOut.getSelectedItem().toString()));
-        calendar.set(Calendar.SECOND, 22);
+        calendar.set(Calendar.SECOND, 00);
         java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
         return time;
     }
@@ -81,12 +83,12 @@ public class logBook extends javax.swing.JFrame {
         cmbHourIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbHourIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbHourIn.setToolTipText("Hora");
-        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 70, 20));
+        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 70, 20));
 
         cmbMinutesIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMinutesIn.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 70, 20));
+        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 70, 20));
 
         lblOut.setText("Hora de salida:");
         getContentPane().add(lblOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
@@ -94,12 +96,12 @@ public class logBook extends javax.swing.JFrame {
         cmbHourOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbHourOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbHourOut.setToolTipText("Hora");
-        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 70, 20));
+        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 70, 20));
 
         cmbMinutesOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMinutesOut.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 70, 20));
+        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 70, 20));
 
         lblKmIn.setText("Kilometraje de entrada:");
         getContentPane().add(lblKmIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
@@ -109,11 +111,11 @@ public class logBook extends javax.swing.JFrame {
 
         txtKmOut.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         txtKmOut.setToolTipText("Ingrese sólo números...");
-        getContentPane().add(txtKmOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 100, -1));
+        getContentPane().add(txtKmOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 100, -1));
 
         txtKmIn.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         txtKmIn.setToolTipText("Ingrese sólo números...");
-        getContentPane().add(txtKmIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 100, -1));
+        getContentPane().add(txtKmIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 100, -1));
 
         lblGasIn.setText("Nivel de gas de entrada:");
         getContentPane().add(lblGasIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
@@ -123,11 +125,11 @@ public class logBook extends javax.swing.JFrame {
 
         cmbGasIn.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         cmbGasIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1/4", "1/2", "3/4", "Lleno" }));
-        getContentPane().add(cmbGasIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, -1, -1));
+        getContentPane().add(cmbGasIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
 
         cmbGasOut.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         cmbGasOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1/4", "1/2", "3/4", "Lleno" }));
-        getContentPane().add(cmbGasOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, -1, -1));
+        getContentPane().add(cmbGasOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, -1, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -184,30 +186,24 @@ public class logBook extends javax.swing.JFrame {
         String service = null;
 
         try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT no_registro, hora llegada, hora_salida"
+            ResultSet result = select.executeQuery("SELECT no_registro, hora_llegada, hora_salida, "
                     + "nivel_gas_llegada, nivel_gas_salida, kilometraje_salida, kilometraje_llegada"
                     + " from LogBook where no_registro ="
                     + Integer.parseInt(txtSearch.getText()));
 
             while (result.next()) {
                 service = "No. reg: " + result.getInt("no_registro");
-                service += "Hora llegada: " + result.getDate("hora_llegada");
-                service += "Hora salida: " + result.getDate("hora_salida");
-                service += "Gas llegada: " + result.getInt("nivel_gas_llegada");
-                service += "Gas salida: " + result.getInt("nivel_gas_salida");
-                service += "Kilometraje llegada: " + result.getInt("kilometraje_llegada");
-                service += "Kilometraje salida: " + result.getInt("kilometraje_salida");
+                service += "\n\nHora llegada: " + result.getTime("hora_llegada");
+                service += "\nHora salida: " + result.getTime("hora_salida");
+                service += "\nGas llegada: " + result.getString("nivel_gas_llegada");
+                service += "\nGas salida: " + result.getString("nivel_gas_salida");
+                service += "\nKilometraje llegada: " + result.getInt("kilometraje_llegada");
+                service += "\nKilometraje salida: " + result.getInt("kilometraje_salida");
             }
-
-//        service = "No. reg: 0761";
-//        service += "\n\nHora llegada: 23:00";
-//        service += "\nHora salida: 12:00";
-//        service += "\nGas llegada: 1/3";
-//        service += "\nGas salida: 1/3";
-//        service += "\nKilometraje llegada: 1234";
-//        service += "\nKilometraje salida: 12345";
+            
             JOptionPane.showMessageDialog(null, service, "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
             connection.close();
         } catch (SQLException ex) {
@@ -217,8 +213,9 @@ public class logBook extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Services VALUES(null, ?,?,?,?,?,?)");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO LogBook VALUES(null, ?,?,?,?,?,?)");
 
             insert.setTime(1, getTimeIn());
             insert.setTime(2, getTimeOut());
@@ -232,6 +229,7 @@ public class logBook extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
         }
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
     /**
