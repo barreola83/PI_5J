@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class dependency extends javax.swing.JFrame {
 
     Calendar calendar = Calendar.getInstance();
+
     public dependency() {
         try {
             initComponents();
@@ -25,8 +27,8 @@ public class dependency extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
     }
-    
-    public java.sql.Time getTimeIn() {
+
+    private java.sql.Time getTimeIn() {
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourIn.getSelectedItem().toString()));
         calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesIn.getSelectedItem().toString()));
         calendar.set(Calendar.SECOND, 00);
@@ -34,20 +36,25 @@ public class dependency extends javax.swing.JFrame {
         return time;
     }
 
-    public java.sql.Time getTimeOut() {
+    private java.sql.Time getTimeOut() {
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHourOut.getSelectedItem().toString()));
         calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutesOut.getSelectedItem().toString()));
         calendar.set(Calendar.SECOND, 22);
         java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
         return time;
     }
-    
-    public String parseHours(java.sql.Time time){
+
+    private String parseHours(java.sql.Time time) {
         return new SimpleDateFormat("HH").format(time.getTime());
     }
-    
-    public String parseMinutes(java.sql.Time time){
+
+    private String parseMinutes(java.sql.Time time) {
         return new SimpleDateFormat("mm").format(time.getTime());
+    }
+
+    private boolean isEmpty() {
+        return txtName.getText().isEmpty() || txtDir.getText().isEmpty()
+                || txtPhoneNo.getText().isEmpty();
     }
 
     /**
@@ -117,6 +124,11 @@ public class dependency extends javax.swing.JFrame {
         getContentPane().add(txtDir, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 235, -1));
 
         txtPhoneNo.setName("txtNumero"); // NOI18N
+        txtPhoneNo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPhoneNoKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtPhoneNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 169, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -193,65 +205,91 @@ public class dependency extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT nombre, directivo, telefono, horario_entrada, horario_salida from "
-                    + "Dependencies where nombre='" + txtSearch.getText() + "'");
+        if (txtSearch.getText().isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Statement select = connection.createStatement();
+                ResultSet result = select.executeQuery("SELECT nombre, directivo, telefono, horario_entrada, horario_salida from "
+                        + "Dependencies where nombre='" + txtSearch.getText() + "'");
 
-            while (result.next()) {
-                txtName.setText(result.getString("nombre"));
-                txtDir.setText(result.getString("directivo"));
-                txtPhoneNo.setText(String.valueOf(result.getInt("telefono")));
-                cmbHourIn.setSelectedItem(parseHours(result.getTime("horario_entrada")));
-                cmbMinutesIn.setSelectedItem(parseMinutes(result.getTime("horario_entrada")));
-                cmbHourOut.setSelectedItem(parseHours(result.getTime("horario_salida")));
-                cmbMinutesOut.setSelectedItem(parseMinutes(result.getTime("horario_salida")));
+                while (result.next()) {
+                    txtName.setText(result.getString("nombre"));
+                    txtDir.setText(result.getString("directivo"));
+                    txtPhoneNo.setText(String.valueOf(result.getInt("telefono")));
+                    cmbHourIn.setSelectedItem(parseHours(result.getTime("horario_entrada")));
+                    cmbMinutesIn.setSelectedItem(parseMinutes(result.getTime("horario_entrada")));
+                    cmbHourOut.setSelectedItem(parseHours(result.getTime("horario_salida")));
+                    cmbMinutesOut.setSelectedItem(parseMinutes(result.getTime("horario_salida")));
+                }
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "La dependencia ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe completar el campo a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         }
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Dependencies VALUES(?,?,?,?,?)");
-            
-            insert.setString(1, txtName.getText());
-            insert.setString(2, txtDir.getText());
-            insert.setInt(3, Integer.parseInt(txtPhoneNo.getText()));
-            insert.setTime(4, getTimeIn());
-            insert.setTime(5, getTimeOut());
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Dependencies VALUES(?,?,?,?,?)");
 
-            insert.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+                insert.setString(1, txtName.getText());
+                insert.setString(2, txtDir.getText());
+                insert.setInt(3, Integer.parseInt(txtPhoneNo.getText()));
+                insert.setTime(4, getTimeIn());
+                insert.setTime(5, getTimeOut());
+
+                insert.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "La dependencia ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement update = connection.prepareStatement("UPDATE Dependencies SET nombre = ?, directivo = ?, telefono = ?,"
-                    + "horario_entrada = ?, horario_salida = ? where nombre = '" + txtSearch.getText() + "'");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement update = connection.prepareStatement("UPDATE Dependencies SET nombre = ?, directivo = ?, telefono = ?,"
+                        + "horario_entrada = ?, horario_salida = ? where nombre = '" + txtSearch.getText() + "'");
 
-            update.setString(1, txtName.getText());
-            update.setString(2, txtDir.getText());
-            update.setString(3, txtPhoneNo.getText());
-            update.setTime(4, getTimeIn());
-            update.setTime(5, getTimeOut());
+                update.setString(1, txtName.getText());
+                update.setString(2, txtDir.getText());
+                update.setString(3, txtPhoneNo.getText());
+                update.setTime(4, getTimeIn());
+                update.setTime(5, getTimeOut());
 
-            update.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
+                update.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "La dependencia ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void txtPhoneNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneNoKeyTyped
+        char enter = evt.getKeyChar();
+        if (!(Character.isDigit(enter))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPhoneNoKeyTyped
 
     /**
      * @param args the command line arguments

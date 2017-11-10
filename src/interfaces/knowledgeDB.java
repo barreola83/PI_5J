@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,6 +22,10 @@ public class knowledgeDB extends javax.swing.JFrame {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
+    }
+
+    private boolean isEmpty() {
+        return txtProblem.getText().isEmpty() || txtSolution.getText().isEmpty();
     }
 
     /**
@@ -150,56 +155,70 @@ public class knowledgeDB extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
-                    + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
+        if (txtSearch.getText().isEmpty() == false) {
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Statement select = connection.createStatement();
+                ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
+                        + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
 
-            //La tabla BDCONOCIMIENTO en la BD tiene el siguiente formato:
-            //| no_problema | int(5)       | NO   | PRI | NULL    |
-            //| problema    | varchar(40)  | NO   |     | NULL    |
-            //| solucion    | varchar(160) | NO   |     | NULL    |
-            while (result.next()) {
-                lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
-                txtProblem.setText(result.getString("problema"));
-                txtSolution.setText(result.getString("solucion"));
+                while (result.next()) {
+                    lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
+                    txtProblem.setText(result.getString("problema"));
+                    txtSolution.setText(result.getString("solucion"));
+                }
+
+                connection.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
             }
-
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un dato a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
 
-            insert.setString(1, txtProblem.getText());
-            insert.setString(2, txtSolution.getText());
+                insert.setString(1, txtProblem.getText());
+                insert.setString(2, txtSolution.getText());
 
-            insert.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+                insert.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El problema ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
 
-            update.setString(1, txtProblem.getText());
-            update.setString(2, txtSolution.getText());
-            update.setInt(3, Integer.parseInt(lblNoProblem.getText()));
+                update.setString(1, txtProblem.getText());
+                update.setString(2, txtSolution.getText());
+                update.setInt(3, Integer.parseInt(lblNoProblem.getText()));
 
-            update.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo");
+                update.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El problema ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
 

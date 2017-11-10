@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,7 +29,7 @@ public class department extends javax.swing.JFrame {
         }
     }
 
-    public java.sql.Time getTime() {
+    private java.sql.Time getTime() {
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHour.getSelectedItem().toString()));
         calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutes.getSelectedItem().toString()));
         calendar.set(Calendar.SECOND, 00);
@@ -36,12 +37,17 @@ public class department extends javax.swing.JFrame {
         return time;
     }
 
-    public String parseHours(java.sql.Time time) {
+    private String parseHours(java.sql.Time time) {
         return new SimpleDateFormat("HH").format(time.getTime());
     }
 
-    public String parseMinutes(java.sql.Time time) {
+    private String parseMinutes(java.sql.Time time) {
         return new SimpleDateFormat("mm").format(time.getTime());
+    }
+
+    private boolean isEmpty() {
+        return txtName.getText().isEmpty() || txtExt.getText().isEmpty() 
+                || txtCharge.getText().isEmpty();
     }
 
     /**
@@ -109,6 +115,11 @@ public class department extends javax.swing.JFrame {
         getContentPane().add(txtCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 236, -1));
 
         txtExt.setName("txtExtension"); // NOI18N
+        txtExt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtExtKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 80, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -167,20 +178,27 @@ public class department extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Departments VALUES(?,?,?,?)");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Departments VALUES(?,?,?,?)");
 
-            insert.setString(1, txtName.getText());
-            insert.setInt(2, Integer.parseInt(txtExt.getText()));
-            insert.setString(3, txtCharge.getText());
-            insert.setTime(4, getTime());
+                insert.setString(1, txtName.getText());
+                insert.setInt(2, Integer.parseInt(txtExt.getText()));
+                insert.setString(3, txtCharge.getText());
+                insert.setTime(4, getTime());
 
-            insert.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+                insert.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El departamento ya existe.");
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -190,45 +208,60 @@ public class department extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT nombre, extension, encargado, horario from Departments where nombre = '" 
-            + txtSearch.getText() + "'");
+        if (txtSearch.getText().isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Statement select = connection.createStatement();
+                ResultSet result = select.executeQuery("SELECT nombre, extension, encargado, horario from Departments where nombre = '"
+                        + txtSearch.getText() + "'");
 
-            while (result.next()) {
-                txtName.setText(result.getString("nombre"));
-                txtExt.setText(String.valueOf(result.getInt("extension")));
-                txtCharge.setText(result.getString("encargado"));
-                cmbHour.setSelectedItem(parseHours(result.getTime("horario")));
-                cmbMinutes.setSelectedItem(parseMinutes(result.getTime("horario")));
+                while (result.next()) {
+                    txtName.setText(result.getString("nombre"));
+                    txtExt.setText(String.valueOf(result.getInt("extension")));
+                    txtCharge.setText(result.getString("encargado"));
+                    cmbHour.setSelectedItem(parseHours(result.getTime("horario")));
+                    cmbMinutes.setSelectedItem(parseMinutes(result.getTime("horario")));
+                }
+
+                connection.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
             }
-            
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe completar el campo a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement update = connection.prepareStatement("UPDATE Departments SET nombre = ?, extension = ?, encargado = ?, "
-                    + "horario = ? where nombre = '" + txtSearch.getText() + "'");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement update = connection.prepareStatement("UPDATE Departments SET nombre = ?, extension = ?, encargado = ?, "
+                        + "horario = ? where nombre = '" + txtSearch.getText() + "'");
 
-            update.setString(1, txtName.getText());
-            update.setInt(2, Integer.parseInt(txtExt.getText()));
-            update.setString(3, txtCharge.getText());
-            update.setTime(4, getTime());
+                update.setString(1, txtName.getText());
+                update.setInt(2, Integer.parseInt(txtExt.getText()));
+                update.setString(3, txtCharge.getText());
+                update.setTime(4, getTime());
 
-            update.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
+                update.executeUpdate();
+                connection.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void txtExtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtKeyTyped
+        char enter = evt.getKeyChar();
+        if(!(Character.isDigit(enter))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtExtKeyTyped
 
     /**
      * @param args the command line arguments
