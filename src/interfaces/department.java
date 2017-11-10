@@ -1,22 +1,49 @@
 package interfaces;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class department extends javax.swing.JFrame {
+
+    Calendar calendar = Calendar.getInstance();
 
     public department() {
         try {
             initComponents();
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public java.sql.Time getTime() {
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cmbHour.getSelectedItem().toString()));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(cmbMinutes.getSelectedItem().toString()));
+        calendar.set(Calendar.SECOND, 00);
+        java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
+        return time;
+    }
+
+    public String parseHours(java.sql.Time time) {
+        return new SimpleDateFormat("HH").format(time.getTime());
+    }
+
+    public String parseMinutes(java.sql.Time time) {
+        return new SimpleDateFormat("mm").format(time.getTime());
     }
 
     /**
@@ -48,6 +75,7 @@ public class department extends javax.swing.JFrame {
         setTitle("Departamento");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        txtSearch.setToolTipText("Nombre a buscar");
         txtSearch.setName("txtDepartamento"); // NOI18N
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 96, -1));
 
@@ -57,6 +85,11 @@ public class department extends javax.swing.JFrame {
         btnSearch.setBorderPainted(false);
         btnSearch.setContentAreaFilled(false);
         btnSearch.setName("btnBuscar"); // NOI18N
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
 
         lblName.setText("Nombre del departamento:");
@@ -99,6 +132,11 @@ public class department extends javax.swing.JFrame {
         btnModify.setBorderPainted(false);
         btnModify.setContentAreaFilled(false);
         btnModify.setName("btnModificar"); // NOI18N
+        btnModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, -1, -1));
 
         cmbHour.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
@@ -131,13 +169,69 @@ public class department extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO Departments VALUES(?,?,?,?)");
 
+            insert.setString(1, txtName.getText());
+            insert.setInt(2, Integer.parseInt(txtExt.getText()));
+            insert.setString(3, txtCharge.getText());
+            insert.setTime(4, getTime());
+
+            insert.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         new main().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT nombre, extension, encargado, horario from Departments where nombre = '" 
+            + txtSearch.getText() + "'");
+
+            while (result.next()) {
+                txtName.setText(result.getString("nombre"));
+                txtExt.setText(String.valueOf(result.getInt("extension")));
+                txtCharge.setText(result.getString("encargado"));
+                cmbHour.setSelectedItem(parseHours(result.getTime("horario")));
+                cmbMinutes.setSelectedItem(parseMinutes(result.getTime("horario")));
+            }
+            
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+            Logger.getLogger(dependency.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement update = connection.prepareStatement("UPDATE Departments SET nombre = ?, extension = ?, encargado = ?, "
+                    + "horario = ? where nombre = '" + txtSearch.getText() + "'");
+
+            update.setString(1, txtName.getText());
+            update.setInt(2, Integer.parseInt(txtExt.getText()));
+            update.setString(3, txtCharge.getText());
+            update.setTime(4, getTime());
+
+            update.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnModifyActionPerformed
 
     /**
      * @param args the command line arguments
