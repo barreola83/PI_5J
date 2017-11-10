@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -168,7 +170,22 @@ public class vehicles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO Vehicles" + " VALUES(?, ?, ?, ?)");
+            
+            insert.setString(1, txtPlate.getText());
+            insert.setString(2, status);
+            insert.setString(3, txtBrand.getText());
+            insert.setString(4, txtYear.getText());
+            
+            insert.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
@@ -180,25 +197,25 @@ public class vehicles extends javax.swing.JFrame {
             update.setString(2, txtBrand.getText());
             update.setInt(3, Integer.valueOf(txtYear.getText()));
             update.setString(4, txtPlate.getText());
-            
+
             update.executeUpdate();
             update.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la acción. Intente de nuevo");
+            JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo");
         }
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         txtPlate.setEnabled(false);
-        
+
         try {
             DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            Statement update = connection.createStatement();
+            Statement select = connection.createStatement();
             ResultSet result;
 
-            result = update.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
+            result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
             while (result.next()) {
                 txtPlate.setText(result.getString("plates"));
                 txtBrand.setText(result.getString("model"));
@@ -239,7 +256,7 @@ public class vehicles extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

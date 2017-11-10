@@ -1,8 +1,13 @@
 package interfaces;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -15,7 +20,6 @@ public class knowledgeDB extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -49,24 +53,25 @@ public class knowledgeDB extends javax.swing.JFrame {
 
         lblNo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblNo.setText("No. problema");
-        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));
+        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, 80, 20));
 
         lbl2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lbl2.setText("Problema a resolver:");
-        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 88, -1, -1));
+        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         lbl3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lbl3.setText("Solución:");
-        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 126, -1, -1));
+        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtSearch.setToolTipText("Número de problema");
         txtSearch.setName("txtProblema"); // NOI18N
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 12, 118, -1));
 
         txtProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtProblem.setToolTipText("");
         txtProblem.setName("txtResolver"); // NOI18N
-        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 83, 168, -1));
+        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 190, -1));
 
         btnSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
@@ -75,7 +80,12 @@ public class knowledgeDB extends javax.swing.JFrame {
         btnSearch.setBorderPainted(false);
         btnSearch.setContentAreaFilled(false);
         btnSearch.setName("btnBuscar"); // NOI18N
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(317, 12, -1, -1));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -84,7 +94,12 @@ public class knowledgeDB extends javax.swing.JFrame {
         btnAdd.setBorderPainted(false);
         btnAdd.setContentAreaFilled(false);
         btnAdd.setName("btnAgregar"); // NOI18N
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, -1, -1));
 
         btnModify.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
@@ -93,18 +108,23 @@ public class knowledgeDB extends javax.swing.JFrame {
         btnModify.setBorderPainted(false);
         btnModify.setContentAreaFilled(false);
         btnModify.setName("btnModificar"); // NOI18N
+        btnModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
 
         lblNoProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblNoProblem.setText("321");
         lblNoProblem.setName("lblNoProblema"); // NOI18N
-        getContentPane().add(lblNoProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 12, -1, -1));
+        getContentPane().add(lblNoProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 40, 20));
 
         txtSolution.setColumns(20);
         txtSolution.setRows(5);
         jScrollPane1.setViewportView(txtSolution);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 126, -1, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 240, 110));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -129,6 +149,60 @@ public class knowledgeDB extends javax.swing.JFrame {
         new main().setVisible(true);
     }//GEN-LAST:event_btnReturnActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
+                    + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
+
+            //La tabla BDCONOCIMIENTO en la BD tiene el siguiente formato:
+            //| no_problema | int(5)       | NO   | PRI | NULL    |
+            //| problema    | varchar(40)  | NO   |     | NULL    |
+            //| solucion    | varchar(160) | NO   |     | NULL    |
+            while (result.next()) {
+                lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
+                txtProblem.setText(result.getString("problema"));
+                txtSolution.setText(result.getString("solucion"));
+            }
+
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
+
+            insert.setString(1, txtProblem.getText());
+            insert.setString(2, txtSolution.getText());
+
+            insert.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
+
+            update.setString(1, txtProblem.getText());
+            update.setString(2, txtSolution.getText());
+            update.setInt(3, Integer.parseInt(lblNoProblem.getText()));
+
+            update.executeUpdate();
+            connection.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo");
+        }
+    }//GEN-LAST:event_btnModifyActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -145,15 +219,14 @@ public class knowledgeDB extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(knowledgeDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(knowledgeDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(knowledgeDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(knowledgeDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

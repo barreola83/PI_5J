@@ -177,6 +177,10 @@ public class services extends javax.swing.JFrame {
 
             update.setString(1, txtName.getText());
             update.setString(2, cmbCat.getSelectedItem().toString());
+            
+            update.executeUpdate();
+            
+            connection.close();
         } catch (SQLException ex) {
             ex.getMessage();
         }

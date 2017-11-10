@@ -278,9 +278,7 @@ public class workers extends javax.swing.JFrame {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement insert = null;
-
-                insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,?,?,?)");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,?,?,?)");
 
                 //no_trabajador
                 insert.setString(1, txtCharge.getText()); //cargo
