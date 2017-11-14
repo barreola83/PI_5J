@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,13 +15,22 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class knowledgeDB extends javax.swing.JFrame {
 
     public knowledgeDB() {
+        initComponents();
+        formatJFrame();
+    }
+
+    private void formatJFrame() {
         try {
-            initComponents();
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            ex.getMessage();
         }
+    }
+
+    private boolean isEmpty() {
+        return txtProblem.getText().isEmpty() || txtSolution.getText().isEmpty();
     }
 
     /**
@@ -49,6 +59,7 @@ public class knowledgeDB extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de datos del conocimiento");
         setName("frmBD"); // NOI18N
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -66,7 +77,12 @@ public class knowledgeDB extends javax.swing.JFrame {
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtSearch.setToolTipText("Número de problema");
         txtSearch.setName("txtProblema"); // NOI18N
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 12, 118, -1));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 118, -1));
 
         txtProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtProblem.setToolTipText("");
@@ -85,7 +101,7 @@ public class knowledgeDB extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 30, 40));
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -99,7 +115,7 @@ public class knowledgeDB extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
 
         btnModify.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
@@ -113,7 +129,7 @@ public class knowledgeDB extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
 
         lblNoProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblNoProblem.setText("321");
@@ -150,58 +166,79 @@ public class knowledgeDB extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
-                    + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
+        if (txtSearch.getText().isEmpty() == false) {
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Statement select = connection.createStatement();
+                ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
+                        + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
 
-            //La tabla BDCONOCIMIENTO en la BD tiene el siguiente formato:
-            //| no_problema | int(5)       | NO   | PRI | NULL    |
-            //| problema    | varchar(40)  | NO   |     | NULL    |
-            //| solucion    | varchar(160) | NO   |     | NULL    |
-            while (result.next()) {
-                lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
-                txtProblem.setText(result.getString("problema"));
-                txtSolution.setText(result.getString("solucion"));
+                while (result.next()) {
+                    lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
+                    txtProblem.setText(result.getString("problema"));
+                    txtSolution.setText(result.getString("solucion"));
+                }
+
+                connection.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
             }
-
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo");
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un dato a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO BDCONOCIMIENTO VALUES(null, ?, ?)");
 
-            insert.setString(1, txtProblem.getText());
-            insert.setString(2, txtSolution.getText());
+                insert.setString(1, txtProblem.getText());
+                insert.setString(2, txtSolution.getText());
 
-            insert.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+                insert.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El problema ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
 
-            update.setString(1, txtProblem.getText());
-            update.setString(2, txtSolution.getText());
-            update.setInt(3, Integer.parseInt(lblNoProblem.getText()));
+                update.setString(1, txtProblem.getText());
+                update.setString(2, txtSolution.getText());
+                update.setInt(3, Integer.parseInt(lblNoProblem.getText()));
 
-            update.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo");
+                update.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El problema ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        char enter = evt.getKeyChar();
+        if (!(Character.isDigit(enter))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSearchKeyTyped
 
     /**
      * @param args the command line arguments

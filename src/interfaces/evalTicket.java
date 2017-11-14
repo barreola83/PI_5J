@@ -17,19 +17,23 @@ public class evalTicket extends javax.swing.JFrame {
     private String AQ2 = null; //AnswerQuestion2
     private String AQ3 = null; //AnswerQuestion3
     private String AQ4 = null; //AnswerQuestion4
-    private String AQ5 = null; //AnswerQuestion5
 
     public evalTicket() {
+        initComponents();
+        formatJFrame();
+    }
+
+    private void formatJFrame() {
         try {
-            initComponents();
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            ex.getMessage();
         }
     }
 
-    public java.sql.Date getDate() {
+    private java.sql.Date getDate() {
         Calendar calendar = Calendar.getInstance();
         java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
         return date;
@@ -44,10 +48,10 @@ public class evalTicket extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblQ1 = new javax.swing.JLabel();
+        lblQ2 = new javax.swing.JLabel();
+        lblQ3 = new javax.swing.JLabel();
+        lblQ4 = new javax.swing.JLabel();
         btnQ1Angry = new javax.swing.JButton();
         btnQ1Soso = new javax.swing.JButton();
         btnQ1Medium = new javax.swing.JButton();
@@ -79,19 +83,20 @@ public class evalTicket extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Evaluación de ticket");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setText("¿Cuán satisfactoria fue la solución a su solicitud?");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 60, -1, -1));
+        lblQ1.setText("¿Cuán satisfactoria fue la solución a su solicitud?");
+        getContentPane().add(lblQ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 60, -1, -1));
 
-        jLabel4.setText("¿Cómo calificaría el tiempo de respuesta?");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 144, -1, -1));
+        lblQ2.setText("¿Cómo calificaría el tiempo de respuesta?");
+        getContentPane().add(lblQ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 144, -1, -1));
 
-        jLabel5.setText("¿Cómo calificaría la atención del especialista?");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 228, -1, -1));
+        lblQ3.setText("¿Cómo calificaría la atención del especialista?");
+        getContentPane().add(lblQ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 228, -1, -1));
 
-        jLabel6.setText("¿Cómo calificaría los servicios que ofrece DIGESET?");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 312, -1, -1));
+        lblQ4.setText("¿Cómo calificaría los servicios que ofrece DIGESET?");
+        getContentPane().add(lblQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 312, -1, -1));
 
         btnQ1Angry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_angry.png"))); // NOI18N
         btnQ1Angry.setToolTipText("Muy mala");
@@ -392,13 +397,13 @@ public class evalTicket extends javax.swing.JFrame {
             answers += "Q4 = " + lblFeelQ4.getText();
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket_Evaluation VALUES(null, ?, ?)");
 
             insert.setString(1, answers);
             insert.setDate(2, getDate());
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.");
+            JOptionPane.showMessageDialog(null, "Debe completar toda la encuesta.");
         }
     }//GEN-LAST:event_btnEvaluateActionPerformed
 
@@ -553,15 +558,15 @@ public class evalTicket extends javax.swing.JFrame {
     private javax.swing.JButton btnQ4Medium;
     private javax.swing.JButton btnQ4Soso;
     private javax.swing.JButton btnReturn;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblBottom2;
     private javax.swing.JLabel lblFeelQ1;
     private javax.swing.JLabel lblFeelQ2;
     private javax.swing.JLabel lblFeelQ3;
     private javax.swing.JLabel lblFeelQ4;
+    private javax.swing.JLabel lblQ1;
+    private javax.swing.JLabel lblQ2;
+    private javax.swing.JLabel lblQ3;
+    private javax.swing.JLabel lblQ4;
     // End of variables declaration//GEN-END:variables
 }

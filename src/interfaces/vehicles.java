@@ -1,13 +1,12 @@
 package interfaces;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -18,14 +17,24 @@ public class vehicles extends javax.swing.JFrame {
     private String status;
 
     public vehicles() {
+        initComponents();
+        formatJFrame();
+        btnModify.setEnabled(false);
+    }
+
+    private void formatJFrame() {
         try {
-            initComponents();
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
-            btnModify.setEnabled(false);
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            ex.getMessage();
         }
+    }
+
+    private boolean isEmpty() {
+        return txtPlate.getText().isEmpty() || txtYear.getText().isEmpty()
+                || txtBrand.getText().isEmpty() || status == null;
     }
 
     /**
@@ -55,6 +64,7 @@ public class vehicles extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vehículos");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblBrand.setText("Marca:");
@@ -107,7 +117,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, -1, -1));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 0, 40, 40));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar");
@@ -170,70 +180,84 @@ public class vehicles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+        if (isEmpty() == false) {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Vehicles" + " VALUES(?, ?, ?, ?)");
-            
-            insert.setString(1, txtPlate.getText());
-            insert.setString(2, status);
-            insert.setString(3, txtBrand.getText());
-            insert.setString(4, txtYear.getText());
-            
-            insert.executeUpdate();
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Vehicles" + " VALUES(?, ?, ?, ?)");
+
+                insert.setString(1, txtPlate.getText());
+                insert.setString(2, status);
+                insert.setString(3, txtBrand.getText());
+                insert.setString(4, txtYear.getText());
+
+                insert.executeUpdate();
+                connection.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El vehículo ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.", "Error al añadir", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ? WHERE plates = ?");
+        if (isEmpty() == false) {
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ? WHERE plates = ?");
 
-            update.setString(1, status);
-            update.setString(2, txtBrand.getText());
-            update.setInt(3, Integer.valueOf(txtYear.getText()));
-            update.setString(4, txtPlate.getText());
+                update.setString(1, status);
+                update.setString(2, txtBrand.getText());
+                update.setInt(3, Integer.valueOf(txtYear.getText()));
+                update.setString(4, txtPlate.getText());
 
-            update.executeUpdate();
-            update.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo");
+                update.executeUpdate();
+                update.close();
+            } catch (MySQLIntegrityConstraintViolationException ex) {
+                JOptionPane.showMessageDialog(null, "El vehículo ya existe.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo modificar. Intente de nuevo");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.", "Error al añadir", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        txtPlate.setEnabled(false);
+        if (txtSearch.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese una placa a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
-        try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Statement select = connection.createStatement();
+                ResultSet result;
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            Statement select = connection.createStatement();
-            ResultSet result;
+                result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
+                while (result.next()) {
+                    txtPlate.setText(result.getString("plates"));
+                    txtBrand.setText(result.getString("model"));
+                    txtYear.setText(String.valueOf(result.getInt("year")));
+                    status = result.getString("status");
+                }
 
-            result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
-            while (result.next()) {
-                txtPlate.setText(result.getString("plates"));
-                txtBrand.setText(result.getString("model"));
-                txtYear.setText(String.valueOf(result.getInt("year")));
-                status = result.getString("status");
+                if ("abierto".equals(status)) {
+                    btnOn.setVisible(true);
+                    btnOff.setVisible(false);
+                } else {
+                    btnOff.setVisible(true);
+                    btnOn.setVisible(false);
+                }
+
+                connection.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se encontró el vehículo");
             }
-
-            if ("abierto".equals(status)) {
-                btnOn.setVisible(true);
-                btnOff.setVisible(false);
-            } else {
-                btnOff.setVisible(true);
-                btnOn.setVisible(false);
-            }
-
-            connection.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se encontró el vehículo");
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 

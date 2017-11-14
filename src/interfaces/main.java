@@ -7,12 +7,17 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class main extends javax.swing.JFrame {
 
     public main() {
+        initComponents();
+        formatJFrame();
+    }
+    
+    private void formatJFrame() {
         try {
-            initComponents();
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            ex.getMessage();
         }
     }
 
@@ -221,7 +226,7 @@ public class main extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

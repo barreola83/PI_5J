@@ -15,13 +15,17 @@ public class ticket extends javax.swing.JFrame {
     private String status;
 
     public ticket() {
+        initComponents();
+        formatJFrame();
+    }
+
+    private void formatJFrame() {
         try {
-            initComponents();
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
-            UIManager.setLookAndFeel("java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-
+            ex.getMessage();
         }
     }
 
@@ -64,6 +68,7 @@ public class ticket extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ticket");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNo.setText("No. ticket");
@@ -183,7 +188,7 @@ public class ticket extends javax.swing.JFrame {
                 ex.getMessage();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.");
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos.", "Error al añadir", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnCreateActionPerformed
 
