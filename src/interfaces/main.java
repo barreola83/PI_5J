@@ -1,6 +1,7 @@
 package interfaces;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -173,8 +174,11 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnServicesActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        new login().setVisible(true);
-        this.dispose();
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?", "Salir",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            this.dispose();
+            new login().setVisible(true);
+        }
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiclesActionPerformed

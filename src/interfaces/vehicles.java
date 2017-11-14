@@ -175,8 +175,11 @@ public class vehicles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOffActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        this.dispose();
-        new main().setVisible(true);
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?\nTodos los datos no guardados se perderán", "Confirmar",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            this.dispose();
+            new main().setVisible(true);
+        }
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed

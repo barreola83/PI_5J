@@ -87,16 +87,16 @@ public class evalTicket extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblQ1.setText("¿Cuán satisfactoria fue la solución a su solicitud?");
-        getContentPane().add(lblQ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 60, -1, -1));
+        getContentPane().add(lblQ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         lblQ2.setText("¿Cómo calificaría el tiempo de respuesta?");
-        getContentPane().add(lblQ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 144, -1, -1));
+        getContentPane().add(lblQ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         lblQ3.setText("¿Cómo calificaría la atención del especialista?");
-        getContentPane().add(lblQ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 228, -1, -1));
+        getContentPane().add(lblQ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
         lblQ4.setText("¿Cómo calificaría los servicios que ofrece DIGESET?");
-        getContentPane().add(lblQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 312, -1, -1));
+        getContentPane().add(lblQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
         btnQ1Angry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_angry.png"))); // NOI18N
         btnQ1Angry.setToolTipText("Muy mala");
@@ -108,7 +108,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ1AngryActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 84, -1, -1));
+        getContentPane().add(btnQ1Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
         btnQ1Soso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_sad.png"))); // NOI18N
         btnQ1Soso.setToolTipText("Mala");
@@ -120,7 +120,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ1SosoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 84, -1, -1));
+        getContentPane().add(btnQ1Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         btnQ1Medium.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_confused.png"))); // NOI18N
         btnQ1Medium.setToolTipText("Normal");
@@ -132,7 +132,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ1MediumActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 84, -1, -1));
+        getContentPane().add(btnQ1Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
 
         btnQ1Happy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji.png"))); // NOI18N
         btnQ1Happy.setToolTipText("Buena");
@@ -144,7 +144,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ1HappyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 84, -1, -1));
+        getContentPane().add(btnQ1Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, -1, -1));
 
         btnQ1Love.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_in_love.png"))); // NOI18N
         btnQ1Love.setToolTipText("Muy buena");
@@ -156,7 +156,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ1LoveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 84, -1, -1));
+        getContentPane().add(btnQ1Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, -1));
 
         btnQ2Love.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_in_love.png"))); // NOI18N
         btnQ2Love.setToolTipText("Muy buena");
@@ -168,7 +168,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ2LoveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ2Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 168, -1, -1));
+        getContentPane().add(btnQ2Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, -1, -1));
 
         btnQ2Happy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji.png"))); // NOI18N
         btnQ2Happy.setToolTipText("Buena");
@@ -180,7 +180,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ2HappyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ2Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 168, -1, -1));
+        getContentPane().add(btnQ2Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, -1, -1));
 
         btnQ2Medium.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_confused.png"))); // NOI18N
         btnQ2Medium.setToolTipText("Normal");
@@ -192,7 +192,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ2MediumActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ2Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 168, -1, -1));
+        getContentPane().add(btnQ2Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
 
         btnQ2Soso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_sad.png"))); // NOI18N
         btnQ2Soso.setToolTipText("Mala");
@@ -204,7 +204,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ2SosoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ2Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 168, -1, -1));
+        getContentPane().add(btnQ2Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
 
         btnQ2Angry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_angry.png"))); // NOI18N
         btnQ2Angry.setToolTipText("Muy mala");
@@ -216,7 +216,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ2AngryActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ2Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 168, -1, -1));
+        getContentPane().add(btnQ2Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         btnQ3Love.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_in_love.png"))); // NOI18N
         btnQ3Love.setToolTipText("Muy buena");
@@ -228,7 +228,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ3LoveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ3Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 252, -1, -1));
+        getContentPane().add(btnQ3Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, -1, -1));
 
         btnQ3Happy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji.png"))); // NOI18N
         btnQ3Happy.setToolTipText("Buena");
@@ -240,7 +240,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ3HappyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ3Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 252, -1, -1));
+        getContentPane().add(btnQ3Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
 
         btnQ3Medium.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_confused.png"))); // NOI18N
         btnQ3Medium.setToolTipText("Normal");
@@ -252,7 +252,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ3MediumActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ3Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 252, -1, -1));
+        getContentPane().add(btnQ3Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, -1, -1));
 
         btnQ1Soso2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_sad.png"))); // NOI18N
         btnQ1Soso2.setToolTipText("Mala");
@@ -264,7 +264,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ1Soso2ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Soso2, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 252, -1, -1));
+        getContentPane().add(btnQ1Soso2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
 
         btnQ3Angry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_angry.png"))); // NOI18N
         btnQ3Angry.setToolTipText("Muy mala");
@@ -276,7 +276,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ3AngryActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ3Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 252, -1, -1));
+        getContentPane().add(btnQ3Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
         btnQ4Love.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_in_love.png"))); // NOI18N
         btnQ4Love.setToolTipText("Muy buena");
@@ -288,7 +288,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ4LoveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ4Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 342, -1, -1));
+        getContentPane().add(btnQ4Love, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, -1, -1));
 
         btnQ4Happy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji.png"))); // NOI18N
         btnQ4Happy.setToolTipText("Buena");
@@ -300,7 +300,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ4HappyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ4Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(174, 342, -1, -1));
+        getContentPane().add(btnQ4Happy, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, -1, -1));
 
         btnQ4Medium.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_confused.png"))); // NOI18N
         btnQ4Medium.setToolTipText("Normal");
@@ -312,7 +312,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ4MediumActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ4Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 342, -1, -1));
+        getContentPane().add(btnQ4Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, -1, -1));
 
         btnQ4Soso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_sad.png"))); // NOI18N
         btnQ4Soso.setToolTipText("Mala");
@@ -324,7 +324,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ4SosoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ4Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 342, -1, -1));
+        getContentPane().add(btnQ4Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
 
         btnQ4Angry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_angry.png"))); // NOI18N
         btnQ4Angry.setToolTipText("Muy mala");
@@ -336,19 +336,19 @@ public class evalTicket extends javax.swing.JFrame {
                 btnQ4AngryActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ4Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 342, -1, -1));
+        getContentPane().add(btnQ4Angry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, -1, -1));
 
         lblFeelQ1.setText("Seleccione una opción...");
-        getContentPane().add(lblFeelQ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, -1, -1));
+        getContentPane().add(lblFeelQ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, -1, -1));
 
         lblFeelQ2.setText("Seleccione una opción...");
-        getContentPane().add(lblFeelQ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, -1, -1));
+        getContentPane().add(lblFeelQ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
 
         lblFeelQ3.setText("Seleccione una opción...");
-        getContentPane().add(lblFeelQ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, -1, -1));
+        getContentPane().add(lblFeelQ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
 
         lblFeelQ4.setText("Seleccione una opción...");
-        getContentPane().add(lblFeelQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
+        getContentPane().add(lblFeelQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
         btnEvaluate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check_mark.png"))); // NOI18N
         btnEvaluate.setToolTipText("Evaluar");
@@ -360,7 +360,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnEvaluateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEvaluate, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 430, -1, -1));
+        getContentPane().add(btnEvaluate, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 40, 40));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -371,7 +371,7 @@ public class evalTicket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 40, 40));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
