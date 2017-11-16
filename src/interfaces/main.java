@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -9,9 +11,17 @@ public class main extends javax.swing.JFrame {
 
     public main() {
         initComponents();
-        formatJFrame();
+        formatJFrame();  
+        lblLogBook.setVisible(false);
+        lblServices.setVisible(false);                                       
+        lblVehicles.setVisible(false);                                     
+        lblWorkers.setVisible(false);                                           
+        lblDependencies.setVisible(false);                                          
+        lblDepartments.setVisible(false);                                      
+        lblTickets.setVisible(false);                                 
+        lblBDC.setVisible(false);
+        lblEval.setVisible(false);
     }
-    
     private void formatJFrame() {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
@@ -20,6 +30,13 @@ public class main extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
+    }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
+        return retValue;
     }
 
     /**
@@ -40,10 +57,21 @@ public class main extends javax.swing.JFrame {
         btnWorkers = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         btnLogBook = new javax.swing.JButton();
+        btnDependencies = new javax.swing.JButton();
+        lblLogBook = new javax.swing.JLabel();
+        lblServices = new javax.swing.JLabel();
+        lblVehicles = new javax.swing.JLabel();
+        lblWorkers = new javax.swing.JLabel();
+        lblDependencies = new javax.swing.JLabel();
+        lblTickets = new javax.swing.JLabel();
+        lblDepartments = new javax.swing.JLabel();
+        lblEval = new javax.swing.JLabel();
+        lblBDC = new javax.swing.JLabel();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
+        setIconImage(getIconImage());
         setName("frmMain"); // NOI18N
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -53,6 +81,14 @@ public class main extends javax.swing.JFrame {
         btnDepartments.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDepartments.setBorderPainted(false);
         btnDepartments.setContentAreaFilled(false);
+        btnDepartments.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDepartmentsMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDepartmentsMouseEntered(evt);
+            }
+        });
         btnDepartments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDepartmentsActionPerformed(evt);
@@ -65,6 +101,14 @@ public class main extends javax.swing.JFrame {
         btnETickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnETickets.setBorderPainted(false);
         btnETickets.setContentAreaFilled(false);
+        btnETickets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnETicketsMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnETicketsMouseEntered(evt);
+            }
+        });
         btnETickets.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnETicketsActionPerformed(evt);
@@ -77,6 +121,14 @@ public class main extends javax.swing.JFrame {
         btnBDC.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnBDC.setBorderPainted(false);
         btnBDC.setContentAreaFilled(false);
+        btnBDC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBDCMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBDCMouseEntered(evt);
+            }
+        });
         btnBDC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBDCActionPerformed(evt);
@@ -89,6 +141,14 @@ public class main extends javax.swing.JFrame {
         btnTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnTickets.setBorderPainted(false);
         btnTickets.setContentAreaFilled(false);
+        btnTickets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnTicketsMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnTicketsMouseEntered(evt);
+            }
+        });
         btnTickets.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTicketsActionPerformed(evt);
@@ -101,6 +161,14 @@ public class main extends javax.swing.JFrame {
         btnServices.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnServices.setBorderPainted(false);
         btnServices.setContentAreaFilled(false);
+        btnServices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnServicesMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnServicesMouseEntered(evt);
+            }
+        });
         btnServices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnServicesActionPerformed(evt);
@@ -113,6 +181,14 @@ public class main extends javax.swing.JFrame {
         btnVehicles.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnVehicles.setBorderPainted(false);
         btnVehicles.setContentAreaFilled(false);
+        btnVehicles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnVehiclesMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnVehiclesMouseEntered(evt);
+            }
+        });
         btnVehicles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVehiclesActionPerformed(evt);
@@ -125,6 +201,14 @@ public class main extends javax.swing.JFrame {
         btnWorkers.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnWorkers.setBorderPainted(false);
         btnWorkers.setContentAreaFilled(false);
+        btnWorkers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnWorkersMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnWorkersMouseEntered(evt);
+            }
+        });
         btnWorkers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnWorkersActionPerformed(evt);
@@ -149,6 +233,14 @@ public class main extends javax.swing.JFrame {
         btnLogBook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnLogBook.setBorderPainted(false);
         btnLogBook.setContentAreaFilled(false);
+        btnLogBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLogBookMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLogBookMouseEntered(evt);
+            }
+        });
         btnLogBook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogBookActionPerformed(evt);
@@ -156,9 +248,55 @@ public class main extends javax.swing.JFrame {
         });
         getContentPane().add(btnLogBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
+        btnDependencies.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dependency.png"))); // NOI18N
+        btnDependencies.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnDependencies.setBorderPainted(false);
+        btnDependencies.setContentAreaFilled(false);
+        btnDependencies.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDependenciesMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDependenciesMouseEntered(evt);
+            }
+        });
+        btnDependencies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDependenciesActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, -1, -1));
+
+        lblLogBook.setText("Bitácora");
+        getContentPane().add(lblLogBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
+
+        lblServices.setText("Servicios");
+        getContentPane().add(lblServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, -1, -1));
+
+        lblVehicles.setText("Vehículos");
+        getContentPane().add(lblVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, -1, -1));
+
+        lblWorkers.setText("Trabajadores");
+        getContentPane().add(lblWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, -1, -1));
+
+        lblDependencies.setText("Dependencias");
+        getContentPane().add(lblDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
+
+        lblTickets.setText("Tickets");
+        getContentPane().add(lblTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, -1, -1));
+
+        lblDepartments.setText("Departamentos");
+        getContentPane().add(lblDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+
+        lblEval.setText("Evaluación");
+        getContentPane().add(lblEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
+
+        lblBDC.setText("Base de datos");
+        getContentPane().add(lblBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, -1, -1));
+
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 340));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -211,6 +349,83 @@ public class main extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogBookActionPerformed
 
+    private void btnDependenciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDependenciesActionPerformed
+        new dependency().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDependenciesActionPerformed
+
+    private void btnLogBookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogBookMouseEntered
+        lblLogBook.setVisible(true);
+    }//GEN-LAST:event_btnLogBookMouseEntered
+
+    private void btnLogBookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogBookMouseExited
+        lblLogBook.setVisible(false);
+    }//GEN-LAST:event_btnLogBookMouseExited
+
+    private void btnServicesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnServicesMouseEntered
+        lblServices.setVisible(true);
+    }//GEN-LAST:event_btnServicesMouseEntered
+
+    private void btnServicesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnServicesMouseExited
+        lblServices.setVisible(false);
+    }//GEN-LAST:event_btnServicesMouseExited
+
+    private void btnVehiclesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVehiclesMouseEntered
+        lblVehicles.setVisible(true);
+    }//GEN-LAST:event_btnVehiclesMouseEntered
+
+    private void btnVehiclesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVehiclesMouseExited
+        lblVehicles.setVisible(false);
+    }//GEN-LAST:event_btnVehiclesMouseExited
+
+    private void btnWorkersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnWorkersMouseEntered
+        lblWorkers.setVisible(true);
+    }//GEN-LAST:event_btnWorkersMouseEntered
+
+    private void btnWorkersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnWorkersMouseExited
+        lblWorkers.setVisible(false);
+    }//GEN-LAST:event_btnWorkersMouseExited
+
+    private void btnDependenciesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDependenciesMouseEntered
+        lblDependencies.setVisible(true);
+    }//GEN-LAST:event_btnDependenciesMouseEntered
+
+    private void btnDependenciesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDependenciesMouseExited
+        lblDependencies.setVisible(false);
+    }//GEN-LAST:event_btnDependenciesMouseExited
+
+    private void btnDepartmentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDepartmentsMouseEntered
+        lblDepartments.setVisible(true);
+    }//GEN-LAST:event_btnDepartmentsMouseEntered
+
+    private void btnDepartmentsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDepartmentsMouseExited
+        lblDepartments.setVisible(false);
+    }//GEN-LAST:event_btnDepartmentsMouseExited
+
+    private void btnETicketsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnETicketsMouseEntered
+        lblEval.setVisible(true);
+    }//GEN-LAST:event_btnETicketsMouseEntered
+
+    private void btnETicketsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnETicketsMouseExited
+        lblEval.setVisible(false);
+    }//GEN-LAST:event_btnETicketsMouseExited
+
+    private void btnBDCMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBDCMouseEntered
+        lblBDC.setVisible(true);
+    }//GEN-LAST:event_btnBDCMouseEntered
+
+    private void btnBDCMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBDCMouseExited
+        lblBDC.setVisible(false);
+    }//GEN-LAST:event_btnBDCMouseExited
+
+    private void btnTicketsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTicketsMouseEntered
+        lblTickets.setVisible(true); 
+    }//GEN-LAST:event_btnTicketsMouseEntered
+
+    private void btnTicketsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTicketsMouseExited
+        lblTickets.setVisible(false);
+    }//GEN-LAST:event_btnTicketsMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +457,7 @@ public class main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBDC;
     private javax.swing.JButton btnDepartments;
+    private javax.swing.JButton btnDependencies;
     private javax.swing.JButton btnETickets;
     private javax.swing.JButton btnLogBook;
     private javax.swing.JButton btnLogOut;
@@ -249,6 +465,15 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton btnTickets;
     private javax.swing.JButton btnVehicles;
     private javax.swing.JButton btnWorkers;
+    private javax.swing.JLabel lblBDC;
     private javax.swing.JLabel lblBottom;
+    private javax.swing.JLabel lblDepartments;
+    private javax.swing.JLabel lblDependencies;
+    private javax.swing.JLabel lblEval;
+    private javax.swing.JLabel lblLogBook;
+    private javax.swing.JLabel lblServices;
+    private javax.swing.JLabel lblTickets;
+    private javax.swing.JLabel lblVehicles;
+    private javax.swing.JLabel lblWorkers;
     // End of variables declaration//GEN-END:variables
 }

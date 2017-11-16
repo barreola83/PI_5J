@@ -1,6 +1,8 @@
 package interfaces;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,6 +34,13 @@ public class knowledgeDB extends javax.swing.JFrame {
     private boolean isEmpty() {
         return txtProblem.getText().isEmpty() || txtSolution.getText().isEmpty();
     }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
+        return retValue;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,13 +60,14 @@ public class knowledgeDB extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
         lblNoProblem = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jspTxtSolution = new javax.swing.JScrollPane();
         txtSolution = new javax.swing.JTextArea();
         btnReturn = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de datos del conocimiento");
+        setIconImage(getIconImage());
         setName("frmBD"); // NOI18N
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,7 +97,7 @@ public class knowledgeDB extends javax.swing.JFrame {
         txtProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtProblem.setToolTipText("");
         txtProblem.setName("txtResolver"); // NOI18N
-        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 190, -1));
+        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 190, -1));
 
         btnSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
@@ -138,9 +148,9 @@ public class knowledgeDB extends javax.swing.JFrame {
 
         txtSolution.setColumns(20);
         txtSolution.setRows(5);
-        jScrollPane1.setViewportView(txtSolution);
+        jspTxtSolution.setViewportView(txtSolution);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 240, 110));
+        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, -1, 110));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -283,7 +293,7 @@ public class knowledgeDB extends javax.swing.JFrame {
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jspTxtSolution;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lblBottom;

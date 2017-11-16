@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -53,6 +55,13 @@ public class logBook extends javax.swing.JFrame {
                 || cmbHourIn.getSelectedIndex() == -1 || cmbHourOut.getSelectedIndex() == -1
                 || cmbMinutesIn.getSelectedIndex() == -1 || cmbMinutesOut.getSelectedIndex() == -1;
     }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
+        return retValue;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,6 +94,7 @@ public class logBook extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bitácora");
+        setIconImage(getIconImage());
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -94,12 +104,12 @@ public class logBook extends javax.swing.JFrame {
         cmbHourIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbHourIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbHourIn.setToolTipText("Hora");
-        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 40, 20));
+        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 50, 20));
 
         cmbMinutesIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMinutesIn.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 40, 20));
+        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 50, 20));
 
         lblOut.setText("Hora de salida:");
         getContentPane().add(lblOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
@@ -107,12 +117,12 @@ public class logBook extends javax.swing.JFrame {
         cmbHourOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbHourOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbHourOut.setToolTipText("Hora");
-        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 40, 20));
+        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 50, 20));
 
         cmbMinutesOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMinutesOut.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 40, 20));
+        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 50, 20));
 
         lblKmIn.setText("Kilometraje de entrada:");
         getContentPane().add(lblKmIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
@@ -122,11 +132,11 @@ public class logBook extends javax.swing.JFrame {
 
         txtKmOut.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         txtKmOut.setToolTipText("Ingrese sólo números...");
-        getContentPane().add(txtKmOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 100, -1));
+        getContentPane().add(txtKmOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 100, -1));
 
         txtKmIn.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         txtKmIn.setToolTipText("Ingrese sólo números...");
-        getContentPane().add(txtKmIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 100, -1));
+        getContentPane().add(txtKmIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 100, -1));
 
         lblGasIn.setText("Nivel de gas de entrada:");
         getContentPane().add(lblGasIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
@@ -136,11 +146,11 @@ public class logBook extends javax.swing.JFrame {
 
         cmbGasIn.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         cmbGasIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1/4", "1/2", "3/4", "Lleno" }));
-        getContentPane().add(cmbGasIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, -1, -1));
+        getContentPane().add(cmbGasIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, -1, -1));
 
         cmbGasOut.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         cmbGasOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1/4", "1/2", "3/4", "Lleno" }));
-        getContentPane().add(cmbGasOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, -1, -1));
+        getContentPane().add(cmbGasOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));

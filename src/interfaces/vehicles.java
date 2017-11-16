@@ -1,6 +1,8 @@
 package interfaces;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -36,6 +38,13 @@ public class vehicles extends javax.swing.JFrame {
         return txtPlate.getText().isEmpty() || txtYear.getText().isEmpty()
                 || txtBrand.getText().isEmpty() || status == null;
     }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
+        return retValue;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,6 +73,7 @@ public class vehicles extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vehículos");
+        setIconImage(getIconImage());
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -239,9 +249,8 @@ public class vehicles extends javax.swing.JFrame {
 
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 Statement select = connection.createStatement();
-                ResultSet result;
-
-                result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
+                ResultSet result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
+                
                 while (result.next()) {
                     txtPlate.setText(result.getString("plates"));
                     txtBrand.setText(result.getString("model"));

@@ -1,17 +1,32 @@
 package interfaces;
 
-import javax.swing.JFrame;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.font.TextAttribute;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class login extends javax.swing.JFrame {
 
+    private Font oFont;
+    private String permission;
+
     public login() {
         initComponents();
         formatJFrame();
     }
-    
+
     private void formatJFrame() {
         try {
             setLocationRelativeTo(null); //Centra el jFrame
@@ -19,6 +34,33 @@ public class login extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
+        return retValue;
+    }
+
+    private boolean validateUser() {
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT * FROM user WHERE username='" + txtUser.getText()
+                    + "' AND password='" + new String(this.txtPass.getPassword()) + "'");
+            while(result.next()){
+                permission = result.getString("permission");
+            }
+            
+            return result.first();
+        } catch (SQLException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -31,10 +73,12 @@ public class login extends javax.swing.JFrame {
         txtPass = new javax.swing.JPasswordField();
         btnShow = new javax.swing.JButton();
         btnHide = new javax.swing.JButton();
+        lblAddUser = new javax.swing.JLabel();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Inicio de sesión");
+        setIconImage(getIconImage());
         setName("frmLogin"); // NOI18N
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -88,16 +132,55 @@ public class login extends javax.swing.JFrame {
         });
         getContentPane().add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, -1));
 
+        lblAddUser.setText("¡Regístrate aquí!");
+        lblAddUser.setToolTipText("Registrarse");
+        lblAddUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAddUserMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAddUserMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAddUserMouseEntered(evt);
+            }
+        });
+        getContentPane().add(lblAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
+
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 240));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 280));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        this.dispose();
-        new main().setVisible(true);
+        try {
+            if (txtUser.getText().length() > 0 && txtPass.getPassword().length > 0) {
+                if (validateUser()) {
+                    if (permission.equals("Atención de usuarios")) {
+                        new main().setVisible(true);
+                        this.dispose();
+                    } else if (permission.equals("Especialista")) {
+                        new specialist_main().setVisible(true);
+                        this.dispose();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El nombre de usuario y/o contraseña no son válidos.");
+                    txtUser.setText("");
+                    txtPass.setText("");
+
+                    txtUser.requestFocusInWindow();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Compruebe que los datos sean correctos.");
+
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Compruebe que los datos sean correctos.");
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -120,6 +203,24 @@ public class login extends javax.swing.JFrame {
         btnShow.setVisible(true);
         btnHide.setVisible(false);
     }//GEN-LAST:event_btnHideActionPerformed
+
+    private void lblAddUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddUserMouseEntered
+        lblAddUser.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        oFont = evt.getComponent().getFont();
+        Map attributes = oFont.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        evt.getComponent().setFont(oFont.deriveFont(attributes));
+    }//GEN-LAST:event_lblAddUserMouseEntered
+
+    private void lblAddUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddUserMouseExited
+        lblAddUser.setCursor(Cursor.getDefaultCursor());
+        evt.getComponent().setFont(oFont);
+    }//GEN-LAST:event_lblAddUserMouseExited
+
+    private void lblAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddUserMouseClicked
+        new register().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblAddUserMouseClicked
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -147,6 +248,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton btnHide;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnShow;
+    private javax.swing.JLabel lblAddUser;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblHome;
     private javax.swing.JPasswordField txtPass;
