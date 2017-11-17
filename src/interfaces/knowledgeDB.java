@@ -19,6 +19,7 @@ public class knowledgeDB extends javax.swing.JFrame {
     public knowledgeDB() {
         initComponents();
         formatJFrame();
+        btnModify.setEnabled(false);
     }
 
     private void formatJFrame() {
@@ -68,23 +69,26 @@ public class knowledgeDB extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de datos del conocimiento");
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(360, 272));
+        setMinimumSize(new java.awt.Dimension(360, 272));
         setName("frmBD"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(360, 272));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblNo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblNo.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lblNo.setText("No. problema");
-        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, 80, 20));
+        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
 
-        lbl2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbl2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lbl2.setText("Problema a resolver:");
         getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
-        lbl3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbl3.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lbl3.setText("Solución:");
         getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
-        txtSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtSearch.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         txtSearch.setToolTipText("Número de problema");
         txtSearch.setName("txtProblema"); // NOI18N
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -94,10 +98,10 @@ public class knowledgeDB extends javax.swing.JFrame {
         });
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 118, -1));
 
-        txtProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtProblem.setToolTipText("");
+        txtProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        txtProblem.setToolTipText(null);
         txtProblem.setName("txtResolver"); // NOI18N
-        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 190, -1));
+        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 190, -1));
 
         btnSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
@@ -139,18 +143,18 @@ public class knowledgeDB extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, -1, -1));
 
-        lblNoProblem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lblNoProblem.setText("321");
+        lblNoProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lblNoProblem.setName("lblNoProblema"); // NOI18N
-        getContentPane().add(lblNoProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 40, 20));
+        getContentPane().add(lblNoProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 40, 20));
 
         txtSolution.setColumns(20);
+        txtSolution.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         txtSolution.setRows(5);
         jspTxtSolution.setViewportView(txtSolution);
 
-        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, -1, 110));
+        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 270, 110));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -181,6 +185,7 @@ public class knowledgeDB extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if (txtSearch.getText().isEmpty() == false) {
             try {
+                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
@@ -193,6 +198,8 @@ public class knowledgeDB extends javax.swing.JFrame {
                 }
 
                 connection.close();
+                
+                btnModify.setEnabled(true);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
             }
@@ -213,6 +220,12 @@ public class knowledgeDB extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
+                
+                JOptionPane.showMessageDialog(null, "Solución añadida.");
+                
+                txtProblem.setText("");
+                txtSolution.setText("");
+                
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El problema ya existe.");
             } catch (SQLException ex) {
@@ -236,6 +249,11 @@ public class knowledgeDB extends javax.swing.JFrame {
 
                 update.executeUpdate();
                 connection.close();
+                
+                JOptionPane.showMessageDialog(null, "Problema modificado.");
+                
+                txtProblem.setText("");
+                txtSolution.setText("");
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El problema ya existe.");
             } catch (SQLException ex) {

@@ -62,6 +62,17 @@ public class logBook extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
         return retValue;
     }
+    
+    private void cleanComponents(){
+        txtKmIn.setText("");
+        txtKmOut.setText("");
+        cmbGasIn.setSelectedIndex(0);
+        cmbGasOut.setSelectedIndex(0);
+        cmbHourOut.setSelectedIndex(0);
+        cmbHourIn.setSelectedIndex(0);
+        cmbMinutesOut.setSelectedIndex(0);
+        cmbMinutesIn.setSelectedIndex(0);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,6 +106,9 @@ public class logBook extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bitácora");
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(310, 290));
+        setMinimumSize(new java.awt.Dimension(310, 290));
+        setPreferredSize(new java.awt.Dimension(310, 290));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -213,6 +227,7 @@ public class logBook extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String service = null;
+        
         if (txtSearch.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese un dato a buscar", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -259,6 +274,7 @@ public class logBook extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
+                cleanComponents();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
             }

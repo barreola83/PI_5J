@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -21,6 +20,7 @@ public class login extends javax.swing.JFrame {
 
     private Font oFont;
     private String permission;
+    private int noWorker;
 
     public login() {
         initComponents();
@@ -49,18 +49,17 @@ public class login extends javax.swing.JFrame {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT * FROM user WHERE username='" + txtUser.getText()
-                    + "' AND password='" + new String(this.txtPass.getPassword()) + "'");
-            while(result.next()){
-                permission = result.getString("permission");
+            ResultSet result = select.executeQuery("SELECT no_trabajador, cargo, contrasena FROM Workers WHERE no_trabajador="
+                    + Integer.parseInt(txtUser.getText()) + " AND contrasena='" + new String(this.txtPass.getPassword()) + "'");
+            while (result.next()) {
+                noWorker = result.getInt("no_trabajador");
+                permission = result.getString("cargo");
             }
-            
+
             return result.first();
         } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -89,6 +88,11 @@ public class login extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtUser.setToolTipText("Ingresa el usuario");
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserKeyPressed(evt);
+            }
+        });
         getContentPane().add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 172, -1));
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/arrow_right.png"))); // NOI18N
@@ -106,6 +110,11 @@ public class login extends javax.swing.JFrame {
         getContentPane().add(lblHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
         txtPass.setToolTipText("Contraseña");
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
         getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 170, -1));
 
         btnShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/eye_open.png"))); // NOI18N
@@ -162,7 +171,7 @@ public class login extends javax.swing.JFrame {
                         new main().setVisible(true);
                         this.dispose();
                     } else if (permission.equals("Especialista")) {
-                        new specialist_main().setVisible(true);
+                        new specialist_main(noWorker).setVisible(true);
                         this.dispose();
                     }
                 } else {
@@ -179,7 +188,6 @@ public class login extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Compruebe que los datos sean correctos.");
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -218,9 +226,21 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_lblAddUserMouseExited
 
     private void lblAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddUserMouseClicked
-        new register().setVisible(true);
+        new workers().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblAddUserMouseClicked
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnLogin.doClick();
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
+
+    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnLogin.doClick();
+        }
+    }//GEN-LAST:event_txtUserKeyPressed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

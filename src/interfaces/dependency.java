@@ -70,6 +70,16 @@ public class dependency extends javax.swing.JFrame {
         return txtName.getText().isEmpty() || txtDir.getText().isEmpty()
                 || txtPhoneNo.getText().isEmpty();
     }
+    
+    private void cleanComponents(){
+        txtDir.setText("");
+        txtPhoneNo.setText("");
+        txtName.setText("");
+        cmbHourIn.setSelectedIndex(0);
+        cmbMinutesIn.setSelectedIndex(0);
+        cmbHourOut.setSelectedIndex(0);
+        cmbMinutesOut.setSelectedIndex(0);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,6 +113,9 @@ public class dependency extends javax.swing.JFrame {
         setTitle("Dependencias");
         setIconImage(getIconImage());
         setIconImages(null);
+        setMaximumSize(new java.awt.Dimension(338, 327));
+        setMinimumSize(new java.awt.Dimension(338, 327));
+        setPreferredSize(new java.awt.Dimension(338, 327));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -122,7 +135,7 @@ public class dependency extends javax.swing.JFrame {
         });
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 40, 40));
 
-        lbl2.setText("Nombre de la dependencia:");
+        lbl2.setText("Nombre:");
         getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 82, -1, -1));
 
         lbl3.setText("Directivo:");
@@ -135,7 +148,7 @@ public class dependency extends javax.swing.JFrame {
         getContentPane().add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
         txtName.setName("txtNombreDependencia"); // NOI18N
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 150, -1));
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 230, -1));
 
         txtDir.setName("txtDirectivo"); // NOI18N
         getContentPane().add(txtDir, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 230, -1));
@@ -159,7 +172,7 @@ public class dependency extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
         btnModify.setToolTipText("Modificar");
@@ -172,7 +185,7 @@ public class dependency extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -184,7 +197,7 @@ public class dependency extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
 
         cmbMinutesIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
@@ -269,6 +282,8 @@ public class dependency extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
+                
+                cleanComponents();
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "La dependencia ya existe.");
             } catch (SQLException ex) {
@@ -295,6 +310,8 @@ public class dependency extends javax.swing.JFrame {
 
                 update.executeUpdate();
                 connection.close();
+                
+                cleanComponents();
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "La dependencia ya existe.");
             } catch (SQLException ex) {

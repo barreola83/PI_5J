@@ -84,7 +84,7 @@ public class workers extends javax.swing.JFrame {
     }
 
     private boolean isEmpty() {
-        return !(txtName.getText().isEmpty() || txtArea.getText().isEmpty() || txtCharge.getText().isEmpty()
+        return !(txtName.getText().isEmpty() || txtArea.getText().isEmpty()
                 || txtMail.getText().isEmpty() || txtPass.getPassword().length == 0 || txtConfirm.getPassword().length == 0);
     }
 
@@ -93,11 +93,20 @@ public class workers extends javax.swing.JFrame {
                 || cmbMinutesIn.getSelectedIndex() > -1 || cmbMinutesOut.getSelectedIndex() > -1);
     }
     
-    private boolean validateInfo(){
-        return (txtCharge.getText().equalsIgnoreCase("Atención de usuarios")
-                || txtCharge.getText().equalsIgnoreCase("Especialista")
-                ||txtCharge.getText().equalsIgnoreCase("Usuario final")
-                || txtCharge.getText().equalsIgnoreCase("Administrador"));
+    private void cleanComponents(){
+        txtArea.setText("");
+        txtConfirm.setText("");
+        txtFLastName.setText("");
+        txtMail.setText("");
+        txtName.setText("");
+        txtPass.setText("");
+        txtSLastName.setText("");
+        cmbCharge.setSelectedIndex(0);
+        cmbHourIn.setSelectedIndex(0);
+        cmbHourOut.setSelectedIndex(0);
+        cmbMinutesIn.setSelectedIndex(0);
+        cmbMinutesOut.setSelectedIndex(0);
+        jdcDate.setDate(null);
     }
 
     /**
@@ -109,8 +118,6 @@ public class workers extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl11 = new javax.swing.JLabel();
-        lblNoWorker = new javax.swing.JLabel();
         lbl1 = new javax.swing.JLabel();
         lbl2 = new javax.swing.JLabel();
         lbl5 = new javax.swing.JLabel();
@@ -125,7 +132,6 @@ public class workers extends javax.swing.JFrame {
         txtSLastName = new javax.swing.JTextField();
         txtFLastName = new javax.swing.JTextField();
         txtArea = new javax.swing.JTextField();
-        txtCharge = new javax.swing.JTextField();
         txtMail = new javax.swing.JTextField();
         txtPass = new javax.swing.JPasswordField();
         btnAdd = new javax.swing.JButton();
@@ -140,67 +146,53 @@ public class workers extends javax.swing.JFrame {
         txtConfirm = new javax.swing.JPasswordField();
         lblBirthDate = new javax.swing.JLabel();
         jdcDate = new com.toedter.calendar.JDateChooser();
+        cmbCharge = new javax.swing.JComboBox<>();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabajadores");
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(638, 296));
+        setMinimumSize(new java.awt.Dimension(638, 296));
+        setPreferredSize(new java.awt.Dimension(638, 296));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbl11.setText("No. trabajador:");
-        getContentPane().add(lbl11, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));
-
-        lblNoWorker.setText("321");
-        getContentPane().add(lblNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 12, -1, -1));
-
         lbl1.setText("Nombre:");
-        getContentPane().add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+        getContentPane().add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
         lbl2.setText("Apellido paterno:");
-        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
 
         lbl5.setText("Cargo:");
-        getContentPane().add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 203, -1, -1));
+        getContentPane().add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
         lbl4.setText("Área:");
-        getContentPane().add(lbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 169, -1, -1));
+        getContentPane().add(lbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         lbl3.setText("Apellido materno:");
-        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         lbl6.setText("Horario de entrada:");
-        getContentPane().add(lbl6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        getContentPane().add(lbl6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
 
         lbl7.setText("Horario de salida:");
-        getContentPane().add(lbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+        getContentPane().add(lbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
 
         lbl9.setText("Status:");
-        getContentPane().add(lbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, -1, -1));
+        getContentPane().add(lbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, -1, -1));
 
         lbl10.setText("Constraseña:");
-        getContentPane().add(lbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
+        getContentPane().add(lbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, -1, -1));
 
         lbl8.setText("Correo:");
-        getContentPane().add(lbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, -1, -1));
-
-        txtName.setText("Bryan");
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 210, -1));
-
-        txtSLastName.setText("Mur");
-        getContentPane().add(txtSLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 180, -1));
-
-        txtFLastName.setText("Arr");
-        getContentPane().add(txtFLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 180, -1));
-
-        txtArea.setText("area");
-        getContentPane().add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 170, -1));
-
-        txtCharge.setText("cargo");
-        txtCharge.setToolTipText("");
-        getContentPane().add(txtCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 160, -1));
-        getContentPane().add(txtMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, 180, -1));
-        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, 160, -1));
+        getContentPane().add(lbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, -1, -1));
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 210, -1));
+        getContentPane().add(txtSLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 180, -1));
+        getContentPane().add(txtFLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 180, -1));
+        getContentPane().add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 170, -1));
+        getContentPane().add(txtMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 180, -1));
+        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 160, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -211,7 +203,7 @@ public class workers extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -222,19 +214,19 @@ public class workers extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, -1, -1));
 
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, -1, -1));
+        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 60, -1));
 
         cmbHourIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 60, -1));
+        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 60, -1));
 
         cmbHourOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 60, -1));
+        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 60, -1));
 
         cmbMinutesOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, -1, -1));
+        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, 60, -1));
 
         btnOff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_off32.png"))); // NOI18N
         btnOff.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -245,7 +237,7 @@ public class workers extends javax.swing.JFrame {
                 btnOffActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, -1, -1));
+        getContentPane().add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, -1, -1));
 
         btnOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_on32.png"))); // NOI18N
         btnOn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -256,20 +248,23 @@ public class workers extends javax.swing.JFrame {
                 btnOnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, -1, -1));
+        getContentPane().add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, -1, -1));
 
         lblConfirm.setText("Confirmar:");
-        getContentPane().add(lblConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 220, -1, -1));
-        getContentPane().add(txtConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 220, 170, -1));
+        getContentPane().add(lblConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
+        getContentPane().add(txtConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 190, 170, -1));
 
         lblBirthDate.setText("Fecha nacimiento:");
-        getContentPane().add(lblBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, -1, -1));
+        getContentPane().add(lblBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
 
         jdcDate.setToolTipText("Seleccione una fecha...");
         jdcDate.setDateFormatString("dd/MM/yyyy");
         jdcDate.setMaximumSize(new java.awt.Dimension(122, 28));
         jdcDate.setMinimumSize(new java.awt.Dimension(122, 28));
-        getContentPane().add(jdcDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 60, 140, -1));
+        getContentPane().add(jdcDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 30, 140, -1));
+
+        cmbCharge.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Atención de usuarios", "Especialista", "Usuario" }));
+        getContentPane().add(cmbCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
@@ -299,17 +294,17 @@ public class workers extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (isEmpty() || valueTime() || confirmPassword() || validateInfo()) {
+        if (isEmpty() || valueTime() || confirmPassword()) {
             try {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,?,?,?)");
 
-                insert.setString(1, txtCharge.getText());
+                insert.setString(1, String.valueOf(cmbCharge.getSelectedItem()));
                 insert.setString(2, getParsedName());
                 insert.setString(3, txtMail.getText());
-                insert.setInt(4, 5);
+                insert.setInt(4, 0);
                 insert.setString(5, status);
                 insert.setString(6, txtArea.getText());
                 insert.setTime(7, getTimeIn());
@@ -320,6 +315,9 @@ public class workers extends javax.swing.JFrame {
                 insert.executeUpdate();
 
                 connection.close();
+                
+                cleanComponents();
+                
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -366,6 +364,7 @@ public class workers extends javax.swing.JFrame {
     private javax.swing.JButton btnOff;
     private javax.swing.JButton btnOn;
     private javax.swing.JButton btnReturn;
+    private javax.swing.JComboBox<String> cmbCharge;
     private javax.swing.JComboBox<String> cmbHourIn;
     private javax.swing.JComboBox<String> cmbHourOut;
     private javax.swing.JComboBox<String> cmbMinutesIn;
@@ -373,7 +372,6 @@ public class workers extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser jdcDate;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl10;
-    private javax.swing.JLabel lbl11;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lbl4;
@@ -385,9 +383,7 @@ public class workers extends javax.swing.JFrame {
     private javax.swing.JLabel lblBirthDate;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblConfirm;
-    private javax.swing.JLabel lblNoWorker;
     private javax.swing.JTextField txtArea;
-    private javax.swing.JTextField txtCharge;
     private javax.swing.JPasswordField txtConfirm;
     private javax.swing.JTextField txtFLastName;
     private javax.swing.JTextField txtMail;

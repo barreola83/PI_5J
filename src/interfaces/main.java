@@ -1,7 +1,13 @@
 package interfaces;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -9,19 +15,22 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class main extends javax.swing.JFrame {
 
+    private int no_ticket;
+
     public main() {
         initComponents();
-        formatJFrame();  
+        formatJFrame();
         lblLogBook.setVisible(false);
-        lblServices.setVisible(false);                                       
-        lblVehicles.setVisible(false);                                     
-        lblWorkers.setVisible(false);                                           
-        lblDependencies.setVisible(false);                                          
-        lblDepartments.setVisible(false);                                      
-        lblTickets.setVisible(false);                                 
+        lblServices.setVisible(false);
+        lblVehicles.setVisible(false);
+        lblWorkers.setVisible(false);
+        lblDependencies.setVisible(false);
+        lblDepartments.setVisible(false);
+        lblTickets.setVisible(false);
         lblBDC.setVisible(false);
         lblEval.setVisible(false);
     }
+
     private void formatJFrame() {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
@@ -31,7 +40,21 @@ public class main extends javax.swing.JFrame {
             ex.getMessage();
         }
     }
-    
+
+    private boolean validateNoTicket() {
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_ticket from Ticket where no_ticket = " + no_ticket);
+
+            return result.first();
+
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -72,7 +95,10 @@ public class main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(545, 335));
+        setMinimumSize(new java.awt.Dimension(545, 335));
         setName("frmMain"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(545, 335));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -226,7 +252,7 @@ public class main extends javax.swing.JFrame {
                 btnLogOutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, -1));
+        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, -1, -1));
 
         btnLogBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/address_book 72.png"))); // NOI18N
         btnLogBook.setToolTipText("Bitácora");
@@ -280,7 +306,7 @@ public class main extends javax.swing.JFrame {
         getContentPane().add(lblWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, -1, -1));
 
         lblDependencies.setText("Dependencias");
-        getContentPane().add(lblDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
+        getContentPane().add(lblDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, -1, -1));
 
         lblTickets.setText("Tickets");
         getContentPane().add(lblTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, -1, -1));
@@ -335,8 +361,17 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTicketsActionPerformed
 
     private void btnETicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnETicketsActionPerformed
-        new evalTicket().setVisible(true);
-        this.dispose();
+        try {
+            no_ticket = Integer.parseInt(JOptionPane.showInputDialog(null, "Ticket a evaluar", "Ingrese un número de ticket", JOptionPane.INFORMATION_MESSAGE));
+            if (validateNoTicket()) {
+                new evalTicket(no_ticket).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
+            }
+        } catch (NumberFormatException ex) {
+        }
+
     }//GEN-LAST:event_btnETicketsActionPerformed
 
     private void btnBDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBDCActionPerformed
@@ -419,7 +454,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBDCMouseExited
 
     private void btnTicketsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTicketsMouseEntered
-        lblTickets.setVisible(true); 
+        lblTickets.setVisible(true);
     }//GEN-LAST:event_btnTicketsMouseEntered
 
     private void btnTicketsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTicketsMouseExited

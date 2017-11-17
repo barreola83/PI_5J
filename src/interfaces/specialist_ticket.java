@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,6 +44,13 @@ public class specialist_ticket extends javax.swing.JFrame {
                 break;
         }
     }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
+        return retValue;
+    }
 
     private void formatJFrame() {
         try {
@@ -82,6 +91,11 @@ public class specialist_ticket extends javax.swing.JFrame {
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Ticket (Especialista)");
+        setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(340, 340));
+        setMinimumSize(new java.awt.Dimension(340, 340));
+        setPreferredSize(new java.awt.Dimension(340, 340));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -212,7 +226,7 @@ public class specialist_ticket extends javax.swing.JFrame {
                 }
 
                 btnUpdate.setEnabled(true);
-            } catch (Exception ex) {
+            } catch (SQLException | NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
             }
         }
@@ -248,9 +262,6 @@ public class specialist_ticket extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

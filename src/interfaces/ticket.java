@@ -8,7 +8,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 
@@ -41,12 +43,28 @@ public class ticket extends javax.swing.JFrame {
         return !(txtDesc.getText().isEmpty() || txtEName.getText().isEmpty()
                 || txtLocation.getText().isEmpty() || txtMotive.getText().isEmpty());
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
         return retValue;
+    }
+
+    private void getNoTicket() {
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            ResultSet result;
+            Statement select = connection.createStatement();
+            result = select.executeQuery("SELECT no_ticket FROM Ticket ORDER BY no_ticket desc limit 1;");
+            
+            while (result.next()) {
+                JOptionPane.showMessageDialog(this, "Ticket número: " + result.getInt("no_ticket") + " añadido.",
+                        "Ticket añadido", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException ex) {}
     }
 
     /**
@@ -58,8 +76,6 @@ public class ticket extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNo = new javax.swing.JLabel();
-        lblNoTicket = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         lblMotive = new javax.swing.JLabel();
@@ -67,44 +83,43 @@ public class ticket extends javax.swing.JFrame {
         lblDesc = new javax.swing.JLabel();
         txtEName = new javax.swing.JTextField();
         txtMotive = new javax.swing.JTextField();
-        txtDesc = new javax.swing.JTextField();
         txtLocation = new javax.swing.JTextField();
         btnCreate = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
         btnClosed = new javax.swing.JButton();
         btnOpen = new javax.swing.JButton();
+        lblNoWorker = new javax.swing.JLabel();
+        txtNoWorker = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDesc = new javax.swing.JTextArea();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ticket");
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(343, 351));
+        setMinimumSize(new java.awt.Dimension(343, 351));
+        setPreferredSize(new java.awt.Dimension(343, 351));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblNo.setText("No. ticket");
-        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));
-
-        lblNoTicket.setText("321");
-        getContentPane().add(lblNoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 12, -1, -1));
-
         lblName.setText("Nombre especialista:");
-        getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 57, -1, -1));
+        getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
 
         lblStatus.setText("Status:");
-        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
+        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
         lblMotive.setText("Motivo:");
-        getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 97, -1, -1));
+        getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         lblLocation.setText("Ubicación:");
-        getContentPane().add(lblLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        getContentPane().add(lblLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
 
         lblDesc.setText("Descripción:");
-        getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 137, -1, -1));
-        getContentPane().add(txtEName, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 52, 160, -1));
-        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 92, 260, -1));
-        getContentPane().add(txtDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 132, 210, 70));
-        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 210, -1));
+        getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        getContentPane().add(txtEName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 160, -1));
+        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 260, -1));
+        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 210, -1));
 
         btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnCreate.setToolTipText("Crear");
@@ -116,7 +131,7 @@ public class ticket extends javax.swing.JFrame {
                 btnCreateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, -1, -1));
+        getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -128,9 +143,10 @@ public class ticket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
 
         btnClosed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_closed.png"))); // NOI18N
+        btnClosed.setToolTipText("Cerrado");
         btnClosed.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnClosed.setBorderPainted(false);
         btnClosed.setContentAreaFilled(false);
@@ -139,7 +155,7 @@ public class ticket extends javax.swing.JFrame {
                 btnClosedActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClosed, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
+        getContentPane().add(btnClosed, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
         btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_open.png"))); // NOI18N
         btnOpen.setToolTipText("Abierto");
@@ -151,7 +167,22 @@ public class ticket extends javax.swing.JFrame {
                 btnOpenActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOpen, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
+        getContentPane().add(btnOpen, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
+
+        lblNoWorker.setText("Número de trabajador:");
+        getContentPane().add(lblNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+        getContentPane().add(txtNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 150, -1));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setToolTipText(null);
+
+        txtDesc.setColumns(20);
+        txtDesc.setRows(5);
+        txtDesc.setTabSize(4);
+        txtDesc.setToolTipText(null);
+        jScrollPane1.setViewportView(txtDesc);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 240, 80));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
@@ -186,17 +217,20 @@ public class ticket extends javax.swing.JFrame {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement insert = null;
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket" + " VALUES(null,?,?,?,?,?,?,?)");
 
-                insert = connection.prepareStatement("INSERT INTO Ticket" + " VALUES(null,?,?,?,?,?,?)");
                 insert.setString(1, txtEName.getText());
                 insert.setString(2, txtDesc.getText());
                 insert.setString(3, txtMotive.getText());
                 insert.setDate(4, getDate());
                 insert.setString(5, status);
                 insert.setString(6, txtLocation.getText());
+                insert.setInt(7, Integer.parseInt(txtNoWorker.getText()));
                 insert.executeUpdate();
                 insert.close();
+                
+                getNoTicket();
+
             } catch (SQLException ex) {
                 ex.getMessage();
             }
@@ -236,17 +270,18 @@ public class ticket extends javax.swing.JFrame {
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnReturn;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblLocation;
     private javax.swing.JLabel lblMotive;
     private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblNo;
-    private javax.swing.JLabel lblNoTicket;
+    private javax.swing.JLabel lblNoWorker;
     private javax.swing.JLabel lblStatus;
-    private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextArea txtDesc;
     private javax.swing.JTextField txtEName;
     private javax.swing.JTextField txtLocation;
     private javax.swing.JTextField txtMotive;
+    private javax.swing.JTextField txtNoWorker;
     // End of variables declaration//GEN-END:variables
 }

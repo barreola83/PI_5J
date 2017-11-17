@@ -9,6 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class specialist_main extends javax.swing.JFrame {
 
+    private int noWorker;
     public specialist_main() {
         initComponents();
         formatJFrame();
@@ -16,6 +17,14 @@ public class specialist_main extends javax.swing.JFrame {
         lblSearch.setVisible(false);
     }
     
+    public specialist_main(int noWorker) {
+        initComponents();
+        formatJFrame();
+        lblTicket.setVisible(false);
+        lblSearch.setVisible(false);
+        this.noWorker = noWorker;
+    }
+
     private void formatJFrame() {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
@@ -25,7 +34,7 @@ public class specialist_main extends javax.swing.JFrame {
             ex.getMessage();
         }
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -48,11 +57,14 @@ public class specialist_main extends javax.swing.JFrame {
         lblTicket = new javax.swing.JLabel();
         btnSearch = new javax.swing.JButton();
         lblSearch = new javax.swing.JLabel();
+        btnLook = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal (especialista)");
         setIconImage(getIconImage());
+        setMinimumSize(new java.awt.Dimension(230, 300));
+        setPreferredSize(new java.awt.Dimension(230, 300));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -117,6 +129,14 @@ public class specialist_main extends javax.swing.JFrame {
         lblSearch.setText("Buscar");
         getContentPane().add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
 
+        btnLook.setText("jButton1");
+        btnLook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLookActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
+
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
         getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 300));
@@ -158,9 +178,11 @@ public class specialist_main extends javax.swing.JFrame {
         lblSearch.setVisible(false);
     }//GEN-LAST:event_btnSearchMouseExited
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnLookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLookActionPerformed
+        new search_ticket(noWorker).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLookActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -174,15 +196,11 @@ public class specialist_main extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(specialist_main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(specialist_main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(specialist_main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(specialist_main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -193,6 +211,7 @@ public class specialist_main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnLook;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnTickets;
     private javax.swing.JLabel lblBottom;

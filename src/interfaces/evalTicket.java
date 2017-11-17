@@ -19,6 +19,15 @@ public class evalTicket extends javax.swing.JFrame {
     private String AQ2 = null; //AnswerQuestion2
     private String AQ3 = null; //AnswerQuestion3
     private String AQ4 = null; //AnswerQuestion4
+    private int no_ticket;
+
+    Calendar calendar = Calendar.getInstance();
+
+    public evalTicket(int no_ticket) {
+        initComponents();
+        formatJFrame();
+        this.no_ticket = no_ticket;
+    }
 
     public evalTicket() {
         initComponents();
@@ -34,7 +43,7 @@ public class evalTicket extends javax.swing.JFrame {
             ex.getMessage();
         }
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -42,10 +51,9 @@ public class evalTicket extends javax.swing.JFrame {
         return retValue;
     }
 
-    private java.sql.Date getDate() {
-        Calendar calendar = Calendar.getInstance();
-        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
-        return date;
+    private java.sql.Time getTime() {
+        java.sql.Time time = new java.sql.Time(calendar.getTime().getTime());
+        return time;
     }
 
     /**
@@ -74,7 +82,7 @@ public class evalTicket extends javax.swing.JFrame {
         btnQ3Love = new javax.swing.JButton();
         btnQ3Happy = new javax.swing.JButton();
         btnQ3Medium = new javax.swing.JButton();
-        btnQ1Soso2 = new javax.swing.JButton();
+        btnQ3Soso = new javax.swing.JButton();
         btnQ3Angry = new javax.swing.JButton();
         btnQ4Love = new javax.swing.JButton();
         btnQ4Happy = new javax.swing.JButton();
@@ -85,14 +93,17 @@ public class evalTicket extends javax.swing.JFrame {
         lblFeelQ2 = new javax.swing.JLabel();
         lblFeelQ3 = new javax.swing.JLabel();
         lblFeelQ4 = new javax.swing.JLabel();
-        btnEvaluate = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
-        lblBottom = new javax.swing.JLabel();
         lblBottom2 = new javax.swing.JLabel();
+        btnEvaluate = new javax.swing.JButton();
+        lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Evaluación de ticket");
         setIconImage(getIconImage());
+        setMaximumSize(new java.awt.Dimension(478, 369));
+        setMinimumSize(new java.awt.Dimension(478, 369));
+        setPreferredSize(new java.awt.Dimension(478, 369));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -264,17 +275,17 @@ public class evalTicket extends javax.swing.JFrame {
         });
         getContentPane().add(btnQ3Medium, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, -1, -1));
 
-        btnQ1Soso2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_sad.png"))); // NOI18N
-        btnQ1Soso2.setToolTipText("Mala");
-        btnQ1Soso2.setBorder(null);
-        btnQ1Soso2.setBorderPainted(false);
-        btnQ1Soso2.setContentAreaFilled(false);
-        btnQ1Soso2.addActionListener(new java.awt.event.ActionListener() {
+        btnQ3Soso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_sad.png"))); // NOI18N
+        btnQ3Soso.setToolTipText("Mala");
+        btnQ3Soso.setBorder(null);
+        btnQ3Soso.setBorderPainted(false);
+        btnQ3Soso.setContentAreaFilled(false);
+        btnQ3Soso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQ1Soso2ActionPerformed(evt);
+                btnQ3SosoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnQ1Soso2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
+        getContentPane().add(btnQ3Soso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
 
         btnQ3Angry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/emoji_angry.png"))); // NOI18N
         btnQ3Angry.setToolTipText("Muy mala");
@@ -360,18 +371,6 @@ public class evalTicket extends javax.swing.JFrame {
         lblFeelQ4.setText("Seleccione una opción...");
         getContentPane().add(lblFeelQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
-        btnEvaluate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check_mark.png"))); // NOI18N
-        btnEvaluate.setToolTipText("Evaluar");
-        btnEvaluate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnEvaluate.setBorderPainted(false);
-        btnEvaluate.setContentAreaFilled(false);
-        btnEvaluate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEvaluateActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnEvaluate, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 40, 40));
-
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnReturn.setBorderPainted(false);
@@ -381,41 +380,37 @@ public class evalTicket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 40, 40));
-
-        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 370));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 50, 50));
 
         lblBottom2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom2.setToolTipText(null);
         getContentPane().add(lblBottom2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 480, 110));
 
+        btnEvaluate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check_mark.png"))); // NOI18N
+        btnEvaluate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnEvaluate.setBorderPainted(false);
+        btnEvaluate.setContentAreaFilled(false);
+        btnEvaluate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvaluateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEvaluate, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 320, -1, -1));
+
+        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        lblBottom.setToolTipText(null);
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 370));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        this.dispose();
-        new main().setVisible(true);
-    }//GEN-LAST:event_btnReturnActionPerformed
-
-    private void btnEvaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluateActionPerformed
-        try {
-            String answers = "Q1 = " + lblFeelQ1.getText();
-            answers += "Q2 = " + lblFeelQ2.getText();
-            answers += "Q3 = " + lblFeelQ3.getText();
-            answers += "Q4 = " + lblFeelQ4.getText();
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket_Evaluation VALUES(null, ?, ?)");
-
-            insert.setString(1, answers);
-            insert.setDate(2, getDate());
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Debe completar toda la encuesta.");
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?\nTodos los datos no guardados se perderán", "Confirmar",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            new main().setVisible(true);
+            this.dispose();
         }
-    }//GEN-LAST:event_btnEvaluateActionPerformed
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnQ1LoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ1LoveActionPerformed
         AQ1 = "Muy buena";
@@ -469,53 +464,82 @@ public class evalTicket extends javax.swing.JFrame {
 
     private void btnQ3LoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ3LoveActionPerformed
         AQ3 = "Muy buena";
-        lblFeelQ2.setText(AQ3);
+        lblFeelQ3.setText(AQ3);
     }//GEN-LAST:event_btnQ3LoveActionPerformed
 
     private void btnQ3HappyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ3HappyActionPerformed
         AQ3 = "Buena";
-        lblFeelQ2.setText(AQ3);
+        lblFeelQ3.setText(AQ3);
     }//GEN-LAST:event_btnQ3HappyActionPerformed
 
     private void btnQ3MediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ3MediumActionPerformed
         AQ3 = "Normal";
-        lblFeelQ2.setText(AQ3);
+        lblFeelQ3.setText(AQ3);
     }//GEN-LAST:event_btnQ3MediumActionPerformed
 
-    private void btnQ1Soso2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ1Soso2ActionPerformed
+    private void btnQ3SosoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ3SosoActionPerformed
         AQ3 = "Mala";
-        lblFeelQ2.setText(AQ3);
-    }//GEN-LAST:event_btnQ1Soso2ActionPerformed
+        lblFeelQ3.setText(AQ3);
+    }//GEN-LAST:event_btnQ3SosoActionPerformed
 
     private void btnQ3AngryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ3AngryActionPerformed
         AQ3 = "Muy mala";
-        lblFeelQ2.setText(AQ3);
+        lblFeelQ3.setText(AQ3);
     }//GEN-LAST:event_btnQ3AngryActionPerformed
 
     private void btnQ4LoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ4LoveActionPerformed
         AQ4 = "Muy buena";
-        lblFeelQ2.setText(AQ4);
+        lblFeelQ4.setText(AQ4);
     }//GEN-LAST:event_btnQ4LoveActionPerformed
 
     private void btnQ4HappyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ4HappyActionPerformed
         AQ4 = "Buena";
-        lblFeelQ2.setText(AQ4);
+        lblFeelQ4.setText(AQ4);
     }//GEN-LAST:event_btnQ4HappyActionPerformed
 
     private void btnQ4MediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ4MediumActionPerformed
         AQ4 = "Normal";
-        lblFeelQ2.setText(AQ4);
+        lblFeelQ4.setText(AQ4);
     }//GEN-LAST:event_btnQ4MediumActionPerformed
 
     private void btnQ4SosoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ4SosoActionPerformed
         AQ4 = "Mala";
-        lblFeelQ2.setText(AQ4);
+        lblFeelQ4.setText(AQ4);
     }//GEN-LAST:event_btnQ4SosoActionPerformed
 
     private void btnQ4AngryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ4AngryActionPerformed
         AQ4 = "Muy mala";
-        lblFeelQ2.setText(AQ4);
+        lblFeelQ4.setText(AQ4);
     }//GEN-LAST:event_btnQ4AngryActionPerformed
+
+    private void btnEvaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluateActionPerformed
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket_Evaluation VALUES(null,?,?,?)");
+
+            String answers = "Q1 = " + AQ1;
+            answers += "Q2 = " + AQ2;
+            answers += "Q3 = " + AQ3;
+            answers += "Q4 = " + AQ4;
+
+            insert.setString(1, answers);
+            insert.setTime(2, getTime());
+            insert.setInt(3, no_ticket);
+
+            insert.executeUpdate();
+
+            connection.close();
+
+            JOptionPane.showMessageDialog(null, "¡Gracias por tus comentarios!",
+                    "Encuesta contestada", JOptionPane.OK_OPTION);
+
+            new main().setVisible(true);
+            this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Debe completar toda la encuesta.");
+        }
+    }//GEN-LAST:event_btnEvaluateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -552,7 +576,6 @@ public class evalTicket extends javax.swing.JFrame {
     private javax.swing.JButton btnQ1Love;
     private javax.swing.JButton btnQ1Medium;
     private javax.swing.JButton btnQ1Soso;
-    private javax.swing.JButton btnQ1Soso2;
     private javax.swing.JButton btnQ2Angry;
     private javax.swing.JButton btnQ2Happy;
     private javax.swing.JButton btnQ2Love;
@@ -562,6 +585,7 @@ public class evalTicket extends javax.swing.JFrame {
     private javax.swing.JButton btnQ3Happy;
     private javax.swing.JButton btnQ3Love;
     private javax.swing.JButton btnQ3Medium;
+    private javax.swing.JButton btnQ3Soso;
     private javax.swing.JButton btnQ4Angry;
     private javax.swing.JButton btnQ4Happy;
     private javax.swing.JButton btnQ4Love;

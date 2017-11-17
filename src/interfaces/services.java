@@ -77,7 +77,7 @@ public class services extends javax.swing.JFrame {
         getContentPane().add(lblCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
         getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 67, 140, -1));
 
-        cmbCat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servicios Técnicos", "Servicios al público", "Básico", "Periféricos", "Complementarios", "Otros" }));
         cmbCat.setToolTipText("Seleccionar...");
         getContentPane().add(cmbCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 178, -1));
 
@@ -126,10 +126,8 @@ public class services extends javax.swing.JFrame {
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 40, 40));
 
         lblService.setText("No. servicio:");
-        getContentPane().add(lblService, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 17, -1, -1));
-
-        lblNoService.setText("000");
-        getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 20, -1));
+        getContentPane().add(lblService, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+        getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 40, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -213,6 +211,9 @@ public class services extends javax.swing.JFrame {
                 update.executeUpdate();
 
                 connection.close();
+                
+                txtName.setText("");
+                cmbCat.setSelectedIndex(0);
             } catch (SQLException ex) {
                 ex.getMessage();
             }

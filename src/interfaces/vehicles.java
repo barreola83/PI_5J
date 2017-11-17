@@ -207,6 +207,12 @@ public class vehicles extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
+                JOptionPane.showMessageDialog(null, "Se añadió exitosamente.");
+                
+                txtBrand.setText("");
+                txtPlate.setText("");
+                txtSearch.setText("");
+                txtYear.setText("");
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El vehículo ya existe.");
             } catch (SQLException ex) {
@@ -230,6 +236,7 @@ public class vehicles extends javax.swing.JFrame {
 
                 update.executeUpdate();
                 update.close();
+                JOptionPane.showMessageDialog(null, "Se modificó exitosamente");
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El vehículo ya existe.");
             } catch (SQLException ex) {
@@ -266,6 +273,7 @@ public class vehicles extends javax.swing.JFrame {
                     btnOn.setVisible(false);
                 }
 
+                btnModify.setEnabled(true);
                 connection.close();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se encontró el vehículo");
