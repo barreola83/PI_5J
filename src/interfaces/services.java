@@ -2,6 +2,7 @@ package interfaces;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -109,6 +110,9 @@ public class services extends javax.swing.JFrame {
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtSearchKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
             }
         });
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 12, 110, -1));
@@ -228,6 +232,11 @@ public class services extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtSearchKeyTyped
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            btnSearch.doClick();
+    }//GEN-LAST:event_txtSearchKeyPressed
 
     /**
      * @param args the command line arguments

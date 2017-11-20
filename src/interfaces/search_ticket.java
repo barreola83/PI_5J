@@ -21,6 +21,7 @@ public class search_ticket extends javax.swing.JFrame {
         initComponents();
         formatJFrame();
         initTableData();
+        this.setSize(jtbTicket.getWidth(), jtbTicket.getHeight());
     }
 
     public search_ticket(int noWorker) {
@@ -28,6 +29,7 @@ public class search_ticket extends javax.swing.JFrame {
         formatJFrame();
         this.noWorker = noWorker;
         initTableData();
+        this.setSize(jtbTicket.getWidth(), jtbTicket.getHeight());
     }
 
     private void formatJFrame() {
@@ -64,7 +66,7 @@ public class search_ticket extends javax.swing.JFrame {
 
             connection.close();
             jtbTicket.setModel(model);
-            
+
         } catch (SQLException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
         }
@@ -85,6 +87,8 @@ public class search_ticket extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tickets asignados");
         setIconImage(getIconImage());
+        setMinimumSize(new java.awt.Dimension(400, 249));
+        setPreferredSize(new java.awt.Dimension(400, 249));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -107,7 +111,7 @@ public class search_ticket extends javax.swing.JFrame {
         jtbTicket.setToolTipText(null);
         jspScroll.setViewportView(jtbTicket);
 
-        getContentPane().add(jspScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 280));
+        getContentPane().add(jspScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 190));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

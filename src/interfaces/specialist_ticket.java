@@ -2,6 +2,7 @@ package interfaces;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,29 +23,21 @@ public class specialist_ticket extends javax.swing.JFrame {
             case "Ticket":
                 initComponents();
                 formatJFrame();
-                txtEName.setEnabled(false);
-                txtDesc.setEnabled(false);
-                txtLocation.setEnabled(false);
-                txtMotive.setEnabled(false);
                 btnUpdate.setVisible(true);
                 btnUpdate.setEnabled(false);
                 break;
             case "Search":
                 initComponents();
                 formatJFrame();
-                txtEName.setEnabled(false);
-                txtDesc.setEnabled(false);
-                txtLocation.setEnabled(false);
-                txtMotive.setEnabled(false);
                 btnUpdate.setVisible(false);
                 break;
-            default:
+            case "":
                 initComponents();
                 formatJFrame();
                 break;
         }
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -57,9 +50,18 @@ public class specialist_ticket extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            txtEName.setEnabled(false);
+            txtDesc.setEnabled(false);
+            txtLocation.setEnabled(false);
+            txtMotive.setEnabled(false);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
+    }
+
+    private void changeVisibility(boolean open, boolean closed) {
+        btnOpen.setVisible(open);
+        btnClosed.setVisible(closed);
     }
 
     /**
@@ -83,7 +85,7 @@ public class specialist_ticket extends javax.swing.JFrame {
         txtMotive = new javax.swing.JTextField();
         lblNo = new javax.swing.JLabel();
         lblNoTicket = new javax.swing.JLabel();
-        btnSearch1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
         txtEName = new javax.swing.JTextField();
@@ -153,19 +155,27 @@ public class specialist_ticket extends javax.swing.JFrame {
         getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));
         getContentPane().add(lblNoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 12, -1, 20));
 
-        btnSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
-        btnSearch1.setToolTipText("Buscar");
-        btnSearch1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnSearch1.setBorderPainted(false);
-        btnSearch1.setContentAreaFilled(false);
-        btnSearch1.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
+        btnSearch.setToolTipText("Buscar");
+        btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnSearch.setBorderPainted(false);
+        btnSearch.setContentAreaFilled(false);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearch1ActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 40, 40));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 40, 40));
 
         txtSearch.setToolTipText("Número de ticket...");
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 130, 20));
 
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/update_version.png"))); // NOI18N
@@ -199,7 +209,7 @@ public class specialist_ticket extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnReturnActionPerformed
 
-    private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch1ActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if (txtSearch.getText().isEmpty() == false) {
             try {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
@@ -218,11 +228,9 @@ public class specialist_ticket extends javax.swing.JFrame {
                 }
 
                 if ("abierto".equals(status)) {
-                    btnOpen.setVisible(true);
-                    btnClosed.setVisible(false);
+                    changeVisibility(true, false);
                 } else {
-                    btnClosed.setVisible(true);
-                    btnOpen.setVisible(false);
+                    changeVisibility(false, true);
                 }
 
                 btnUpdate.setEnabled(true);
@@ -230,18 +238,16 @@ public class specialist_ticket extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
             }
         }
-    }//GEN-LAST:event_btnSearch1ActionPerformed
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnClosedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClosedActionPerformed
         status = "cerrado";
-        btnClosed.setVisible(false);
-        btnOpen.setVisible(true);
+        changeVisibility(true, false);
     }//GEN-LAST:event_btnClosedActionPerformed
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         status = "abierto";
-        btnOpen.setVisible(false);
-        btnClosed.setVisible(true);
+        changeVisibility(false, true);
     }//GEN-LAST:event_btnOpenActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -255,12 +261,25 @@ public class specialist_ticket extends javax.swing.JFrame {
 
             update.executeUpdate();
             connection.close();
-            
+
             JOptionPane.showMessageDialog(null, "Estatus modificado.");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo modificar el estatus.");
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnSearch.doClick();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        char enter = evt.getKeyChar();
+        if (!(Character.isDigit(enter))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSearchKeyTyped
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -284,7 +303,7 @@ public class specialist_ticket extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new specialist_ticket(null).setVisible(true);
+            new specialist_ticket("").setVisible(true);
         });
     }
 
@@ -292,7 +311,7 @@ public class specialist_ticket extends javax.swing.JFrame {
     private javax.swing.JButton btnClosed;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnReturn;
-    private javax.swing.JButton btnSearch1;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblDesc;

@@ -10,18 +10,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class specialist_main extends javax.swing.JFrame {
 
     private int noWorker;
+
     public specialist_main() {
         initComponents();
         formatJFrame();
-        lblTicket.setVisible(false);
-        lblSearch.setVisible(false);
     }
-    
+
     public specialist_main(int noWorker) {
         initComponents();
         formatJFrame();
-        lblTicket.setVisible(false);
-        lblSearch.setVisible(false);
         this.noWorker = noWorker;
     }
 
@@ -30,6 +27,9 @@ public class specialist_main extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            lblTicket.setVisible(false);
+            lblSearch.setVisible(false);
+            lblLook.setVisible(false);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
@@ -58,13 +58,15 @@ public class specialist_main extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         lblSearch = new javax.swing.JLabel();
         btnLook = new javax.swing.JButton();
+        lblLook = new javax.swing.JLabel();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal (especialista)");
         setIconImage(getIconImage());
-        setMinimumSize(new java.awt.Dimension(230, 300));
-        setPreferredSize(new java.awt.Dimension(230, 300));
+        setMaximumSize(new java.awt.Dimension(350, 300));
+        setMinimumSize(new java.awt.Dimension(350, 300));
+        setPreferredSize(new java.awt.Dimension(350, 300));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -129,17 +131,31 @@ public class specialist_main extends javax.swing.JFrame {
         lblSearch.setText("Buscar");
         getContentPane().add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
 
-        btnLook.setText("jButton1");
+        btnLook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/allow_list2.png"))); // NOI18N
+        btnLook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnLook.setBorderPainted(false);
+        btnLook.setContentAreaFilled(false);
+        btnLook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLookMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLookMouseEntered(evt);
+            }
+        });
         btnLook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLookActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
+        getContentPane().add(btnLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, -1, -1));
+
+        lblLook.setText("Tickets signados");
+        getContentPane().add(lblLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 300));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -183,6 +199,14 @@ public class specialist_main extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLookActionPerformed
 
+    private void btnLookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLookMouseEntered
+        lblLook.setVisible(true);
+    }//GEN-LAST:event_btnLookMouseEntered
+
+    private void btnLookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLookMouseExited
+        lblLook.setVisible(false);
+    }//GEN-LAST:event_btnLookMouseExited
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -216,6 +240,7 @@ public class specialist_main extends javax.swing.JFrame {
     private javax.swing.JButton btnTickets;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblHello;
+    private javax.swing.JLabel lblLook;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblTicket;
     // End of variables declaration//GEN-END:variables
