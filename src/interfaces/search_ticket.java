@@ -37,6 +37,7 @@ public class search_ticket extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
@@ -88,7 +89,7 @@ public class search_ticket extends javax.swing.JFrame {
         setTitle("Tickets asignados");
         setIconImage(getIconImage());
         setMinimumSize(new java.awt.Dimension(400, 249));
-        setPreferredSize(new java.awt.Dimension(400, 249));
+        setPreferredSize(null);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

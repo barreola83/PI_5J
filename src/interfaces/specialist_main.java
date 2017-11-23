@@ -27,6 +27,7 @@ public class specialist_main extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            this.pack();
             lblTicket.setVisible(false);
             lblSearch.setVisible(false);
             lblLook.setVisible(false);
@@ -66,7 +67,7 @@ public class specialist_main extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(350, 300));
         setMinimumSize(new java.awt.Dimension(350, 300));
-        setPreferredSize(new java.awt.Dimension(350, 300));
+        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

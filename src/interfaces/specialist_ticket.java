@@ -50,6 +50,7 @@ public class specialist_ticket extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            this.pack();
             txtEName.setEnabled(false);
             txtDesc.setEnabled(false);
             txtLocation.setEnabled(false);
@@ -97,7 +98,7 @@ public class specialist_ticket extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(340, 340));
         setMinimumSize(new java.awt.Dimension(340, 340));
-        setPreferredSize(new java.awt.Dimension(340, 340));
+        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

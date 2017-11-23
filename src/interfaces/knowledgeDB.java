@@ -28,6 +28,7 @@ public class knowledgeDB extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
@@ -73,7 +74,7 @@ public class knowledgeDB extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(360, 272));
         setMinimumSize(new java.awt.Dimension(360, 272));
         setName("frmBD"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(360, 272));
+        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
