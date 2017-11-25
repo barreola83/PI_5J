@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -17,6 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class specialist_ticket extends javax.swing.JFrame {
 
     private String status;
+    TextAutoCompleter autocomplete;
 
     public specialist_ticket(String form) {
         switch (form) {
@@ -51,12 +54,35 @@ public class specialist_ticket extends javax.swing.JFrame {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
             this.pack();
+            autocomplete = new TextAutoCompleter(txtSearch);
+            autocomplete.setCaseSensitive(false);
+            autocomplete.setMode(0);
+            autocomplete.addItems(setSpecialistTicket());
             txtEName.setEnabled(false);
             txtDesc.setEnabled(false);
             txtLocation.setEnabled(false);
             txtMotive.setEnabled(false);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
+        }
+    }
+
+    private ArrayList setSpecialistTicket() {
+        try {
+            ArrayList<String> regNo = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_ticket from Ticket");
+
+            while (result.next()) {
+                regNo.add(result.getString("no_ticket"));
+            }
+
+            connection.close();
+            return regNo;
+        } catch (SQLException ex) {
+            return null;
         }
     }
 
@@ -124,7 +150,7 @@ public class specialist_ticket extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, -1, -1));
-        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 210, -1));
+        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 240, -1));
 
         btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_open.png"))); // NOI18N
         btnOpen.setToolTipText("Abierto");
@@ -143,14 +169,14 @@ public class specialist_ticket extends javax.swing.JFrame {
 
         lblStatus.setText("Status:");
         getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
-        getContentPane().add(txtDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 132, 210, 70));
+        getContentPane().add(txtDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 220, 70));
 
         lblDesc.setText("Descripción:");
         getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 137, -1, -1));
 
         lblMotive.setText("Motivo:");
         getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 97, -1, -1));
-        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 92, 260, -1));
+        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 260, -1));
 
         lblNo.setText("No. ticket");
         getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));

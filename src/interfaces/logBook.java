@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,10 +20,34 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class logBook extends javax.swing.JFrame {
 
     Calendar calendar = Calendar.getInstance();
+    TextAutoCompleter autocomplete;
 
     public logBook() {
         initComponents();
         formatJFrame();
+        autocomplete = new TextAutoCompleter(txtSearch);
+        autocomplete.setCaseSensitive(false);
+        autocomplete.setMode(0);
+        autocomplete.addItems(setLogBookCompletion());
+    }
+    
+    private ArrayList setLogBookCompletion(){
+        try {
+            ArrayList<Integer> regNo = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_registro from LogBook");
+
+            while (result.next()) {
+                regNo.add(result.getInt("no_registro"));
+            }
+
+            connection.close();
+            return regNo;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
     private void formatJFrame() {
@@ -200,7 +226,7 @@ public class logBook extends javax.swing.JFrame {
                 txtSearchKeyPressed(evt);
             }
         });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 87, -1));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 10, 100, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar");

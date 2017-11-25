@@ -1,6 +1,5 @@
 package interfaces;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;

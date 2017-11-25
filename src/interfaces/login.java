@@ -80,6 +80,7 @@ public class login extends javax.swing.JFrame {
         setTitle("Inicio de sesión");
         setIconImage(getIconImage());
         setName("frmLogin"); // NOI18N
+        setPreferredSize(null);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {

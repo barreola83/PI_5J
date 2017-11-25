@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -16,12 +18,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class services extends javax.swing.JFrame {
 
-    public services() {
-            initComponents();
-            formatJFrame();
-            btnModify.setEnabled(false);
-    }
+    TextAutoCompleter autocomplete;
     
+    public services() {
+        initComponents();
+        formatJFrame();
+        autocomplete = new TextAutoCompleter(txtSearch);
+        autocomplete.setCaseSensitive(false);
+        autocomplete.setMode(0);
+        autocomplete.addItems(setServicesCompletion());
+        btnModify.setEnabled(false);
+    }
+
     private void formatJFrame() {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar 
@@ -33,10 +41,29 @@ public class services extends javax.swing.JFrame {
         }
     }
 
+    private ArrayList setServicesCompletion() {
+        try {
+            ArrayList<String> noService = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_servicio from Services");
+
+            while (result.next()) {
+                noService.add(result.getString("no_registro"));
+            }
+
+            connection.close();
+            return noService;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+
     private boolean isEmpty() {
         return txtName.getText().isEmpty() || cmbCat.getSelectedIndex() == -1;
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -217,7 +244,7 @@ public class services extends javax.swing.JFrame {
                 update.executeUpdate();
 
                 connection.close();
-                
+
                 txtName.setText("");
                 cmbCat.setSelectedIndex(0);
             } catch (SQLException ex) {
@@ -236,8 +263,9 @@ public class services extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchKeyTyped
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSearch.doClick();
+        }
     }//GEN-LAST:event_txtSearchKeyPressed
 
     /**

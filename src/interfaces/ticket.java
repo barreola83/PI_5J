@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -11,16 +12,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ticket extends javax.swing.JFrame {
 
     private String status;
+    TextAutoCompleter autocomplete;
 
     public ticket() {
         initComponents();
         formatJFrame();
+        autocomplete = new TextAutoCompleter(txtNoWorker);
+        autocomplete.setCaseSensitive(false);
+        autocomplete.setMode(0);
+        autocomplete.addItems(setNoWorkerCompletion());
     }
 
     private void formatJFrame() {
@@ -33,6 +42,26 @@ public class ticket extends javax.swing.JFrame {
             ex.getMessage();
         }
     }
+    
+    private ArrayList setNoWorkerCompletion(){
+        try {
+            ArrayList<Integer> regNo = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_trabajador from Workers");
+
+            while (result.next()) {
+                regNo.add(result.getInt("no_trabajador"));
+            }
+
+            connection.close();
+            return regNo;
+        } catch (SQLException ex) {
+            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 
     public java.sql.Date getDate() {
         Calendar calendar = Calendar.getInstance();
@@ -41,8 +70,8 @@ public class ticket extends javax.swing.JFrame {
     }
 
     public boolean isEmpty() {
-        return !(txtDesc.getText().isEmpty() || txtEName.getText().isEmpty()
-                || txtLocation.getText().isEmpty() || txtMotive.getText().isEmpty());
+        return !(txtDesc.getText().isEmpty() || txtLocation.getText().isEmpty() 
+                || txtMotive.getText().isEmpty());
     }
 
     @Override
@@ -55,17 +84,38 @@ public class ticket extends javax.swing.JFrame {
     private void getNoTicket() {
         try {
             DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            
+
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             ResultSet result;
             Statement select = connection.createStatement();
             result = select.executeQuery("SELECT no_ticket FROM Ticket ORDER BY no_ticket desc limit 1;");
-            
+
             while (result.next()) {
                 JOptionPane.showMessageDialog(this, "Ticket número: " + result.getInt("no_ticket") + " añadido.",
                         "Ticket añadido", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (SQLException ex) {}
+        } catch (SQLException ex) {
+            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private String getWorkerName(){
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            ResultSet result;
+            Statement select = connection.createStatement();
+            result = select.executeQuery("SELECT nombre from Workers where no_trabajador =" + Integer.valueOf(txtNoWorker.getText()));
+
+            while (result.next()) {
+                return result.getString("nombre");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return null;
     }
 
     /**
@@ -77,12 +127,10 @@ public class ticket extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblName = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         lblMotive = new javax.swing.JLabel();
         lblLocation = new javax.swing.JLabel();
         lblDesc = new javax.swing.JLabel();
-        txtEName = new javax.swing.JTextField();
         txtMotive = new javax.swing.JTextField();
         txtLocation = new javax.swing.JTextField();
         btnCreate = new javax.swing.JButton();
@@ -100,27 +148,22 @@ public class ticket extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(343, 351));
         setMinimumSize(new java.awt.Dimension(343, 351));
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblName.setText("Nombre especialista:");
-        getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
-
         lblStatus.setText("Status:");
-        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
+        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
 
         lblMotive.setText("Motivo:");
-        getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         lblLocation.setText("Ubicación:");
-        getContentPane().add(lblLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
+        getContentPane().add(lblLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
         lblDesc.setText("Descripción:");
-        getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
-        getContentPane().add(txtEName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 160, -1));
-        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 260, -1));
-        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 210, -1));
+        getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 260, -1));
+        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 210, -1));
 
         btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnCreate.setToolTipText("Crear");
@@ -132,7 +175,7 @@ public class ticket extends javax.swing.JFrame {
                 btnCreateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, -1));
+        getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -144,7 +187,7 @@ public class ticket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
 
         btnClosed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_closed.png"))); // NOI18N
         btnClosed.setToolTipText("Cerrado");
@@ -156,7 +199,7 @@ public class ticket extends javax.swing.JFrame {
                 btnClosedActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClosed, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
+        getContentPane().add(btnClosed, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
 
         btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_open.png"))); // NOI18N
         btnOpen.setToolTipText("Abierto");
@@ -168,11 +211,11 @@ public class ticket extends javax.swing.JFrame {
                 btnOpenActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOpen, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
+        getContentPane().add(btnOpen, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
 
         lblNoWorker.setText("Número de trabajador:");
-        getContentPane().add(lblNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-        getContentPane().add(txtNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 150, -1));
+        getContentPane().add(lblNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        getContentPane().add(txtNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 160, -1));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setToolTipText(null);
@@ -183,11 +226,11 @@ public class ticket extends javax.swing.JFrame {
         txtDesc.setToolTipText(null);
         jScrollPane1.setViewportView(txtDesc);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 240, 80));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 240, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 360));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -220,19 +263,21 @@ public class ticket extends javax.swing.JFrame {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket" + " VALUES(null,?,?,?,?,?,?,?)");
 
-                insert.setString(1, txtEName.getText());
+                insert.setString(1, getWorkerName());
                 insert.setString(2, txtDesc.getText());
                 insert.setString(3, txtMotive.getText());
                 insert.setDate(4, getDate());
                 insert.setString(5, status);
                 insert.setString(6, txtLocation.getText());
                 insert.setInt(7, Integer.parseInt(txtNoWorker.getText()));
+                
                 insert.executeUpdate();
                 insert.close();
-                
+
                 getNoTicket();
 
             } catch (SQLException ex) {
+                Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
                 ex.getMessage();
             }
         } else {
@@ -276,11 +321,9 @@ public class ticket extends javax.swing.JFrame {
     private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblLocation;
     private javax.swing.JLabel lblMotive;
-    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblNoWorker;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JTextArea txtDesc;
-    private javax.swing.JTextField txtEName;
     private javax.swing.JTextField txtLocation;
     private javax.swing.JTextField txtMotive;
     private javax.swing.JTextField txtNoWorker;

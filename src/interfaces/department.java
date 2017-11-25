@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,10 +22,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class department extends javax.swing.JFrame {
 
     Calendar calendar = Calendar.getInstance();
+    TextAutoCompleter autocomplete;
 
     public department() {
         initComponents();
         formatJFrame();
+        autocomplete = new TextAutoCompleter(txtSearch);
+        autocomplete.setCaseSensitive(false);
+        autocomplete.setMode(0);
+        autocomplete.addItems(setDepartmentsCompletion());
     }
 
     private void formatJFrame() {
@@ -36,7 +43,26 @@ public class department extends javax.swing.JFrame {
             ex.getMessage();
         }
     }
-    
+
+    private ArrayList setDepartmentsCompletion() {
+        try {
+            ArrayList<String> names = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT nombre from Departments");
+
+            while (result.next()) {
+                names.add(result.getString("nombre"));
+            }
+
+            connection.close();
+            return names;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -72,8 +98,8 @@ public class department extends javax.swing.JFrame {
         return txtName.getText().isEmpty() || txtExt.getText().isEmpty()
                 || txtCharge.getText().isEmpty();
     }
-    
-    private void cleanComponents(){
+
+    private void cleanComponents() {
         txtCharge.setText("");
         txtExt.setText("");
         txtName.setText("");
@@ -152,7 +178,7 @@ public class department extends javax.swing.JFrame {
         getContentPane().add(lblExt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
         txtName.setName("txtNombreDepartamento"); // NOI18N
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 236, -1));
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 236, -1));
 
         txtCharge.setName("txtEncargado"); // NOI18N
         getContentPane().add(txtCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 236, -1));
@@ -251,7 +277,7 @@ public class department extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
-                
+
                 cleanComponents();
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El departamento ya existe.");
@@ -302,7 +328,7 @@ public class department extends javax.swing.JFrame {
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         if (isEmpty() == false) {
-            
+
             try {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
@@ -317,14 +343,14 @@ public class department extends javax.swing.JFrame {
 
                 update.executeUpdate();
                 connection.close();
-                
+
                 cleanComponents();
-            }  catch (MySQLIntegrityConstraintViolationException ex) {
+            } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El departamento ya existe.");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo completar la modificación. Intente de nuevo");
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -338,7 +364,7 @@ public class department extends javax.swing.JFrame {
     }//GEN-LAST:event_txtExtKeyTyped
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSearch.doClick();
         }
     }//GEN-LAST:event_txtSearchKeyPressed

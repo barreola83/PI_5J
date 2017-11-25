@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,10 +22,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class dependency extends javax.swing.JFrame {
 
     Calendar calendar = Calendar.getInstance();
+    TextAutoCompleter autocomplete;
 
     public dependency() {
         initComponents();
         formatJFrame();
+        autocomplete = new TextAutoCompleter(txtSearch);
+        autocomplete.setCaseSensitive(false);
+        autocomplete.setMode(0);
+        autocomplete.addItems(setDependenciesCompletion());
     }
     
     private void formatJFrame() {
@@ -82,6 +89,25 @@ public class dependency extends javax.swing.JFrame {
         cmbHourOut.setSelectedIndex(0);
         cmbMinutesOut.setSelectedIndex(0);
     }
+    
+    private ArrayList setDependenciesCompletion(){
+        try {
+            ArrayList<String> names = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT nombre from Dependencies");
+
+            while (result.next()) {
+                names.add(result.getString("nombre"));
+            }
+
+            connection.close();
+            return names;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -128,7 +154,7 @@ public class dependency extends javax.swing.JFrame {
                 txtSearchKeyPressed(evt);
             }
         });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 12, 96, -1));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 12, 140, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar");
@@ -149,7 +175,7 @@ public class dependency extends javax.swing.JFrame {
         getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
         lbl4.setText("Teléfono:");
-        getContentPane().add(lbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 183, -1, -1));
+        getContentPane().add(lbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
         lbl5.setText("Horario:");
         getContentPane().add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
@@ -166,7 +192,7 @@ public class dependency extends javax.swing.JFrame {
                 txtPhoneNoKeyTyped(evt);
             }
         });
-        getContentPane().add(txtPhoneNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 160, -1));
+        getContentPane().add(txtPhoneNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 160, -1));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar");

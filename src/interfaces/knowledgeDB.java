@@ -37,7 +37,7 @@ public class knowledgeDB extends javax.swing.JFrame {
     private boolean isEmpty() {
         return txtProblem.getText().isEmpty() || txtSolution.getText().isEmpty();
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -203,7 +203,7 @@ public class knowledgeDB extends javax.swing.JFrame {
                 }
 
                 connection.close();
-                
+
                 btnModify.setEnabled(true);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
@@ -225,12 +225,12 @@ public class knowledgeDB extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
-                
+
                 JOptionPane.showMessageDialog(null, "Solución añadida.");
-                
+
                 txtProblem.setText("");
                 txtSolution.setText("");
-                
+
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El problema ya existe.");
             } catch (SQLException ex) {
@@ -254,9 +254,9 @@ public class knowledgeDB extends javax.swing.JFrame {
 
                 update.executeUpdate();
                 connection.close();
-                
+
                 JOptionPane.showMessageDialog(null, "Problema modificado.");
-                
+
                 txtProblem.setText("");
                 txtSolution.setText("");
             } catch (MySQLIntegrityConstraintViolationException ex) {
@@ -277,8 +277,9 @@ public class knowledgeDB extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchKeyTyped
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSearch.doClick();
+        }
     }//GEN-LAST:event_txtSearchKeyPressed
 
     /**

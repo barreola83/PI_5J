@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -18,10 +20,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class vehicles extends javax.swing.JFrame {
 
     private String status;
+    TextAutoCompleter autocomplete;
 
     public vehicles() {
         initComponents();
         formatJFrame();
+        autocomplete = new TextAutoCompleter(txtSearch);
+        autocomplete.setCaseSensitive(false);
+        autocomplete.setMode(0);
+        autocomplete.addItems(setPlatesCompletion());
         btnModify.setEnabled(false);
     }
 
@@ -36,11 +43,30 @@ public class vehicles extends javax.swing.JFrame {
         }
     }
 
+    private ArrayList setPlatesCompletion() {
+        try {
+            ArrayList<String> regNo = new ArrayList<>();
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT plates from Vehicles");
+
+            while (result.next()) {
+                regNo.add(result.getString("plates"));
+            }
+
+            connection.close();
+            return regNo;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+
     private boolean isEmpty() {
         return txtPlate.getText().isEmpty() || txtYear.getText().isEmpty()
                 || txtBrand.getText().isEmpty() || status == null;
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -216,13 +242,15 @@ public class vehicles extends javax.swing.JFrame {
                 insert.executeUpdate();
                 connection.close();
                 JOptionPane.showMessageDialog(null, "Se añadió exitosamente.");
-                
+
                 txtBrand.setText("");
                 txtPlate.setText("");
                 txtSearch.setText("");
                 txtYear.setText("");
+
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El vehículo ya existe.");
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");
             }
@@ -265,7 +293,7 @@ public class vehicles extends javax.swing.JFrame {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
-                
+
                 while (result.next()) {
                     txtPlate.setText(result.getString("plates"));
                     txtBrand.setText(result.getString("model"));
@@ -290,8 +318,9 @@ public class vehicles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSearch.doClick();
+        }
     }//GEN-LAST:event_txtSearchKeyPressed
 
     /**
