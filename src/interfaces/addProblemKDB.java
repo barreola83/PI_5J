@@ -54,12 +54,9 @@ public class addProblemKDB extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNo = new javax.swing.JLabel();
         lbl2 = new javax.swing.JLabel();
         lbl3 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
         txtProblem = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
         lblNoProblem = new javax.swing.JLabel();
@@ -75,49 +72,18 @@ public class addProblemKDB extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblNo.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        lblNo.setText("No. problema");
-        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
-
         lbl2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lbl2.setText("Problema a resolver:");
-        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         lbl3.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lbl3.setText("Solución:");
-        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
-
-        txtSearch.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        txtSearch.setToolTipText("Número de problema");
-        txtSearch.setName("txtProblema"); // NOI18N
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSearchKeyTyped(evt);
-            }
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSearchKeyPressed(evt);
-            }
-        });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 118, -1));
+        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
 
         txtProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         txtProblem.setToolTipText(null);
         txtProblem.setName("txtResolver"); // NOI18N
-        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 190, -1));
-
-        btnSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
-        btnSearch.setToolTipText("Buscar");
-        btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnSearch.setBorderPainted(false);
-        btnSearch.setContentAreaFilled(false);
-        btnSearch.setName("btnBuscar"); // NOI18N
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 30, 40));
+        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 190, -1));
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -156,7 +122,7 @@ public class addProblemKDB extends javax.swing.JFrame {
         txtSolution.setRows(5);
         jspTxtSolution.setViewportView(txtSolution);
 
-        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 270, 110));
+        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 270, 130));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -175,45 +141,6 @@ public class addProblemKDB extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        char enter = evt.getKeyChar();
-        if (!(Character.isDigit(enter))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtSearchKeyTyped
-
-    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnSearch.doClick();
-        }
-    }//GEN-LAST:event_txtSearchKeyPressed
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        if (txtSearch.getText().isEmpty() == false) {
-            try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                Statement select = connection.createStatement();
-                ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
-                        + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
-
-                while (result.next()) {
-                    lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
-                    txtProblem.setText(result.getString("problema"));
-                    txtSolution.setText(result.getString("solucion"));
-                }
-
-                connection.close();
-
-                btnModify.setEnabled(true);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese un dato a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() == false) {
@@ -318,15 +245,12 @@ public class addProblemKDB extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnReturn;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JScrollPane jspTxtSolution;
     private javax.swing.JLabel lbl2;
     private javax.swing.JLabel lbl3;
     private javax.swing.JLabel lblBottom;
-    private javax.swing.JLabel lblNo;
     private javax.swing.JLabel lblNoProblem;
     private javax.swing.JTextField txtProblem;
-    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextArea txtSolution;
     // End of variables declaration//GEN-END:variables
 }

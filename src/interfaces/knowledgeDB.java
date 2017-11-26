@@ -2,8 +2,10 @@ package interfaces;
 
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +32,7 @@ public class knowledgeDB extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            setUpTable();
             this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
@@ -40,6 +44,24 @@ public class knowledgeDB extends javax.swing.JFrame {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
         return retValue;
+    }
+    
+    private void setUpTable(){
+        jtbData.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                
+                if (me.getClickCount() == 2) {
+                    int line = table.getSelectedRow();
+                    String problem = table.getValueAt(line, 0).toString();
+                    String solution = table.getValueAt(line, 1).toString();
+                    JOptionPane.showMessageDialog(null, "Problema: " + problem + "\nSolución: " + solution);
+                }
+            }
+        });
     }
 
     private void initTableData(String problem) {
@@ -57,10 +79,12 @@ public class knowledgeDB extends javax.swing.JFrame {
             }
 
             connection.close();
-            jtbProblems.setModel(model);
+            jtbData.setModel(model);
+            jtbData.packAll();
+            jtbData.setAutoResizeMode(5);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(knowledgeDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -75,8 +99,8 @@ public class knowledgeDB extends javax.swing.JFrame {
 
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        jspTable = new javax.swing.JScrollPane();
-        jtbProblems = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtbData = new org.jdesktop.swingx.JXTable();
         jmbMain = new javax.swing.JMenuBar();
         jEdit = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -85,7 +109,6 @@ public class knowledgeDB extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de datos del conocimiento");
         setIconImage(getIconImage());
-        setMaximumSize(new java.awt.Dimension(360, 272));
         setMinimumSize(new java.awt.Dimension(360, 272));
         setName("frmBD"); // NOI18N
         setResizable(false);
@@ -115,7 +138,7 @@ public class knowledgeDB extends javax.swing.JFrame {
         });
         getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 30, 40));
 
-        jtbProblems.setModel(new javax.swing.table.DefaultTableModel(
+        jtbData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -134,20 +157,15 @@ public class knowledgeDB extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jspTable.setViewportView(jtbProblems);
+        jtbData.setEditable(false);
+        jScrollPane1.setViewportView(jtbData);
 
-        getContentPane().add(jspTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 530, 320));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 530, 300));
 
         jEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit24.png"))); // NOI18N
         jEdit.setText("Edit");
         jEdit.setToolTipText("Editar...");
         jEdit.setContentAreaFilled(false);
-        jEdit.setDelay(20);
-        jEdit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jEditMouseExited(evt);
-            }
-        });
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add24.png"))); // NOI18N
@@ -197,10 +215,6 @@ public class knowledgeDB extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmiFindActionPerformed
 
-    private void jEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditMouseExited
-
-    }//GEN-LAST:event_jEditMouseExited
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
         new addProblemKDB().setVisible(true);
@@ -236,10 +250,10 @@ public class knowledgeDB extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JMenu jEdit;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar jmbMain;
     private javax.swing.JMenuItem jmiFind;
-    private javax.swing.JScrollPane jspTable;
-    private javax.swing.JTable jtbProblems;
+    private org.jdesktop.swingx.JXTable jtbData;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
