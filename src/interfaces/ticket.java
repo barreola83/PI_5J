@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ticket extends javax.swing.JFrame {
@@ -37,13 +35,14 @@ public class ticket extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            //UIManager.setLookAndFeel( "com.seaglasslookandfeel.SeaGlassLookAndFeel" ); //Da el estilo al jFrame
             this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
         }
     }
-    
-    private ArrayList setNoWorkerCompletion(){
+
+    private ArrayList setNoWorkerCompletion() {
         try {
             ArrayList<Integer> regNo = new ArrayList<>();
             DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
@@ -58,7 +57,6 @@ public class ticket extends javax.swing.JFrame {
             connection.close();
             return regNo;
         } catch (SQLException ex) {
-            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -70,7 +68,7 @@ public class ticket extends javax.swing.JFrame {
     }
 
     public boolean isEmpty() {
-        return !(txtDesc.getText().isEmpty() || txtLocation.getText().isEmpty() 
+        return !(txtDesc.getText().isEmpty() || txtLocation.getText().isEmpty()
                 || txtMotive.getText().isEmpty());
     }
 
@@ -95,14 +93,13 @@ public class ticket extends javax.swing.JFrame {
                         "Ticket añadido", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private String getWorkerName(){
+
+    private String getWorkerName() {
         try {
             DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            
+
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             ResultSet result;
             Statement select = connection.createStatement();
@@ -112,10 +109,13 @@ public class ticket extends javax.swing.JFrame {
                 return result.getString("nombre");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return null;
+    }
+
+    private boolean workerExists() {
+        return getWorkerName() != null;
     }
 
     /**
@@ -175,7 +175,7 @@ public class ticket extends javax.swing.JFrame {
                 btnCreateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
+        getContentPane().add(btnCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, 60, 60));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -187,7 +187,7 @@ public class ticket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 60, 60));
 
         btnClosed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_closed.png"))); // NOI18N
         btnClosed.setToolTipText("Cerrado");
@@ -230,7 +230,7 @@ public class ticket extends javax.swing.JFrame {
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 370));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -257,27 +257,33 @@ public class ticket extends javax.swing.JFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         if (isEmpty()) {
+            outer:
             try {
                 DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
 
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket" + " VALUES(null,?,?,?,?,?,?,?)");
 
-                insert.setString(1, getWorkerName());
+                if (workerExists()) {
+                    insert.setString(1, getWorkerName());
+                } else {
+                    JOptionPane.showMessageDialog(null, "El trabajador no existe", "Error al añadir", JOptionPane.INFORMATION_MESSAGE);
+                    break outer;
+                }
+
                 insert.setString(2, txtDesc.getText());
                 insert.setString(3, txtMotive.getText());
                 insert.setDate(4, getDate());
                 insert.setString(5, status);
                 insert.setString(6, txtLocation.getText());
                 insert.setInt(7, Integer.parseInt(txtNoWorker.getText()));
-                
+
                 insert.executeUpdate();
                 insert.close();
 
                 getNoTicket();
 
             } catch (SQLException ex) {
-                Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
                 ex.getMessage();
             }
         } else {

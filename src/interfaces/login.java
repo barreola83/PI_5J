@@ -1,5 +1,6 @@
 package interfaces;
 
+import com.placeholder.PlaceHolder;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
@@ -12,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -31,6 +34,8 @@ public class login extends javax.swing.JFrame {
         try {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            PlaceHolder user = new PlaceHolder(txtUser, "Correo...");
+            PlaceHolder pass = new PlaceHolder(txtPass, "Contraseña...");
             this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
@@ -50,8 +55,8 @@ public class login extends javax.swing.JFrame {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT no_trabajador, cargo, contrasena FROM Workers WHERE no_trabajador="
-                    + Integer.parseInt(txtUser.getText()) + " AND contrasena='" + new String(this.txtPass.getPassword()) + "'");
+            ResultSet result = select.executeQuery("SELECT no_trabajador, cargo, correo, contrasena FROM LoginData WHERE correo='"
+                    + txtUser.getText() + "' AND contrasena='" + new String(this.txtPass.getPassword()) + "'");
             while (result.next()) {
                 noWorker = result.getInt("no_trabajador");
                 permission = result.getString("cargo");
@@ -101,13 +106,12 @@ public class login extends javax.swing.JFrame {
         btnLogin.setToolTipText("Iniciar sesión");
         btnLogin.setBorderPainted(false);
         btnLogin.setContentAreaFilled(false);
-        btnLogin.setPreferredSize(null);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 52));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 60));
 
         lblHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
         getContentPane().add(lblHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
@@ -157,7 +161,7 @@ public class login extends javax.swing.JFrame {
                 lblAddUserMouseEntered(evt);
             }
         });
-        getContentPane().add(lblAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
+        getContentPane().add(lblAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
@@ -187,10 +191,10 @@ public class login extends javax.swing.JFrame {
 
             } else {
                 JOptionPane.showMessageDialog(null, "Compruebe que los datos sean correctos.");
-
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Compruebe que los datos sean correctos.");
+            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -229,7 +233,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_lblAddUserMouseExited
 
     private void lblAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddUserMouseClicked
-        new workers().setVisible(true);
+        new workers(true).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblAddUserMouseClicked
 

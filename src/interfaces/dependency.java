@@ -143,7 +143,6 @@ public class dependency extends javax.swing.JFrame {
         setIconImages(null);
         setMaximumSize(new java.awt.Dimension(338, 327));
         setMinimumSize(new java.awt.Dimension(338, 327));
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -205,7 +204,7 @@ public class dependency extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
         btnModify.setToolTipText("Modificar");
@@ -218,7 +217,7 @@ public class dependency extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -230,34 +229,34 @@ public class dependency extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, -1, -1));
 
         cmbMinutesIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMinutesIn.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 50, 20));
+        getContentPane().add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 50, -1));
 
         cmbHourIn.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbHourIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbHourIn.setToolTipText("Hora");
-        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 50, 20));
+        getContentPane().add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 50, -1));
 
         cmbHourOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbHourOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cmbHourOut.setToolTipText("Hora");
-        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 60, 20));
+        getContentPane().add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 60, -1));
 
         cmbMinutesOut.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         cmbMinutesOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         cmbMinutesOut.setToolTipText("Minutos");
-        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 50, 20));
+        getContentPane().add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 50, -1));
 
         lblTo.setText("a");
         getContentPane().add(lblTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 40, 20));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 350));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

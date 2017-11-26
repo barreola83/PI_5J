@@ -71,7 +71,7 @@ public class specialist_main extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit_1.png"))); // NOI18N
+        btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
         btnTickets.setToolTipText("Tickets");
         btnTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnTickets.setBorderPainted(false);

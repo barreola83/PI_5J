@@ -94,8 +94,6 @@ public class evalTicket extends javax.swing.JFrame {
         lblFeelQ2 = new javax.swing.JLabel();
         lblFeelQ3 = new javax.swing.JLabel();
         lblFeelQ4 = new javax.swing.JLabel();
-        btnReturn = new javax.swing.JButton();
-        lblBottom2 = new javax.swing.JLabel();
         btnEvaluate = new javax.swing.JButton();
         lblBottom = new javax.swing.JLabel();
 
@@ -104,7 +102,6 @@ public class evalTicket extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(478, 369));
         setMinimumSize(new java.awt.Dimension(478, 369));
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -372,21 +369,6 @@ public class evalTicket extends javax.swing.JFrame {
         lblFeelQ4.setText("Seleccione una opción...");
         getContentPane().add(lblFeelQ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
-        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
-        btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnReturn.setBorderPainted(false);
-        btnReturn.setContentAreaFilled(false);
-        btnReturn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReturnActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 50, 50));
-
-        lblBottom2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        lblBottom2.setToolTipText(null);
-        getContentPane().add(lblBottom2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 480, 110));
-
         btnEvaluate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check_mark.png"))); // NOI18N
         btnEvaluate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEvaluate.setBorderPainted(false);
@@ -396,22 +378,14 @@ public class evalTicket extends javax.swing.JFrame {
                 btnEvaluateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEvaluate, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 320, -1, -1));
+        getContentPane().add(btnEvaluate, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, -1, 60));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 370));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?\nTodos los datos no guardados se perderán", "Confirmar",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            new main().setVisible(true);
-            this.dispose();
-        }
-    }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnQ1LoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQ1LoveActionPerformed
         AQ1 = "Muy buena";
@@ -592,9 +566,7 @@ public class evalTicket extends javax.swing.JFrame {
     private javax.swing.JButton btnQ4Love;
     private javax.swing.JButton btnQ4Medium;
     private javax.swing.JButton btnQ4Soso;
-    private javax.swing.JButton btnReturn;
     private javax.swing.JLabel lblBottom;
-    private javax.swing.JLabel lblBottom2;
     private javax.swing.JLabel lblFeelQ1;
     private javax.swing.JLabel lblFeelQ2;
     private javax.swing.JLabel lblFeelQ3;

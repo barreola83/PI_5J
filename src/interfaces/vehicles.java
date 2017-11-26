@@ -102,7 +102,6 @@ public class vehicles extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vehículos");
         setIconImage(getIconImage());
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -114,9 +113,9 @@ public class vehicles extends javax.swing.JFrame {
 
         lblYear.setText("Año:");
         getContentPane().add(lblYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 150, -1, -1));
-        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 145, 136, -1));
-        getContentPane().add(txtBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 111, 136, -1));
-        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 77, 136, -1));
+        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 145, 190, -1));
+        getContentPane().add(txtBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 111, 190, -1));
+        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 77, 190, -1));
 
         lblStatus.setText("Status");
         getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 199, -1, -1));
@@ -173,7 +172,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
         btnModify.setToolTipText("Modificar");
@@ -185,7 +184,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -197,11 +196,11 @@ public class vehicles extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 300));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 330));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

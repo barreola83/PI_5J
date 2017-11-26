@@ -43,16 +43,27 @@ public class main extends javax.swing.JFrame {
 
     private boolean validateNoTicket() {
         try {
+            int ticket = 0;
+            String status = "";
             DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT no_ticket from Ticket where no_ticket = " + no_ticket);
+            ResultSet result = select.executeQuery("SELECT no_ticket, status from Ticket where no_ticket = " + no_ticket);
 
-            return result.first();
+            while (result.next()) {
+                ticket = result.getInt("no_ticket");
+                status = result.getString("status");
+            }
 
+            if (ticket != 0 && status.equals("cerrado")){
+                return true;
+            }
+
+            connection.close();
         } catch (SQLException ex) {
             return false;
         }
+        return false;
     }
 
     @Override
@@ -162,7 +173,7 @@ public class main extends javax.swing.JFrame {
         });
         getContentPane().add(btnBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
 
-        btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit_1.png"))); // NOI18N
+        btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
         btnTickets.setToolTipText("Tickets");
         btnTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnTickets.setBorderPainted(false);
@@ -367,7 +378,7 @@ public class main extends javax.swing.JFrame {
                 new evalTicket(no_ticket).setVisible(true);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
+                JOptionPane.showMessageDialog(null, "El ticket aún no ha sido cerrado o no existe.");
             }
         } catch (NumberFormatException ex) {
         }

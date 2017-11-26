@@ -149,7 +149,7 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
         getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 240, -1));
 
         btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_open.png"))); // NOI18N
@@ -205,7 +205,7 @@ public class specialist_ticket extends javax.swing.JFrame {
         });
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 130, 20));
 
-        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/update_version.png"))); // NOI18N
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/update.png"))); // NOI18N
         btnUpdate.setToolTipText("Actualizar...");
         btnUpdate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnUpdate.setBorderPainted(false);
@@ -215,7 +215,7 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 50, 50));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 60, 50));
         getContentPane().add(txtEName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
 
         lblName.setText("Nombre especialista:");

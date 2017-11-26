@@ -80,7 +80,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="290" width="-1" height="-1"/>
+          <AbsoluteConstraints x="0" y="280" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -225,7 +225,7 @@
     <Component class="javax.swing.JButton" name="btnUpdate">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/update_version.png"/>
+          <Image iconType="3" name="/icons/update.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Actualizar..."/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -241,7 +241,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="280" y="290" width="50" height="50"/>
+          <AbsoluteConstraints x="270" y="290" width="60" height="50"/>
         </Constraint>
       </Constraints>
     </Component>

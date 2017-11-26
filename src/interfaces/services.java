@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -43,19 +45,20 @@ public class services extends javax.swing.JFrame {
 
     private ArrayList setServicesCompletion() {
         try {
-            ArrayList<String> noService = new ArrayList<>();
+            ArrayList<Integer> noService = new ArrayList<>();
             DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_servicio from Services");
 
             while (result.next()) {
-                noService.add(result.getString("no_registro"));
+                noService.add(result.getInt("no_servicio"));
             }
 
             connection.close();
             return noService;
         } catch (SQLException ex) {
+            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -82,7 +85,6 @@ public class services extends javax.swing.JFrame {
 
         lblName = new javax.swing.JLabel();
         lblCat = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
         cmbCat = new javax.swing.JComboBox<>();
         bntAdd = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
@@ -91,12 +93,12 @@ public class services extends javax.swing.JFrame {
         lblService = new javax.swing.JLabel();
         lblNoService = new javax.swing.JLabel();
         btnReturn = new javax.swing.JButton();
+        txtName = new javax.swing.JTextField();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Servicios");
         setIconImage(getIconImage());
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -104,12 +106,11 @@ public class services extends javax.swing.JFrame {
         getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         lblCat.setText("Categoría:");
-        getContentPane().add(lblCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 67, 140, -1));
+        getContentPane().add(lblCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         cmbCat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servicios Técnicos", "Servicios al público", "Básico", "Periféricos", "Complementarios", "Otros" }));
         cmbCat.setToolTipText("Seleccionar...");
-        getContentPane().add(cmbCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 178, -1));
+        getContentPane().add(cmbCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 290, -1));
 
         bntAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         bntAdd.setToolTipText("Agregar");
@@ -121,7 +122,7 @@ public class services extends javax.swing.JFrame {
                 bntAddActionPerformed(evt);
             }
         });
-        getContentPane().add(bntAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
+        getContentPane().add(bntAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
         btnModify.setToolTipText("Modificar");
@@ -133,7 +134,7 @@ public class services extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
 
         txtSearch.setToolTipText("Número de servicio");
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -171,11 +172,12 @@ public class services extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, -1, -1));
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 220, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 340, 220));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 290));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -193,6 +195,8 @@ public class services extends javax.swing.JFrame {
                     cmbCat.setSelectedItem(result.getString("categoria_servicio"));
                     lblNoService.setText(String.valueOf(result.getInt("no_servicio")));
                 }
+                
+                btnModify.setEnabled(true);
 
                 connection.close();
             } catch (SQLException ex) {

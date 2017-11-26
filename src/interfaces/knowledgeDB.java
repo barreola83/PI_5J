@@ -1,26 +1,27 @@
 package interfaces;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 public class knowledgeDB extends javax.swing.JFrame {
-
+    
     public knowledgeDB() {
         initComponents();
         formatJFrame();
-        btnModify.setEnabled(false);
     }
 
     private void formatJFrame() {
@@ -34,15 +35,33 @@ public class knowledgeDB extends javax.swing.JFrame {
         }
     }
 
-    private boolean isEmpty() {
-        return txtProblem.getText().isEmpty() || txtSolution.getText().isEmpty();
-    }
-
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
         return retValue;
+    }
+
+    private void initTableData(String problem) {
+
+        try {
+            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            DefaultTableModel model = new DefaultTableModel(new String[]{"Problema", "Solución"}, 0);
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT problema, solucion from "
+                    + "BDCONOCIMIENTO where problema LIKE '%" + problem + "%'");
+
+            while (result.next()) {
+                model.addRow(new Object[]{result.getString("problema"), result.getString("solucion")});
+            }
+
+            connection.close();
+            jtbProblems.setModel(model);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -54,19 +73,14 @@ public class knowledgeDB extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNo = new javax.swing.JLabel();
-        lbl2 = new javax.swing.JLabel();
-        lbl3 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        txtProblem = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
-        btnModify = new javax.swing.JButton();
-        lblNoProblem = new javax.swing.JLabel();
-        jspTxtSolution = new javax.swing.JScrollPane();
-        txtSolution = new javax.swing.JTextArea();
-        btnReturn = new javax.swing.JButton();
-        lblBottom = new javax.swing.JLabel();
+        jspTable = new javax.swing.JScrollPane();
+        jtbProblems = new javax.swing.JTable();
+        jmbMain = new javax.swing.JMenuBar();
+        jEdit = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jmiFind = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Base de datos del conocimiento");
@@ -74,39 +88,18 @@ public class knowledgeDB extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(360, 272));
         setMinimumSize(new java.awt.Dimension(360, 272));
         setName("frmBD"); // NOI18N
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblNo.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        lblNo.setText("No. problema");
-        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
-
-        lbl2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        lbl2.setText("Problema a resolver:");
-        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
-
-        lbl3.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        lbl3.setText("Solución:");
-        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
         txtSearch.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         txtSearch.setToolTipText("Número de problema");
         txtSearch.setName("txtProblema"); // NOI18N
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSearchKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSearchKeyPressed(evt);
             }
         });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 118, -1));
-
-        txtProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        txtProblem.setToolTipText(null);
-        txtProblem.setName("txtResolver"); // NOI18N
-        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 190, -1));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 118, -1));
 
         btnSearch.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
@@ -120,167 +113,98 @@ public class knowledgeDB extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 30, 40));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 30, 40));
 
-        btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
-        btnAdd.setToolTipText("Añadir");
-        btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnAdd.setBorderPainted(false);
-        btnAdd.setContentAreaFilled(false);
-        btnAdd.setName("btnAgregar"); // NOI18N
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+        jtbProblems.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Problema", "Solución"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
+        jspTable.setViewportView(jtbProblems);
 
-        btnModify.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
-        btnModify.setToolTipText("Modificar");
-        btnModify.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnModify.setBorderPainted(false);
-        btnModify.setContentAreaFilled(false);
-        btnModify.setName("btnModificar"); // NOI18N
-        btnModify.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModifyActionPerformed(evt);
+        getContentPane().add(jspTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 530, 320));
+
+        jEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit24.png"))); // NOI18N
+        jEdit.setText("Edit");
+        jEdit.setToolTipText("Editar...");
+        jEdit.setContentAreaFilled(false);
+        jEdit.setDelay(20);
+        jEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jEditMouseExited(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, -1, -1));
 
-        lblNoProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        lblNoProblem.setName("lblNoProblema"); // NOI18N
-        getContentPane().add(lblNoProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 40, 20));
-
-        txtSolution.setColumns(20);
-        txtSolution.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        txtSolution.setRows(5);
-        jspTxtSolution.setViewportView(txtSolution);
-
-        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 270, 110));
-
-        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
-        btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnReturn.setBorderPainted(false);
-        btnReturn.setContentAreaFilled(false);
-        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add24.png"))); // NOI18N
+        jMenuItem1.setText("Añadir...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReturnActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 50, 50));
+        jEdit.add(jMenuItem1);
 
-        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
-        lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 300));
+        jmiFind.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        jmiFind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
+        jmiFind.setText("Buscar...");
+        jmiFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiFindActionPerformed(evt);
+            }
+        });
+        jEdit.add(jmiFind);
+
+        jmbMain.add(jEdit);
+
+        setJMenuBar(jmbMain);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?\nTodos los datos no guardados se perderán", "Confirmar",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            this.dispose();
-            new main().setVisible(true);
-        }
-    }//GEN-LAST:event_btnReturnActionPerformed
-
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        if (txtSearch.getText().isEmpty() == false) {
-            try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                Statement select = connection.createStatement();
-                ResultSet result = select.executeQuery("SELECT no_problema, problema, solucion from BDCONOCIMIENTO "
-                        + "where no_problema=" + Integer.parseInt(txtSearch.getText()));
-
-                while (result.next()) {
-                    lblNoProblem.setText(String.valueOf(result.getInt("no_problema")));
-                    txtProblem.setText(result.getString("problema"));
-                    txtSolution.setText(result.getString("solucion"));
-                }
-
-                connection.close();
-
-                btnModify.setEnabled(true);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
-            }
+        if (!txtSearch.getText().isEmpty()) {
+            initTableData(txtSearch.getText());
         } else {
-            JOptionPane.showMessageDialog(null, "Ingrese un dato a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se pudo completar la búsqueda. Intente de nuevo.");
         }
     }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (isEmpty() == false) {
-            try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement insert = connection.prepareStatement("INSERT INTO BDCONOCIMIENTO VALUES(null, ?, ?)");
-
-                insert.setString(1, txtProblem.getText());
-                insert.setString(2, txtSolution.getText());
-
-                insert.executeUpdate();
-                connection.close();
-
-                JOptionPane.showMessageDialog(null, "Solución añadida.");
-
-                txtProblem.setText("");
-                txtSolution.setText("");
-
-            } catch (MySQLIntegrityConstraintViolationException ex) {
-                JOptionPane.showMessageDialog(null, "El problema ya existe.");
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        if (isEmpty() == false) {
-            try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
-
-                update.setString(1, txtProblem.getText());
-                update.setString(2, txtSolution.getText());
-                update.setInt(3, Integer.parseInt(lblNoProblem.getText()));
-
-                update.executeUpdate();
-                connection.close();
-
-                JOptionPane.showMessageDialog(null, "Problema modificado.");
-
-                txtProblem.setText("");
-                txtSolution.setText("");
-            } catch (MySQLIntegrityConstraintViolationException ex) {
-                JOptionPane.showMessageDialog(null, "El problema ya existe.");
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnModifyActionPerformed
-
-    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        char enter = evt.getKeyChar();
-        if (!(Character.isDigit(enter))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtSearchKeyTyped
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSearch.doClick();
         }
     }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void jmiFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFindActionPerformed
+        try {
+            initTableData(JOptionPane.showInputDialog(null, "Problema", "Buscar problema", JOptionPane.INFORMATION_MESSAGE));
+        } catch (HeadlessException headlessException) {
+        }
+    }//GEN-LAST:event_jmiFindActionPerformed
+
+    private void jEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditMouseExited
+
+    }//GEN-LAST:event_jEditMouseExited
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+        new addProblemKDB().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,15 +225,6 @@ public class knowledgeDB extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(knowledgeDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -318,18 +233,13 @@ public class knowledgeDB extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnModify;
-    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JScrollPane jspTxtSolution;
-    private javax.swing.JLabel lbl2;
-    private javax.swing.JLabel lbl3;
-    private javax.swing.JLabel lblBottom;
-    private javax.swing.JLabel lblNo;
-    private javax.swing.JLabel lblNoProblem;
-    private javax.swing.JTextField txtProblem;
+    private javax.swing.JMenu jEdit;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuBar jmbMain;
+    private javax.swing.JMenuItem jmiFind;
+    private javax.swing.JScrollPane jspTable;
+    private javax.swing.JTable jtbProblems;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextArea txtSolution;
     // End of variables declaration//GEN-END:variables
 }
