@@ -372,7 +372,8 @@ public class main extends javax.swing.JFrame {
     private void btnETicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnETicketsActionPerformed
         try {
             no_ticket = Integer.parseInt(JOptionPane.showInputDialog(null, "Ticket a evaluar", "Ingrese un número de ticket", JOptionPane.INFORMATION_MESSAGE));
-            if (validateNoTicket()) {
+            
+            if (validateNoTicket() == true) {
                 new evalTicket(no_ticket).setVisible(true);
                 this.dispose();
             } else {

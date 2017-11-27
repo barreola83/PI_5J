@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -320,11 +322,16 @@ public class dependency extends javax.swing.JFrame {
                 insert.executeUpdate();
                 connection.close();
                 
+                JOptionPane.showMessageDialog(null, "Se ha añadido la dependencia exitosamente.", "Añadir", JOptionPane.INFORMATION_MESSAGE);
+                
                 cleanComponents();
+            } catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "El teléfono no debe contener más de 10 dígitos.");
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "La dependencia ya existe.");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+                Logger.getLogger(dependency.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
@@ -346,6 +353,8 @@ public class dependency extends javax.swing.JFrame {
 
                 update.executeUpdate();
                 connection.close();
+                
+                JOptionPane.showMessageDialog(null, "Se ha modificado la dependencia exitosamente.", "Modificar", JOptionPane.INFORMATION_MESSAGE);
                 
                 cleanComponents();
             } catch (MySQLIntegrityConstraintViolationException ex) {

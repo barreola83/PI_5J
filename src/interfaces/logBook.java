@@ -27,7 +27,7 @@ public class logBook extends javax.swing.JFrame {
         formatJFrame();
         autocomplete = new TextAutoCompleter(txtSearch);
         autocomplete.setCaseSensitive(false);
-        autocomplete.setMode(0);
+        //autocomplete.setMode(0);
         autocomplete.addItems(setLogBookCompletion());
     }
 
@@ -307,6 +307,8 @@ public class logBook extends javax.swing.JFrame {
 
                 insert.executeUpdate();
                 connection.close();
+                
+                JOptionPane.showMessageDialog(null, "Registro de bitácora añadido", "Información", JOptionPane.INFORMATION_MESSAGE);
                 cleanComponents();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo");

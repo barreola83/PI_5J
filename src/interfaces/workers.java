@@ -6,10 +6,14 @@ import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -101,6 +105,19 @@ public class workers extends javax.swing.JFrame {
     private boolean valueTime() {
         return !(cmbHourIn.getSelectedIndex() > -1 || cmbHourOut.getSelectedIndex() > -1
                 || cmbMinutesIn.getSelectedIndex() > -1 || cmbMinutesOut.getSelectedIndex() > -1);
+    }
+
+    private int getNoWorker() {
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery("SELECT no_trabajador from Workers desc limit 1");
+            
+            return result.getInt("no_trabajador");
+            
+            
+        } catch (SQLException ex) {}
+        return -1;
     }
 
     private void cleanComponents() {
@@ -198,7 +215,7 @@ public class workers extends javax.swing.JFrame {
         getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, 60));
 
         jtpMain.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.ScrollPane.Border.color"));
-        jtpMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jtpMain.setBorder(null);
 
         jpnPersonalData.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -375,11 +392,15 @@ public class workers extends javax.swing.JFrame {
                 insert.executeUpdate();
 
                 connection.close();
+                
+                JOptionPane.showMessageDialog(this, "Número de trabajador: " + getNoWorker(), "Trabajador añadido", JOptionPane.INFORMATION_MESSAGE);
 
                 cleanComponents();
 
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
+                if(ex.getMessage().contains("Duplicate entry"))
+                    JOptionPane.showMessageDialog(this, "Este correo ya existe", "Advertencia", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Complete todos los elementos del formulario.", "Advertencia", JOptionPane.ERROR_MESSAGE);

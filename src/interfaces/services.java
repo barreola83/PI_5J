@@ -203,6 +203,10 @@ public class services extends javax.swing.JFrame {
                     cmbCat.setSelectedItem(result.getString("categoria_servicio"));
                     lblNoService.setText(String.valueOf(result.getInt("no_servicio")));
                 }
+                
+                if(!result.first()){
+                    JOptionPane.showMessageDialog(null, "No se encontró el servicio.");
+                }
 
                 btnModify.setEnabled(true);
 
@@ -223,9 +227,13 @@ public class services extends javax.swing.JFrame {
                 PreparedStatement update = connection.prepareStatement("UPDATE Services SET nombre = ?, categoria_servicio = ? where no_servicio = ?");
                 update.setString(1, txtName.getText());
                 update.setString(2, cmbCat.getSelectedItem().toString());
-                update.setInt(3, Integer.parseInt(txtSearch.getText()));
+                update.setInt(3, Integer.parseInt(lblNoService.getText()));
 
                 update.executeUpdate();
+                
+                JOptionPane.showMessageDialog(null, "Servicio modificado exitosamente.", "Modificar", JOptionPane.INFORMATION_MESSAGE);
+                txtName.setText("");
+                cmbCat.setSelectedIndex(0);
 
                 connection.close();
             } catch (SQLException ex) {
@@ -254,6 +262,7 @@ public class services extends javax.swing.JFrame {
                     update.setString(2, cmbCat.getSelectedItem().toString());
 
                     update.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Servicio añadido", "Servicio", JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 txtName.setText("");

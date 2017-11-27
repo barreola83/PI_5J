@@ -282,6 +282,7 @@ public class department extends javax.swing.JFrame {
                 insert.executeUpdate();
                 connection.close();
 
+                JOptionPane.showMessageDialog(null, "Departamento añadido exitosamente.", "Añadir", JOptionPane.INFORMATION_MESSAGE);
                 cleanComponents();
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El departamento ya existe.");
@@ -344,6 +345,7 @@ public class department extends javax.swing.JFrame {
                 update.executeUpdate();
                 connection.close();
 
+                JOptionPane.showMessageDialog(null, "Departamento modificado exitosamente.", "Modificar", JOptionPane.INFORMATION_MESSAGE);
                 cleanComponents();
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El departamento ya existe.");

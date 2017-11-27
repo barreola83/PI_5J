@@ -110,7 +110,7 @@ public class login extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 60));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 60, 60));
 
         lblHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
         getContentPane().add(lblHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));

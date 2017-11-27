@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ticket extends javax.swing.JFrame {
@@ -113,6 +115,13 @@ public class ticket extends javax.swing.JFrame {
     private boolean workerExists() {
         return getWorkerName() != null;
     }
+    
+    private void cleanComponents(){
+        txtDesc.setText("");
+        txtLocation.setText("");
+        txtMotive.setText("");
+        txtNoWorker.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,7 +144,7 @@ public class ticket extends javax.swing.JFrame {
         btnOpen = new javax.swing.JButton();
         lblNoWorker = new javax.swing.JLabel();
         txtNoWorker = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jspDesc = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
         lblBottom = new javax.swing.JLabel();
 
@@ -224,17 +233,17 @@ public class ticket extends javax.swing.JFrame {
         txtNoWorker.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         getContentPane().add(txtNoWorker, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 160, -1));
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setToolTipText(null);
+        jspDesc.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jspDesc.setToolTipText(null);
 
         txtDesc.setColumns(20);
         txtDesc.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtDesc.setRows(5);
         txtDesc.setTabSize(4);
         txtDesc.setToolTipText(null);
-        jScrollPane1.setViewportView(txtDesc);
+        jspDesc.setViewportView(txtDesc);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 310, 150));
+        getContentPane().add(jspDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 310, 150));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
@@ -287,9 +296,11 @@ public class ticket extends javax.swing.JFrame {
                 insert.executeUpdate();
                 insert.close();
 
+                cleanComponents();
                 getNoTicket();
 
             } catch (SQLException ex) {
+                Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
                 ex.getMessage();
             }
         } else {
@@ -328,7 +339,7 @@ public class ticket extends javax.swing.JFrame {
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnReturn;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jspDesc;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblDesc;
     private javax.swing.JLabel lblLocation;

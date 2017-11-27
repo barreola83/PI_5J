@@ -7,10 +7,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionManager {
-    private static final String URL = "jdbc:mysql://getacar.ddns.net:3306/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false";    
+    //private static final String URL = "jdbc:mysql://getacar.ddns.net:3306/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false";
+    private static final String URL = "jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false";
     //private static final String driverName = "com.mysql.jdbc.Driver";   
     private static final String USERNAME = "root";   
-    private static final String PASSWORD = "4688";
+    private static final String PASSWORD = "root"; //root for localhost
     private static Connection con;
 
     public static Connection getConnection() {

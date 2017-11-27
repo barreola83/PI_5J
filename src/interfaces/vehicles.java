@@ -279,12 +279,13 @@ public class vehicles extends javax.swing.JFrame {
         if (isEmpty() == false) {
             try {
                 Connection connection = ConnectionManager.getConnection();
-                PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ? WHERE plates = ?");
+                PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ?, plates = ? WHERE plates = ?");
 
                 update.setString(1, status);
                 update.setString(2, txtBrand.getText());
                 update.setInt(3, Integer.valueOf(cmbYear.getSelectedItem().toString()));
                 update.setString(4, txtPlate.getText());
+                update.setString(5, txtSearch.getText());
 
                 update.executeUpdate();
                 update.close();
@@ -323,7 +324,11 @@ public class vehicles extends javax.swing.JFrame {
                     btnOn.setVisible(false);
                 }
 
-                btnModify.setEnabled(true);
+                if(result.first())
+                    btnModify.setEnabled(true);
+                else
+                    JOptionPane.showMessageDialog(null, "No se encontró el vehículo", "Error", JOptionPane.INFORMATION_MESSAGE);
+                
                 connection.close();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se encontró el vehículo");
