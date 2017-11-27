@@ -101,8 +101,10 @@ public class knowledgeDB extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbData = new org.jdesktop.swingx.JXTable();
         jmbMain = new javax.swing.JMenuBar();
+        jmiFile = new javax.swing.JMenu();
+        jmiExit = new javax.swing.JMenuItem();
         jEdit = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jmiAdd = new javax.swing.JMenuItem();
         jmiFind = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -177,20 +179,34 @@ public class knowledgeDB extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 800, 430));
 
+        jmiFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/program_icon.png"))); // NOI18N
+        jmiFile.setText("File");
+
+        jmiExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jmiExit.setText("Salir");
+        jmiExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiExitActionPerformed(evt);
+            }
+        });
+        jmiFile.add(jmiExit);
+
+        jmbMain.add(jmiFile);
+
         jEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit24.png"))); // NOI18N
         jEdit.setText("Edit");
         jEdit.setToolTipText("Editar...");
         jEdit.setContentAreaFilled(false);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add24.png"))); // NOI18N
-        jMenuItem1.setText("Añadir...");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jmiAdd.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jmiAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add24.png"))); // NOI18N
+        jmiAdd.setText("Añadir...");
+        jmiAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jmiAddActionPerformed(evt);
             }
         });
-        jEdit.add(jMenuItem1);
+        jEdit.add(jmiAdd);
 
         jmiFind.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         jmiFind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
@@ -230,10 +246,15 @@ public class knowledgeDB extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmiFindActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jmiAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddActionPerformed
         this.dispose();
         new addProblemKDB().setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jmiAddActionPerformed
+
+    private void jmiExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExitActionPerformed
+        this.dispose();
+        new main().setVisible(true);
+    }//GEN-LAST:event_jmiExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,9 +285,11 @@ public class knowledgeDB extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearch;
     private javax.swing.JMenu jEdit;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar jmbMain;
+    private javax.swing.JMenuItem jmiAdd;
+    private javax.swing.JMenuItem jmiExit;
+    private javax.swing.JMenu jmiFile;
     private javax.swing.JMenuItem jmiFind;
     private org.jdesktop.swingx.JXTable jtbData;
     private javax.swing.JTextField txtSearch;

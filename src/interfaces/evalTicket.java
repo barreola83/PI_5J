@@ -506,7 +506,7 @@ public class evalTicket extends javax.swing.JFrame {
             connection.close();
 
             JOptionPane.showMessageDialog(null, "¡Gracias por tus comentarios!",
-                    "Encuesta contestada", JOptionPane.OK_OPTION);
+                    "Encuesta contestada", JOptionPane.INFORMATION_MESSAGE);
 
             new main().setVisible(true);
             this.dispose();
