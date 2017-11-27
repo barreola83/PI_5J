@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -37,6 +39,7 @@ public class vehicles extends javax.swing.JFrame {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Desactiva el botón de cerrar
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
+            addYear();
             this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();
@@ -61,9 +64,16 @@ public class vehicles extends javax.swing.JFrame {
             return null;
         }
     }
+    
+    private void addYear(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        for(int i = year; i >= 1980; i--){
+            cmbYear.addItem(String.valueOf(i));
+        }
+    }
 
     private boolean isEmpty() {
-        return txtPlate.getText().isEmpty() || txtYear.getText().isEmpty()
+        return txtPlate.getText().isEmpty() || cmbYear.getSelectedIndex() == -1
                 || txtBrand.getText().isEmpty() || status == null;
     }
 
@@ -86,7 +96,6 @@ public class vehicles extends javax.swing.JFrame {
         lblBrand = new javax.swing.JLabel();
         lblPlate = new javax.swing.JLabel();
         lblYear = new javax.swing.JLabel();
-        txtYear = new javax.swing.JTextField();
         txtBrand = new javax.swing.JTextField();
         txtPlate = new javax.swing.JTextField();
         lblStatus = new javax.swing.JLabel();
@@ -97,6 +106,7 @@ public class vehicles extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
+        cmbYear = new javax.swing.JComboBox<>();
         lblBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -105,20 +115,27 @@ public class vehicles extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblBrand.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblBrand.setText("Marca:");
-        getContentPane().add(lblBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 116, -1, -1));
+        getContentPane().add(lblBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
+        lblPlate.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblPlate.setText("Placas:");
-        getContentPane().add(lblPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 82, -1, -1));
+        getContentPane().add(lblPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
+        lblYear.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblYear.setText("Año:");
-        getContentPane().add(lblYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 150, -1, -1));
-        getContentPane().add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 145, 190, -1));
-        getContentPane().add(txtBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 111, 190, -1));
-        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 77, 190, -1));
+        getContentPane().add(lblYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
 
+        txtBrand.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtBrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 250, -1));
+
+        txtPlate.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtPlate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 250, -1));
+
+        lblStatus.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblStatus.setText("Status");
-        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 199, -1, -1));
+        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, -1, -1));
 
         btnOff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_off32.png"))); // NOI18N
         btnOff.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -129,7 +146,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnOffActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        getContentPane().add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, -1, -1));
 
         btnOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_on32.png"))); // NOI18N
         btnOn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -140,15 +157,16 @@ public class vehicles extends javax.swing.JFrame {
                 btnOnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        getContentPane().add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, -1, -1));
 
+        txtSearch.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtSearch.setToolTipText("Placas");
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtSearchKeyPressed(evt);
             }
         });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 10, 110, -1));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 120, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar...");
@@ -160,7 +178,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 0, 40, 40));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 30, 30));
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btnAdd.setToolTipText("Agregar");
@@ -172,7 +190,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
         btnModify.setToolTipText("Modificar");
@@ -184,7 +202,7 @@ public class vehicles extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 300, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -196,11 +214,13 @@ public class vehicles extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
+
+        getContentPane().add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 90, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 330));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -236,7 +256,7 @@ public class vehicles extends javax.swing.JFrame {
                 insert.setString(1, txtPlate.getText());
                 insert.setString(2, status);
                 insert.setString(3, txtBrand.getText());
-                insert.setString(4, txtYear.getText());
+                insert.setString(4, cmbYear.getSelectedItem().toString());
 
                 insert.executeUpdate();
                 connection.close();
@@ -245,7 +265,7 @@ public class vehicles extends javax.swing.JFrame {
                 txtBrand.setText("");
                 txtPlate.setText("");
                 txtSearch.setText("");
-                txtYear.setText("");
+                cmbYear.setSelectedIndex(1900 - Calendar.YEAR);
 
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El vehículo ya existe.");
@@ -266,7 +286,7 @@ public class vehicles extends javax.swing.JFrame {
 
                 update.setString(1, status);
                 update.setString(2, txtBrand.getText());
-                update.setInt(3, Integer.valueOf(txtYear.getText()));
+                update.setInt(3, Integer.valueOf(cmbYear.getSelectedItem().toString()));
                 update.setString(4, txtPlate.getText());
 
                 update.executeUpdate();
@@ -287,16 +307,14 @@ public class vehicles extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese una placa a buscar.", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         } else {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT plates, model, year, status FROM Vehicles WHERE plates = '" + txtSearch.getText() + "'");
 
                 while (result.next()) {
                     txtPlate.setText(result.getString("plates"));
                     txtBrand.setText(result.getString("model"));
-                    txtYear.setText(String.valueOf(result.getInt("year")));
+                    cmbYear.setSelectedItem(String.valueOf(result.getInt("year")));
                     status = result.getString("status");
                 }
 
@@ -357,6 +375,7 @@ public class vehicles extends javax.swing.JFrame {
     private javax.swing.JButton btnOn;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JComboBox<String> cmbYear;
     private javax.swing.JLabel lblBottom;
     private javax.swing.JLabel lblBrand;
     private javax.swing.JLabel lblPlate;
@@ -365,6 +384,5 @@ public class vehicles extends javax.swing.JFrame {
     private javax.swing.JTextField txtBrand;
     private javax.swing.JTextField txtPlate;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
 }

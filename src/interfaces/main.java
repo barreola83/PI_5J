@@ -109,7 +109,6 @@ public class main extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(545, 335));
         setMinimumSize(new java.awt.Dimension(545, 335));
         setName("frmMain"); // NOI18N
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -131,7 +130,7 @@ public class main extends javax.swing.JFrame {
                 btnDepartmentsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, -1, -1));
+        getContentPane().add(btnDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, -1, -1));
 
         btnETickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/attendance_list.png"))); // NOI18N
         btnETickets.setToolTipText("Evaluar ticket");
@@ -151,7 +150,7 @@ public class main extends javax.swing.JFrame {
                 btnETicketsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnETickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
+        getContentPane().add(btnETickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, -1, -1));
 
         btnBDC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/batch_process.png"))); // NOI18N
         btnBDC.setToolTipText("BD Conocimiento");
@@ -171,7 +170,7 @@ public class main extends javax.swing.JFrame {
                 btnBDCActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
+        getContentPane().add(btnBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 180, -1, -1));
 
         btnTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
         btnTickets.setToolTipText("Tickets");
@@ -191,7 +190,7 @@ public class main extends javax.swing.JFrame {
                 btnTicketsActionPerformed(evt);
             }
         });
-        getContentPane().add(btnTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+        getContentPane().add(btnTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
 
         btnServices.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/services.png"))); // NOI18N
         btnServices.setToolTipText("Servicios");
@@ -211,7 +210,7 @@ public class main extends javax.swing.JFrame {
                 btnServicesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, -1, -1));
+        getContentPane().add(btnServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, -1, -1));
 
         btnVehicles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/plan_3_e.png"))); // NOI18N
         btnVehicles.setToolTipText("Vehículos");
@@ -231,7 +230,7 @@ public class main extends javax.swing.JFrame {
                 btnVehiclesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, -1, -1));
+        getContentPane().add(btnVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, -1));
 
         btnWorkers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/group.png"))); // NOI18N
         btnWorkers.setToolTipText("Trabajadores");
@@ -251,7 +250,7 @@ public class main extends javax.swing.JFrame {
                 btnWorkersActionPerformed(evt);
             }
         });
-        getContentPane().add(btnWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, -1, -1));
+        getContentPane().add(btnWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, -1, -1));
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/outbox.png"))); // NOI18N
         btnLogOut.setToolTipText("Cerrar sesión");
@@ -263,7 +262,7 @@ public class main extends javax.swing.JFrame {
                 btnLogOutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, -1, -1));
+        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, -1));
 
         btnLogBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/address_book 72.png"))); // NOI18N
         btnLogBook.setToolTipText("Bitácora");
@@ -302,38 +301,38 @@ public class main extends javax.swing.JFrame {
                 btnDependenciesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, -1, -1));
+        getContentPane().add(btnDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, -1, -1));
 
         lblLogBook.setText("Bitácora");
         getContentPane().add(lblLogBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
 
         lblServices.setText("Servicios");
-        getContentPane().add(lblServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, -1, -1));
+        getContentPane().add(lblServices, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, -1, -1));
 
         lblVehicles.setText("Vehículos");
-        getContentPane().add(lblVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, -1, -1));
+        getContentPane().add(lblVehicles, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
 
         lblWorkers.setText("Trabajadores");
-        getContentPane().add(lblWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, -1, -1));
+        getContentPane().add(lblWorkers, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, -1, -1));
 
         lblDependencies.setText("Dependencias");
-        getContentPane().add(lblDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, -1, -1));
+        getContentPane().add(lblDependencies, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, -1, -1));
 
         lblTickets.setText("Tickets");
-        getContentPane().add(lblTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, -1, -1));
+        getContentPane().add(lblTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, -1, -1));
 
         lblDepartments.setText("Departamentos");
-        getContentPane().add(lblDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+        getContentPane().add(lblDepartments, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, -1, -1));
 
         lblEval.setText("Evaluación");
-        getContentPane().add(lblEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
+        getContentPane().add(lblEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
 
         lblBDC.setText("Base de datos");
-        getContentPane().add(lblBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, -1, -1));
+        getContentPane().add(lblBDC, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 340));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

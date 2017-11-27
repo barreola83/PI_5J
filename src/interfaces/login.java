@@ -34,8 +34,8 @@ public class login extends javax.swing.JFrame {
         try {
             setLocationRelativeTo(null); //Centra el jFrame
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); //Da el estilo al jFrame
-            PlaceHolder user = new PlaceHolder(txtUser, "Correo...");
-            PlaceHolder pass = new PlaceHolder(txtPass, "Contraseña...");
+            new PlaceHolder(txtUser, "Correo...");
+            new PlaceHolder(txtPass, "Contraseña...");
             this.pack();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.getMessage();

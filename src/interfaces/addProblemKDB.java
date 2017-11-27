@@ -1,15 +1,14 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -68,22 +67,21 @@ public class addProblemKDB extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agregar problema");
         setIconImage(getIconImage());
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbl2.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lbl2.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl2.setText("Problema a resolver:");
-        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+        getContentPane().add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 20));
 
-        lbl3.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lbl3.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl3.setText("Solución:");
-        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+        getContentPane().add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, 20));
 
-        txtProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        txtProblem.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtProblem.setToolTipText(null);
         txtProblem.setName("txtResolver"); // NOI18N
-        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 190, -1));
+        getContentPane().add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 420, 30));
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
@@ -97,7 +95,7 @@ public class addProblemKDB extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, -1, -1));
 
         btnModify.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
@@ -111,18 +109,18 @@ public class addProblemKDB extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 50, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 50, -1));
 
         lblNoProblem.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
         lblNoProblem.setName("lblNoProblema"); // NOI18N
         getContentPane().add(lblNoProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 40, 20));
 
         txtSolution.setColumns(20);
-        txtSolution.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        txtSolution.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtSolution.setRows(5);
         jspTxtSolution.setViewportView(txtSolution);
 
-        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 270, 130));
+        getContentPane().add(jspTxtSolution, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 340, 140));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -133,11 +131,11 @@ public class addProblemKDB extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 50, 50));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 60, 60));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 290));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -145,8 +143,7 @@ public class addProblemKDB extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO BDCONOCIMIENTO VALUES(null, ?, ?)");
 
                 insert.setString(1, txtProblem.getText());
@@ -162,8 +159,10 @@ public class addProblemKDB extends javax.swing.JFrame {
 
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El problema ya existe.");
+                Logger.getLogger(addProblemKDB.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+                Logger.getLogger(addProblemKDB.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
@@ -171,10 +170,10 @@ public class addProblemKDB extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement update = connection.prepareStatement("UPDATE BDCONOCIMIENTO SET problema = ?, solucion = ? where no_problema = ?");
 
                 update.setString(1, txtProblem.getText());
@@ -190,12 +189,16 @@ public class addProblemKDB extends javax.swing.JFrame {
                 txtSolution.setText("");
             } catch (MySQLIntegrityConstraintViolationException ex) {
                 JOptionPane.showMessageDialog(null, "El problema ya existe.");
+                Logger.getLogger(addProblemKDB.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo añadir. Intente de nuevo.");
+                Logger.getLogger(addProblemKDB.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Todos los campos deben ser completados.", "Error al modificar", JOptionPane.INFORMATION_MESSAGE);
         }
+
+
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -222,22 +225,16 @@ public class addProblemKDB extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addProblemKDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addProblemKDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addProblemKDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(addProblemKDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new addProblemKDB().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new addProblemKDB().setVisible(true);
         });
     }
 

@@ -21,7 +21,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class services extends javax.swing.JFrame {
 
     TextAutoCompleter autocomplete;
-    
+
     public services() {
         initComponents();
         formatJFrame();
@@ -102,15 +102,18 @@ public class services extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblName.setText("Nombre del servicio:");
-        getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+        getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
+        lblCat.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblCat.setText("Categoría:");
-        getContentPane().add(lblCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+        getContentPane().add(lblCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
+        cmbCat.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         cmbCat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servicios Técnicos", "Servicios al público", "Básico", "Periféricos", "Complementarios", "Otros" }));
         cmbCat.setToolTipText("Seleccionar...");
-        getContentPane().add(cmbCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 290, -1));
+        getContentPane().add(cmbCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, 330, -1));
 
         bntAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         bntAdd.setToolTipText("Agregar");
@@ -122,7 +125,7 @@ public class services extends javax.swing.JFrame {
                 bntAddActionPerformed(evt);
             }
         });
-        getContentPane().add(bntAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
+        getContentPane().add(bntAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, -1, -1));
 
         btnModify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
         btnModify.setToolTipText("Modificar");
@@ -134,8 +137,9 @@ public class services extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, -1, -1));
 
+        txtSearch.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtSearch.setToolTipText("Número de servicio");
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -145,7 +149,7 @@ public class services extends javax.swing.JFrame {
                 txtSearchKeyPressed(evt);
             }
         });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 12, 110, -1));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 120, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar");
@@ -157,11 +161,14 @@ public class services extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 40, 40));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 30, 30));
 
+        lblService.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblService.setText("No. servicio:");
-        getContentPane().add(lblService, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-        getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 40, -1));
+        getContentPane().add(lblService, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        lblNoService.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(lblNoService, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 40, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -172,12 +179,14 @@ public class services extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, -1, -1));
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 220, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
+
+        txtName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 310, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 290));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -195,7 +204,7 @@ public class services extends javax.swing.JFrame {
                     cmbCat.setSelectedItem(result.getString("categoria_servicio"));
                     lblNoService.setText(String.valueOf(result.getInt("no_servicio")));
                 }
-                
+
                 btnModify.setEnabled(true);
 
                 connection.close();
@@ -239,15 +248,15 @@ public class services extends javax.swing.JFrame {
     private void bntAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAddActionPerformed
         if (isEmpty() == false) {
             try {
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement update = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
+                try (Connection connection = DriverManager
+                        .getConnection("jdbc:mysql://getacar.ddns.net:3306/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false", "root", "4688")) {
+                    PreparedStatement update = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
 
-                update.setString(1, txtName.getText());
-                update.setString(2, cmbCat.getSelectedItem().toString());
+                    update.setString(1, txtName.getText());
+                    update.setString(2, cmbCat.getSelectedItem().toString());
 
-                update.executeUpdate();
-
-                connection.close();
+                    update.executeUpdate();
+                }
 
                 txtName.setText("");
                 cmbCat.setSelectedIndex(0);
@@ -286,16 +295,21 @@ public class services extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(services.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(services.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(services.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(services.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(services.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(services.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(services.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(services.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

@@ -67,7 +67,6 @@ public class specialist_main extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(350, 300));
         setMinimumSize(new java.awt.Dimension(350, 300));
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -101,11 +100,11 @@ public class specialist_main extends javax.swing.JFrame {
                 btnLogOutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, -1, -1));
+        getContentPane().add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, -1));
 
         lblHello.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
         lblHello.setText("¡Bienvenido!");
-        getContentPane().add(lblHello, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
+        getContentPane().add(lblHello, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, -1, -1));
 
         lblTicket.setText("Tickets");
         getContentPane().add(lblTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
@@ -127,10 +126,10 @@ public class specialist_main extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, -1, -1));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, -1, -1));
 
         lblSearch.setText("Buscar");
-        getContentPane().add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
+        getContentPane().add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, -1, -1));
 
         btnLook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/allow_list2.png"))); // NOI18N
         btnLook.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -149,14 +148,14 @@ public class specialist_main extends javax.swing.JFrame {
                 btnLookActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, -1, -1));
+        getContentPane().add(btnLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, -1, -1));
 
         lblLook.setText("Tickets signados");
-        getContentPane().add(lblLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, -1));
+        getContentPane().add(lblLook, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 300));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

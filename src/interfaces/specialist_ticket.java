@@ -124,7 +124,6 @@ public class specialist_ticket extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(340, 340));
         setMinimumSize(new java.awt.Dimension(340, 340));
-        setPreferredSize(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -137,7 +136,7 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnClosedActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClosed, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
+        getContentPane().add(btnClosed, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -149,8 +148,10 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
-        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 240, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, -1, -1));
+
+        txtLocation.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, 270, -1));
 
         btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock_open.png"))); // NOI18N
         btnOpen.setToolTipText("Abierto");
@@ -162,25 +163,36 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnOpenActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOpen, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
+        getContentPane().add(btnOpen, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, -1));
 
+        lblLocation.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblLocation.setText("Ubicación:");
-        getContentPane().add(lblLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+        getContentPane().add(lblLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
 
+        lblStatus.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblStatus.setText("Status:");
-        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
-        getContentPane().add(txtDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 220, 70));
+        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
 
+        txtDesc.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 300, 120));
+
+        lblDesc.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblDesc.setText("Descripción:");
-        getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 137, -1, -1));
+        getContentPane().add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
 
+        lblMotive.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblMotive.setText("Motivo:");
-        getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 97, -1, -1));
-        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 260, -1));
+        getContentPane().add(lblMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
+        txtMotive.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtMotive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 260, -1));
+
+        lblNo.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblNo.setText("No. ticket");
-        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));
-        getContentPane().add(lblNoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 12, -1, 20));
+        getContentPane().add(lblNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        lblNoTicket.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(lblNoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, 20));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/zoom24.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar");
@@ -192,8 +204,9 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 40, 40));
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 10, 30, 30));
 
+        txtSearch.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtSearch.setToolTipText("Número de ticket...");
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -203,7 +216,7 @@ public class specialist_ticket extends javax.swing.JFrame {
                 txtSearchKeyPressed(evt);
             }
         });
-        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 130, 20));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 130, 30));
 
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/update.png"))); // NOI18N
         btnUpdate.setToolTipText("Actualizar...");
@@ -215,15 +228,18 @@ public class specialist_ticket extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 60, 50));
-        getContentPane().add(txtEName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 300, -1, -1));
 
+        txtEName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        getContentPane().add(txtEName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 260, -1));
+
+        lblName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblName.setText("Nombre especialista:");
         getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 360));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

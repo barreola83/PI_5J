@@ -141,6 +141,7 @@ public class workers extends javax.swing.JFrame {
         txtFLastName = new javax.swing.JTextField();
         lblBirthDate = new javax.swing.JLabel();
         jdcDate = new com.toedter.calendar.JDateChooser();
+        lblBottom = new javax.swing.JLabel();
         jpnLaborData = new javax.swing.JPanel();
         lbl5 = new javax.swing.JLabel();
         lbl4 = new javax.swing.JLabel();
@@ -155,6 +156,7 @@ public class workers extends javax.swing.JFrame {
         lbl9 = new javax.swing.JLabel();
         btnOff = new javax.swing.JButton();
         btnOn = new javax.swing.JButton();
+        lblBottom1 = new javax.swing.JLabel();
         jpnAccountData = new javax.swing.JPanel();
         lbl10 = new javax.swing.JLabel();
         lbl8 = new javax.swing.JLabel();
@@ -162,13 +164,15 @@ public class workers extends javax.swing.JFrame {
         txtPass = new javax.swing.JPasswordField();
         lblConfirm = new javax.swing.JLabel();
         txtConfirm = new javax.swing.JPasswordField();
+        lblBottom2 = new javax.swing.JLabel();
+        lblBottom3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabajadores");
+        setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.ScrollPane.Border.color"));
         setIconImage(getIconImage());
         setMaximumSize(new java.awt.Dimension(9999, 9999));
         setMinimumSize(new java.awt.Dimension(200, 200));
-        setPreferredSize(new java.awt.Dimension(333, 331));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -181,7 +185,7 @@ public class workers extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 280, -1, 60));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -192,65 +196,88 @@ public class workers extends javax.swing.JFrame {
                 btnReturnActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, -1, -1));
+        getContentPane().add(btnReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, 60));
+
+        jtpMain.setBackground(javax.swing.UIManager.getDefaults().getColor("Nb.ScrollPane.Border.color"));
+        jtpMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jpnPersonalData.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbl1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl1.setText("Nombre:");
-        jpnPersonalData.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
+        jpnPersonalData.add(lbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
+        lbl2.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl2.setText("Apellido paterno:");
-        jpnPersonalData.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+        jpnPersonalData.add(lbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
+        lbl3.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl3.setText("Apellido materno:");
-        jpnPersonalData.add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
-        jpnPersonalData.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 240, -1));
-        jpnPersonalData.add(txtSLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 180, -1));
-        jpnPersonalData.add(txtFLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 180, -1));
+        jpnPersonalData.add(lbl3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
+        txtName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnPersonalData.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 240, -1));
+
+        txtSLastName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnPersonalData.add(txtSLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 240, -1));
+
+        txtFLastName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnPersonalData.add(txtFLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 240, -1));
+
+        lblBirthDate.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblBirthDate.setText("Fecha nacimiento:");
-        jpnPersonalData.add(lblBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jpnPersonalData.add(lblBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         jdcDate.setToolTipText("Seleccione una fecha...");
         jdcDate.setDateFormatString("dd/MM/yyyy");
         jdcDate.setMaximumSize(new java.awt.Dimension(122, 28));
         jdcDate.setMinimumSize(new java.awt.Dimension(122, 28));
-        jpnPersonalData.add(jdcDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 170, -1));
+        jpnPersonalData.add(jdcDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, 170, -1));
+
+        lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        jpnPersonalData.add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 260));
 
         jtpMain.addTab("tab1", jpnPersonalData);
 
         jpnLaborData.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbl5.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl5.setText("Cargo:");
-        jpnLaborData.add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+        jpnLaborData.add(lbl5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
+        lbl4.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl4.setText("Área:");
-        jpnLaborData.add(lbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+        jpnLaborData.add(lbl4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
+        lbl6.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl6.setText("Horario de entrada:");
-        jpnLaborData.add(lbl6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        jpnLaborData.add(lbl6, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
 
+        lbl7.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl7.setText("Horario de salida:");
-        jpnLaborData.add(lbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
-        jpnLaborData.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, 250, -1));
+        jpnLaborData.add(lbl7, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, -1, -1));
+
+        txtArea.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnLaborData.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 210, -1));
 
         cmbMinutesIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        jpnLaborData.add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 60, -1));
+        jpnLaborData.add(cmbMinutesIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 70, -1));
 
         cmbHourIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        jpnLaborData.add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 60, -1));
+        jpnLaborData.add(cmbHourIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 70, -1));
 
         cmbHourOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        jpnLaborData.add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 60, -1));
+        jpnLaborData.add(cmbHourOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 70, -1));
 
         cmbMinutesOut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        jpnLaborData.add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 60, -1));
+        jpnLaborData.add(cmbMinutesOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 70, -1));
 
         cmbCharge.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Atención de usuarios", "Especialista", "Usuario" }));
-        jpnLaborData.add(cmbCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 240, -1));
+        jpnLaborData.add(cmbCharge, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 240, -1));
 
+        lbl9.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl9.setText("Status:");
-        jpnLaborData.add(lbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
+        jpnLaborData.add(lbl9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
         btnOff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_off32.png"))); // NOI18N
         btnOff.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -261,7 +288,7 @@ public class workers extends javax.swing.JFrame {
                 btnOffActionPerformed(evt);
             }
         });
-        jpnLaborData.add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, -1, -1));
+        jpnLaborData.add(btnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, -1));
 
         btnOn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/toggle_on32.png"))); // NOI18N
         btnOn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -272,42 +299,48 @@ public class workers extends javax.swing.JFrame {
                 btnOnActionPerformed(evt);
             }
         });
-        jpnLaborData.add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, -1, -1));
+        jpnLaborData.add(btnOn, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, -1));
+
+        lblBottom1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        jpnLaborData.add(lblBottom1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 250));
 
         jtpMain.addTab("tab2", jpnLaborData);
 
         jpnAccountData.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbl10.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl10.setText("Constraseña:");
-        jpnAccountData.add(lbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+        jpnAccountData.add(lbl10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
+        lbl8.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbl8.setText("Correo:");
         jpnAccountData.add(lbl8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-        jpnAccountData.add(txtMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 240, -1));
-        jpnAccountData.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 200, -1));
 
+        txtMail.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnAccountData.add(txtMail, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 240, -1));
+
+        txtPass.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnAccountData.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 200, -1));
+
+        lblConfirm.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblConfirm.setText("Confirmar:");
-        jpnAccountData.add(lblConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
-        jpnAccountData.add(txtConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, -1));
+        jpnAccountData.add(lblConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+
+        txtConfirm.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jpnAccountData.add(txtConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 210, -1));
+
+        lblBottom2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        jpnAccountData.add(lblBottom2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 250));
 
         jtpMain.addTab("tab3", jpnAccountData);
 
-        getContentPane().add(jtpMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, -1));
+        getContentPane().add(jtpMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 280));
+
+        lblBottom3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
+        getContentPane().add(lblBottom3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOffActionPerformed
-        btnOn.setVisible(true);
-        btnOff.setVisible(false);
-        status = "abierto";
-    }//GEN-LAST:event_btnOffActionPerformed
-
-    private void btnOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnActionPerformed
-        btnOn.setVisible(false);
-        btnOff.setVisible(true);
-        status = "cerrado";
-    }//GEN-LAST:event_btnOnActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         if (JOptionPane.showConfirmDialog(null, "¿Seguro que desea salir?\nTodos los datos no guardados se perderán", "Confirmar",
@@ -355,6 +388,18 @@ public class workers extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Complete todos los elementos del formulario.", "Advertencia", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnActionPerformed
+        btnOn.setVisible(false);
+        btnOff.setVisible(true);
+        status = "cerrado";
+    }//GEN-LAST:event_btnOnActionPerformed
+
+    private void btnOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOffActionPerformed
+        btnOn.setVisible(true);
+        btnOff.setVisible(false);
+        status = "abierto";
+    }//GEN-LAST:event_btnOffActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,6 +460,10 @@ public class workers extends javax.swing.JFrame {
     private javax.swing.JLabel lbl8;
     private javax.swing.JLabel lbl9;
     private javax.swing.JLabel lblBirthDate;
+    private javax.swing.JLabel lblBottom;
+    private javax.swing.JLabel lblBottom1;
+    private javax.swing.JLabel lblBottom2;
+    private javax.swing.JLabel lblBottom3;
     private javax.swing.JLabel lblConfirm;
     private javax.swing.JTextField txtArea;
     private javax.swing.JPasswordField txtConfirm;
