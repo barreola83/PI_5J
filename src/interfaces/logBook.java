@@ -1,11 +1,11 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,12 +30,11 @@ public class logBook extends javax.swing.JFrame {
         autocomplete.setMode(0);
         autocomplete.addItems(setLogBookCompletion());
     }
-    
-    private ArrayList setLogBookCompletion(){
+
+    private ArrayList setLogBookCompletion() {
         try {
             ArrayList<Integer> regNo = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_registro from LogBook");
 
@@ -83,15 +82,15 @@ public class logBook extends javax.swing.JFrame {
                 || cmbHourIn.getSelectedIndex() == -1 || cmbHourOut.getSelectedIndex() == -1
                 || cmbMinutesIn.getSelectedIndex() == -1 || cmbMinutesOut.getSelectedIndex() == -1;
     }
-    
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("icons/program_icon.png"));
         return retValue;
     }
-    
-    private void cleanComponents(){
+
+    private void cleanComponents() {
         txtKmIn.setText("");
         txtKmOut.setText("");
         cmbGasIn.setSelectedIndex(0);
@@ -263,13 +262,12 @@ public class logBook extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String service = null;
-        
+
         if (txtSearch.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese un dato a buscar", "Error al buscar", JOptionPane.INFORMATION_MESSAGE);
         } else {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT no_registro, hora_llegada, hora_salida, "
                         + "nivel_gas_llegada, nivel_gas_salida, kilometraje_salida, kilometraje_llegada"
@@ -297,8 +295,7 @@ public class logBook extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO LogBook VALUES(null, ?,?,?,?,?,?)");
 
                 insert.setTime(1, getTimeIn());
@@ -327,8 +324,9 @@ public class logBook extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchKeyTyped
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSearch.doClick();
+        }
     }//GEN-LAST:event_txtSearchKeyPressed
 
     /**

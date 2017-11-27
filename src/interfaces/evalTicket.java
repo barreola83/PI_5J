@@ -1,9 +1,9 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -489,8 +489,7 @@ public class evalTicket extends javax.swing.JFrame {
 
     private void btnEvaluateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluateActionPerformed
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket_Evaluation VALUES(null,?,?,?)");
 
             String answers = "Q1 = " + AQ1;

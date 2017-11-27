@@ -49,8 +49,7 @@ public class vehicles extends javax.swing.JFrame {
     private ArrayList setPlatesCompletion() {
         try {
             ArrayList<String> regNo = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT plates from Vehicles");
 
@@ -248,9 +247,7 @@ public class vehicles extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Vehicles" + " VALUES(?, ?, ?, ?)");
 
                 insert.setString(1, txtPlate.getText());
@@ -281,7 +278,7 @@ public class vehicles extends javax.swing.JFrame {
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         if (isEmpty() == false) {
             try {
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement update = connection.prepareStatement("UPDATE Vehicles SET status = ?, model = ?, year = ? WHERE plates = ?");
 
                 update.setString(1, status);

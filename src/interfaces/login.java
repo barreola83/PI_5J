@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.placeholder.PlaceHolder;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -51,9 +52,7 @@ public class login extends javax.swing.JFrame {
 
     private boolean validateUser() {
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_trabajador, cargo, correo, contrasena FROM LoginData WHERE correo='"
                     + txtUser.getText() + "' AND contrasena='" + new String(this.txtPass.getPassword()) + "'");

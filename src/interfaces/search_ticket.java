@@ -1,9 +1,9 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -52,8 +52,7 @@ public class search_ticket extends javax.swing.JFrame {
 
     private void initTableData() {
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             DefaultTableModel model = new DefaultTableModel(new String[]{"Número de ticket", "Especialista", "Descripción", "Motivo", "Fecha", "Estatus", "Ubicación"}, 0);
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT * from "

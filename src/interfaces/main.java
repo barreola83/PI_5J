@@ -1,9 +1,9 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,8 +45,7 @@ public class main extends javax.swing.JFrame {
         try {
             int ticket = 0;
             String status = "";
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_ticket, status from Ticket where no_ticket = " + no_ticket);
 

@@ -1,12 +1,12 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,9 +46,8 @@ public class department extends javax.swing.JFrame {
 
     private ArrayList setDepartmentsCompletion() {
         try {
+            Connection connection = ConnectionManager.getConnection();
             ArrayList<String> names = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT nombre from Departments");
 
@@ -272,9 +271,7 @@ public class department extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement insert = connection.prepareStatement("INSERT INTO Departments VALUES(?,?,?,?,?)");
+                Connection connection = ConnectionManager.getConnection();PreparedStatement insert = connection.prepareStatement("INSERT INTO Departments VALUES(?,?,?,?,?)");
 
                 insert.setString(1, txtName.getText());
                 insert.setInt(2, Integer.parseInt(txtExt.getText()));
@@ -308,9 +305,7 @@ public class department extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if (txtSearch.getText().isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                Statement select = connection.createStatement();
+                Connection connection = ConnectionManager.getConnection();Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT nombre, extension, encargado, horarioIn, horarioOut"
                         + " from Departments where nombre = '" + txtSearch.getText() + "'");
 
@@ -337,9 +332,7 @@ public class department extends javax.swing.JFrame {
         if (isEmpty() == false) {
 
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
-                PreparedStatement update = connection.prepareStatement("UPDATE Departments SET nombre = ?, extension = ?, encargado = ?, "
+                Connection connection = ConnectionManager.getConnection();PreparedStatement update = connection.prepareStatement("UPDATE Departments SET nombre = ?, extension = ?, encargado = ?, "
                         + "horarioIn = ?, horarioOut = ? where nombre = '" + txtSearch.getText() + "'");
 
                 update.setString(1, txtName.getText());

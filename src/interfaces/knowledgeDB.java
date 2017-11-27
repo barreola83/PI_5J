@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Point;
@@ -7,7 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -67,8 +67,7 @@ public class knowledgeDB extends javax.swing.JFrame {
     private void initTableData(String problem) {
 
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             DefaultTableModel model = new DefaultTableModel(new String[]{"Problema", "Solución"}, 0);
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT problema, solucion from "

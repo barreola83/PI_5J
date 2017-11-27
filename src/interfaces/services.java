@@ -1,11 +1,11 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,8 +46,7 @@ public class services extends javax.swing.JFrame {
     private ArrayList setServicesCompletion() {
         try {
             ArrayList<Integer> noService = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_servicio from Services");
 
@@ -194,7 +193,7 @@ public class services extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if (txtSearch.getText().isEmpty() == false) {
             try {
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT no_servicio, nombre, categoria_servicio from Services where no_servicio ="
                         + Integer.parseInt(txtSearch.getText()));
@@ -220,7 +219,7 @@ public class services extends javax.swing.JFrame {
         if (isEmpty() == false) {
             try {
                 btnModify.setEnabled(true);
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement update = connection.prepareStatement("UPDATE Services SET nombre = ?, categoria_servicio = ? where no_servicio = ?");
                 update.setString(1, txtName.getText());
                 update.setString(2, cmbCat.getSelectedItem().toString());
@@ -248,8 +247,7 @@ public class services extends javax.swing.JFrame {
     private void bntAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAddActionPerformed
         if (isEmpty() == false) {
             try {
-                try (Connection connection = DriverManager
-                        .getConnection("jdbc:mysql://getacar.ddns.net:3306/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false", "root", "4688")) {
+                try (Connection connection = ConnectionManager.getConnection();) {
                     PreparedStatement update = connection.prepareStatement("INSERT INTO Services VALUES(null, ?, ?)");
 
                     update.setString(1, txtName.getText());

@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -70,8 +71,7 @@ public class specialist_ticket extends javax.swing.JFrame {
     private ArrayList setSpecialistTicket() {
         try {
             ArrayList<String> regNo = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_ticket from Ticket");
 
@@ -255,8 +255,7 @@ public class specialist_ticket extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if (txtSearch.getText().isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT * from "
                         + "Ticket where no_ticket=" + Integer.parseInt(txtSearch.getText()));
@@ -295,8 +294,7 @@ public class specialist_ticket extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             PreparedStatement update = connection.prepareStatement("UPDATE Ticket SET status = ? where no_ticket = ?");
 
             update.setString(1, status);

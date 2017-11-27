@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -45,8 +46,7 @@ public class ticket extends javax.swing.JFrame {
     private ArrayList setNoWorkerCompletion() {
         try {
             ArrayList<Integer> regNo = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_trabajador from Workers");
 
@@ -81,9 +81,7 @@ public class ticket extends javax.swing.JFrame {
 
     private void getNoTicket() {
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             ResultSet result;
             Statement select = connection.createStatement();
             result = select.executeQuery("SELECT no_ticket FROM Ticket ORDER BY no_ticket desc limit 1;");
@@ -98,9 +96,7 @@ public class ticket extends javax.swing.JFrame {
 
     private String getWorkerName() {
         try {
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             ResultSet result;
             Statement select = connection.createStatement();
             result = select.executeQuery("SELECT nombre from Workers where no_trabajador =" + Integer.valueOf(txtNoWorker.getText()));
@@ -271,9 +267,7 @@ public class ticket extends javax.swing.JFrame {
         if (isEmpty()) {
             outer:
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Ticket" + " VALUES(null,?,?,?,?,?,?,?)");
 
                 if (workerExists()) {

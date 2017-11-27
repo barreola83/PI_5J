@@ -1,12 +1,12 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,8 +93,7 @@ public class dependency extends javax.swing.JFrame {
     private ArrayList setDependenciesCompletion(){
         try {
             ArrayList<String> names = new ArrayList<>();
-            DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+            Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT nombre from Dependencies");
 
@@ -224,7 +223,7 @@ public class dependency extends javax.swing.JFrame {
                 btnModifyActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, -1, -1));
+        getContentPane().add(btnModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, -1, -1));
 
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/left.png"))); // NOI18N
         btnReturn.setToolTipText("Regresar");
@@ -264,7 +263,7 @@ public class dependency extends javax.swing.JFrame {
 
         lblBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/071770FB5.png"))); // NOI18N
         lblBottom.setToolTipText(null);
-        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, -1));
+        getContentPane().add(lblBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -280,8 +279,7 @@ public class dependency extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if (txtSearch.getText().isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 Statement select = connection.createStatement();
                 ResultSet result = select.executeQuery("SELECT nombre, directivo, telefono, horario_entrada, horario_salida from "
                         + "Dependencies where nombre='" + txtSearch.getText() + "'");
@@ -310,8 +308,7 @@ public class dependency extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Dependencies VALUES(?,?,?,?,?)");
 
                 insert.setString(1, txtName.getText());
@@ -337,8 +334,7 @@ public class dependency extends javax.swing.JFrame {
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         if (isEmpty() == false) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement update = connection.prepareStatement("UPDATE Dependencies SET nombre = ?, directivo = ?, telefono = ?,"
                         + "horario_entrada = ?, horario_salida = ? where nombre = '" + txtSearch.getText() + "'");
 

@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.ConnectionManager;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
@@ -11,8 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-//import javax.swing.UIManager;
-//import javax.swing.UnsupportedLookAndFeelException;
 
 public class workers extends javax.swing.JFrame {
 
@@ -359,9 +358,7 @@ public class workers extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (isEmpty() || valueTime() || confirmPassword()) {
             try {
-                DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
-
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true", "root", "root");
+                Connection connection = ConnectionManager.getConnection();
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,?,?,?)");
 
                 insert.setString(1, String.valueOf(cmbCharge.getSelectedItem()));
