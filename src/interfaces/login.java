@@ -8,8 +8,10 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,7 +57,7 @@ public class login extends javax.swing.JFrame {
             Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("SELECT no_trabajador, cargo, correo, contrasena FROM LoginData WHERE correo='"
-                    + txtUser.getText() + "' AND contrasena='" + new String(this.txtPass.getPassword()) + "'");
+                    + txtUser.getText() + "' AND contrasena='" + test(new String(this.txtPass.getPassword())) + "'");
             while (result.next()) {
                 noWorker = result.getInt("no_trabajador");
                 permission = result.getString("cargo");
@@ -65,6 +67,27 @@ public class login extends javax.swing.JFrame {
         } catch (SQLException ex) {
             return false;
         }
+    }
+
+    private StringBuilder test(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes("UTF-8"));
+
+            StringBuilder hexString = new StringBuilder();
+            
+            for (int i : hash) {
+                //hexString.append(Integer.toHexString(0XFF & i));
+                hexString.append(String.format("%02x", i & 0xff));
+                
+            }
+            
+            //System.out.println(hexString);
+            return hexString;
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(ticket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @SuppressWarnings("unchecked")

@@ -7,11 +7,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionManager {
+    
+    //Uncomment this line for remote access to database in server
     //private static final String URL = "jdbc:mysql://getacar.ddns.net:3306/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false";
-    private static final String URL = "jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true&useSSL=false&verifyServerCertificate=false";
-    //private static final String driverName = "com.mysql.jdbc.Driver";   
+    
+    //This line is for connecto to localhost database
+    private static final String URL = "jdbc:mysql://localhost/PI_5J?useServerPrepStmts=true&verifyServerCertificate=true";
+     
     private static final String USERNAME = "root";   
-    private static final String PASSWORD = "root"; //root for localhost
+    private static final String PASSWORD = "root"; //root for localhost //4688 for remote
     private static Connection con;
 
     public static Connection getConnection() {

@@ -111,7 +111,7 @@ public class workers extends javax.swing.JFrame {
         try {
             Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("SELECT no_trabajador from Workers desc limit 1");
+            ResultSet result = select.executeQuery("select no_trabajador from Workers order by no_trabajador desc limit 1;");
             
             return result.getInt("no_trabajador");
             
@@ -376,7 +376,7 @@ public class workers extends javax.swing.JFrame {
         if (isEmpty() || valueTime() || confirmPassword()) {
             try {
                 Connection connection = ConnectionManager.getConnection();
-                PreparedStatement insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,?,?,?)");
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO Workers" + " VALUES(null,?,?,?,?,?,?,?,SHA2(?,256),?,?)");
 
                 insert.setString(1, String.valueOf(cmbCharge.getSelectedItem()));
                 insert.setString(2, getParsedName());
