@@ -113,7 +113,8 @@ public class workers extends javax.swing.JFrame {
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery("select no_trabajador from Workers order by no_trabajador desc limit 1");
             
-            return result.getInt("no_trabajador");
+            while(result.next())
+                return result.getInt("no_trabajador");
             
             
         } catch (SQLException ex) {}
