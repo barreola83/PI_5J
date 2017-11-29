@@ -111,7 +111,7 @@ public class workers extends javax.swing.JFrame {
         try {
             Connection connection = ConnectionManager.getConnection();
             Statement select = connection.createStatement();
-            ResultSet result = select.executeQuery("select no_trabajador from Workers order by no_trabajador desc limit 1;");
+            ResultSet result = select.executeQuery("select no_trabajador from Workers order by no_trabajador desc limit 1");
             
             return result.getInt("no_trabajador");
             
@@ -394,8 +394,15 @@ public class workers extends javax.swing.JFrame {
                 connection.close();
                 
                 JOptionPane.showMessageDialog(this, "Número de trabajador: " + getNoWorker(), "Trabajador añadido", JOptionPane.INFORMATION_MESSAGE);
-
+                
                 cleanComponents();
+                
+                if(login){
+                    this.dispose();
+                    new login().setVisible(true);
+                }
+
+                
 
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
